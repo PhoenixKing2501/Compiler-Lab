@@ -6,3 +6,5 @@
 **/*.yy.c
 **/*.yy.o
 test/
+out.txt
+in.txt
