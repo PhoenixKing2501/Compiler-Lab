@@ -41,7 +41,7 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 {CHAR_CONST}				{printf("< CHARACTER CONSTANT , %s >", yytext);}
 {STRING_LITERAL}			{printf("< STRING LITERAL , %s >", yytext);}
 {PUNCTUATOR}				{printf("< PUNCTUATION , %s >", yytext);}
-[ \t]						{;}
+[ \t]						{printf(" ");}
 [\n]						{printf("\n");}
 
 
