@@ -21,5 +21,6 @@ int yywrap(void)
 
 extern char *yytext;
 extern int yyleng;
+extern int yylineno;
 
 #endif // _DEF_H_
