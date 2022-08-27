@@ -1,3 +1,6 @@
 *.ps1
 **/*.pdf
 **/*.zip
+.vscode/
+**/*.exe
+**/*.yy.c
