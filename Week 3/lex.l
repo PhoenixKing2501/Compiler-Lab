@@ -32,16 +32,16 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 
 %%
 
-{LINE_COMMENT}				{printf("< LINE COMMENT >");}
-{BLOCK_COMMENT}				{printf("< BLOCK COMMENT >");}
-{IDENTIFIER}				{printf("< IDENTIFIER , %s >", yytext);}
-{INT_CONST}					{printf("< INTEGER CONSTANT , %s >", yytext);}
-{FLOAT_CONST}				{printf("< FLOAT CONSTANT , %s >", yytext);}
-{ENUM_CONST}				{printf("< ENUMERATION CONSTANT , %s >", yytext);}
-{CHAR_CONST}				{printf("< CHARACTER CONSTANT , %s >", yytext);}
-{STRING_LITERAL}			{printf("< STRING LITERAL , %s >", yytext);}
-{PUNCTUATOR}				{printf("< PUNCTUATION , %s >", yytext);}
-[ \t]						{printf(" ");}
+{LINE_COMMENT}				{printf("< LINE COMMENT > ");}
+{BLOCK_COMMENT}				{printf("< BLOCK COMMENT > ");}
+{IDENTIFIER}				{printf("< IDENTIFIER , %s > ", yytext);}
+{INT_CONST}					{printf("< INTEGER CONSTANT , %s > ", yytext);}
+{FLOAT_CONST}				{printf("< FLOAT CONSTANT , %s > ", yytext);}
+{ENUM_CONST}				{printf("< ENUMERATION CONSTANT , %s > ", yytext);}
+{CHAR_CONST}				{printf("< CHARACTER CONSTANT , %s > ", yytext);}
+{STRING_LITERAL}			{printf("< STRING LITERAL , %s > ", yytext);}
+{PUNCTUATOR}				{printf("< PUNCTUATION , %s > ", yytext);}
+[ \t]						{;}
 [\n]						{printf("\n");}
 
 

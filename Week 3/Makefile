@@ -1,5 +1,5 @@
 tinyCLA: lex.yy.o
-	gcc main.o
+	gcc lex.yy.o -o tinyCLA
 
 lex.yy.o: lex.yy.c def.h
 	gcc -c lex.yy.c -I.
