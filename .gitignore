@@ -1,7 +1,9 @@
 *.ps1
 **/*.zip
+**/*.tar
 .vscode/
 **/*.exe
+**/*.out
 **/*.yy.c
 **/*.yy.o
 test/
