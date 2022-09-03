@@ -58,7 +58,7 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 "default"					|
 "inline"					|
 "struct"					|
-"_Imaginary"					|
+"_Imaginary"				|
 "do"						|
 "int"						|
 "switch"					|
