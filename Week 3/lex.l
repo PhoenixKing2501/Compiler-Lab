@@ -22,7 +22,7 @@ FRAC_CONST					{DIGIT_SEQ}?\.{DIGIT_SEQ}|{DIGIT_SEQ}\.
 LINE_COMMENT				\/\/[^\n]*
 BLOCK_COMMENT				\/\*
 IDENTIFIER					{LETTER_}({LETTER_}|{DIGIT})*
-INT_CONST					{NZDIGIT}{DIGIT}*
+INT_CONST					0|{NZDIGIT}{DIGIT}*
 FLOAT_CONST					{FRAC_CONST}{EXP_PART}?|{DIGIT_SEQ}{EXP_PART}
 ENUM_CONST					{IDENTIFIER}
 CHAR_CONST					\'{C_CHAR_SEQ}\'
@@ -69,7 +69,7 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 "register"					|
 "union"						{return KEYWORD;}			
 
-{LINE_COMMENT}				{return LINE_COMMENT;}
+{LINE_COMMENT}				{/* return LINE_COMMENT; */}
 {BLOCK_COMMENT}				{
 								int c;
 
@@ -85,7 +85,7 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 
 										if (c == '/')
 										{
-											return BLOCK_COMMENT;
+											/* return BLOCK_COMMENT; */
 											break;
 										}	/* found the end */
 									}
@@ -103,8 +103,3 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 [\r]?[\n]					{printf("\n");}
 
 %%
-
-int main()
-{
-	yylex();
-}

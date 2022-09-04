@@ -8,8 +8,8 @@
 enum TOKENS
 {
 	KEYWORD = 100,
-	LINE_COMMENT,
-	BLOCK_COMMENT,
+	// LINE_COMMENT,
+	// BLOCK_COMMENT,
 	IDENTIFIER,
 	CONSTANT,
 	INT_CONST,
@@ -20,10 +20,8 @@ enum TOKENS
 	PUNCTUATOR
 };
 
-int yywrap(void)
-{
-	return 1;
-}
+int yylex();
+int yywrap();
 
 extern char *yytext;
 extern int yyleng;
