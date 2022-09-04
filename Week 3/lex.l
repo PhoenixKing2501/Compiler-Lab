@@ -67,9 +67,9 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 "typedef"					|
 "else"						|
 "register"					|
-"union"						{printf("< KEYWORD , `%s` > ", yytext);}				
+"union"						/*{printf("< KEYWORD , `%s` > ", yytext);}*/ {return KEYWORD;}			
 
-{LINE_COMMENT}				{printf("< LINE COMMENT > ");}
+{LINE_COMMENT}				/*{printf("< LINE COMMENT > ");}*/ {return LINE_COMMENT;}
 {BLOCK_COMMENT}				{
 								int c;
 
@@ -85,20 +85,20 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 
 										if (c == '/')
 										{
-											printf("< BLOCK COMMENT > ");
+											/*printf("< BLOCK COMMENT > ");*/ return BLOCK_COMMENT;
 											break;
 										}	/* found the end */
 									}
 								}
 							}
 
-{IDENTIFIER}				{printf("< IDENTIFIER , `%s` > ", yytext);}
-{INT_CONST}					{printf("< INTEGER CONSTANT , `%s` > ", yytext);}
-{FLOAT_CONST}				{printf("< FLOAT CONSTANT , `%s` > ", yytext);}
-{ENUM_CONST}				{printf("< ENUMERATION CONSTANT , `%s` > ", yytext);}
-{CHAR_CONST}				{printf("< CHARACTER CONSTANT , `%s` > ", yytext);}
-{STRING_LITERAL}			{printf("< STRING LITERAL , `%s` > ", yytext);}
-{PUNCTUATOR}				{printf("< PUNCTUATOR , `%s` > ", yytext);}
+{IDENTIFIER}				/*{printf("< IDENTIFIER , `%s` > ", yytext);}*/	{return IDENTIFIER;}
+{INT_CONST}					/*{printf("< INTEGER CONSTANT , `%s` > ", yytext);}*/ {return INT_CONST;}
+{FLOAT_CONST}				/*{printf("< FLOAT CONSTANT , `%s` > ", yytext);}*/ {return FLOAT_CONST;}
+{ENUM_CONST}				/*{printf("< ENUMERATION CONSTANT , `%s` > ", yytext);}*/ {return ENUM_CONST;}
+{CHAR_CONST}				/*{printf("< CHARACTER CONSTANT , `%s` > ", yytext);}*/ {return CHAR_CONST;}
+{STRING_LITERAL}			/*{printf("< STRING LITERAL , `%s` > ", yytext);}*/ {return STRING_LITERAL;}
+{PUNCTUATOR}				/*{printf("< PUNCTUATOR , `%s` > ", yytext);}*/ {return PUNCTUATOR;}
 [ \t]						{;}
 [\r]?[\n]					{printf("\n");}
 
