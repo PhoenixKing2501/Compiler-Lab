@@ -5,7 +5,7 @@
 **/*.exe
 **/*.out
 **/*.yy.c
-**/*.yy.o
+**/*.o
 test/
 out.txt
 in.txt
