@@ -9,3 +9,6 @@ lex.yy.o: lex.yy.c def.h
 
 lex.yy.c: lex.l
 	flex lex.l
+
+clean:
+	rm lex.yy.o lex.yy.c main.o tinyCLA

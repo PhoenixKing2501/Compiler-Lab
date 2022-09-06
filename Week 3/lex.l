@@ -10,7 +10,7 @@ NZDIGIT 					[1-9]
 DIGIT_SEQ					{DIGIT}+
 EXPONENT					[Ee]
 SIGN						[+-]
-ESC_SEQ						\\\'|\\\"|\\\?|\\\\|\\a|\\b|\\f|\\n|\\r|\\t|\\v
+ESC_SEQ						\\\'|\\\"|\\\?|\\\\|\\a|\\b|\\f|\\n|\\r|\\t|\\v|\\0
 C_CHAR						{ESC_SEQ}|[^'\\\n]
 C_CHAR_SEQ					{C_CHAR}+
 S_CHAR						{ESC_SEQ}|[^"\\\n]
@@ -69,7 +69,7 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 "register"					|
 "union"						{return KEYWORD;}			
 
-{LINE_COMMENT}				{/* return LINE_COMMENT; */}
+{LINE_COMMENT}				{;}
 {BLOCK_COMMENT}				{
 								int c;
 
@@ -85,7 +85,6 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 
 										if (c == '/')
 										{
-											/* return BLOCK_COMMENT; */
 											break;
 										}	/* found the end */
 									}

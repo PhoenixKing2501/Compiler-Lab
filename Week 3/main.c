@@ -42,14 +42,6 @@ int main()
 			printf("< PUNCTUATOR , `%s` >", yytext);
 			break;
 
-		// case LINE_COMMENT:
-		// 	printf("< LINE COMMENT >");
-		// 	break;
-
-		// case BLOCK_COMMENT:
-		// 	printf("< BLOCK COMMENT >");
-		// 	break;
-
 		case KEYWORD:
 			printf("< KEYWORD , `%s` >", yytext);
 			break;
