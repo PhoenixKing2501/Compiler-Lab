@@ -10,19 +10,19 @@ NZDIGIT 					[1-9]
 DIGIT_SEQ					{DIGIT}+
 EXPONENT					[Ee]
 SIGN						[+-]
-ESC_SEQ						\\\'|\\\"|\\\?|\\\\|\\a|\\b|\\f|\\n|\\r|\\t|\\v|\\0
+ESC_SEQ						\\\'|\\\"|\\\?|\\\\|\\a|\\b|\\f|\\n|\\r|\\t|\\v
 C_CHAR						{ESC_SEQ}|[^'\\\n]
 C_CHAR_SEQ					{C_CHAR}+
 S_CHAR						{ESC_SEQ}|[^"\\\n]
 S_CHAR_SEQ					{S_CHAR}+
 
-EXP_PART					{EXPONENT}{SIGN}{DIGIT_SEQ}
+EXP_PART					{EXPONENT}{SIGN}?{DIGIT_SEQ}
 FRAC_CONST					{DIGIT_SEQ}?\.{DIGIT_SEQ}|{DIGIT_SEQ}\.
 
 LINE_COMMENT				\/\/[^\n]*
 BLOCK_COMMENT				\/\*
 IDENTIFIER					{LETTER_}({LETTER_}|{DIGIT})*
-INT_CONST					0|{NZDIGIT}{DIGIT}*
+INT_CONST					{NZDIGIT}{DIGIT}*
 FLOAT_CONST					{FRAC_CONST}{EXP_PART}?|{DIGIT_SEQ}{EXP_PART}
 ENUM_CONST					{IDENTIFIER}
 CHAR_CONST					\'{C_CHAR_SEQ}\'

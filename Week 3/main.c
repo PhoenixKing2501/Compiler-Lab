@@ -19,23 +19,23 @@ int main()
 			break;
 
 		case INT_CONST:
-			printf("< INTEGER CONSTANT , `%s` >", yytext);
+			printf("< INTEGER_CONSTANT , `%s` >", yytext);
 			break;
 
 		case FLOAT_CONST:
-			printf("< FLOAT CONSTANT , `%s` >", yytext);
+			printf("< FLOAT_CONSTANT , `%s` >", yytext);
 			break;
 
 		case ENUM_CONST:
-			printf("< ENUMERATION CONSTANT , `%s` >", yytext);
+			printf("< ENUMERATION_CONSTANT , `%s` >", yytext);
 			break;
 
 		case CHAR_CONST:
-			printf("< CHARACTER CONSTANT , `%s` >", yytext);
+			printf("< CHARACTER_CONSTANT , `%s` >", yytext);
 			break;
 
 		case STRING_LITERAL:
-			printf("< STRING LITERAL , `%s` >", yytext);
+			printf("< STRING_LITERAL , `%s` >", yytext);
 			break;
 
 		case PUNCTUATOR:
