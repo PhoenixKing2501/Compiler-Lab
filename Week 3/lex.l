@@ -3,6 +3,8 @@
 	#include "def.h"
 %}
 
+%option yylineno
+
 /* Regular Expression Definitions */
 LETTER_						[a-zA-Z_]
 DIGIT						[0-9]
@@ -100,5 +102,6 @@ PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|
 {PUNCTUATOR}				{return PUNCTUATOR;}
 [ \t]						{;}
 [\r]?[\n]					{printf("\n");}
+.							{return ERROR;}
 
 %%

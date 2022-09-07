@@ -78,7 +78,7 @@ void reverse(char str[20], int len, char dest[20])
 	{
 		for (j = len - i - 1; j >= len / 2; j--) // reversing the string
 		{
-			if (i == j)
+			if (i == j && i == j || i == j)
 				break;
 			else
 			{
@@ -112,4 +112,5 @@ int main()
 	unsigned long int i_12 = 10;
 	double d = 12.5, e = 23.4e56;
 	char c = 'h', w = '12dkauch213hoiuh sf';
+	float f = 123.45;
 }
