@@ -17,7 +17,7 @@ lex.yy.c: ass4_20CS10063_20CS30057.l ass4_20CS10063_20CS30057.tab.h
 	flex ass4_20CS10063_20CS30057.l
 
 ass4_20CS10063_20CS30057.tab.c ass4_20CS10063_20CS30057.tab.h: ass4_20CS10063_20CS30057.y
-	bison -H --debug --report=all ass4_20CS10063_20CS30057.y
+	bison --header --debug --report=all ass4_20CS10063_20CS30057.y
 
 clean:
 	rm parser ass4_20CS10063_20CS30057_main.o lex.yy.* ass4_20CS10063_20CS30057.tab.* ass4_20CS10063_20CS30057.output
