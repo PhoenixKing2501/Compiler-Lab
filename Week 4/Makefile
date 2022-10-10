@@ -1,14 +1,23 @@
-a.out: lex.yy.o ass3_20CS10063_20CS30057.o
-	gcc lex.yy.o ass3_20CS10063_20CS30057.o
+ass4_20CS10063_20CS30057_output.txt: parser ass4_20CS10063_20CS30057_test.c
+	./parser < ass4_20CS10063_20CS30057_test.c > ass4_20CS10063_20CS30057_output.txt
 
-ass3_20CS10063_20CS30057.o: ass3_20CS10063_20CS30057.c def.h
-	gcc -c ass3_20CS10063_20CS30057.c -I.
+parser: lex.yy.o ass4_20CS10063_20CS30057.tab.o ass4_20CS10063_20CS30057_main.o
+	gcc lex.yy.o ass4_20CS10063_20CS30057.tab.o ass4_20CS10063_20CS30057_main.o -o parser
 
-lex.yy.o: lex.yy.c def.h
-	gcc -c lex.yy.c -I.
+ass4_20CS10063_20CS30057_main.o: ass4_20CS10063_20CS30057_main.c
+	gcc -c ass4_20CS10063_20CS30057_main.c
 
-lex.yy.c: ass3_20CS10063_20CS30057.l
-	flex -o lex.yy.c ass3_20CS10063_20CS30057.l
+lex.yy.o: lex.yy.c
+	gcc -c lex.yy.c
+
+ass4_20CS10063_20CS30057.tab.o: ass4_20CS10063_20CS30057.tab.c
+	gcc -c ass4_20CS10063_20CS30057.tab.c
+
+lex.yy.c: ass4_20CS10063_20CS30057.l ass4_20CS10063_20CS30057.tab.h
+	flex ass4_20CS10063_20CS30057.l
+
+ass4_20CS10063_20CS30057.tab.c ass4_20CS10063_20CS30057.tab.h: ass4_20CS10063_20CS30057.y
+	bison -H -t --report=all ass4_20CS10063_20CS30057.y
 
 clean:
-	rm lex.yy.o lex.yy.c ass3_20CS10063_20CS30057.o a
+	rm parser ass4_20CS10063_20CS30057_main.o lex.yy.* ass4_20CS10063_20CS30057.tab.* ass4_20CS10063_20CS30057.output

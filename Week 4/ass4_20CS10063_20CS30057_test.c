@@ -1,23 +1,3 @@
-/**
- * NODE : _node => typedef for _node
- * @struct _node : base struct for node
- */
-typedef struct _node
-{
-	int value;			// value
-	struct _node *next; // next pointer
-} NODE;
-
-/**
- * LLIST : _list* => typedef for _list*
- * @struct _list : base struct for linked-list
- */
-typedef struct _list
-{
-	NODE head;	// head node
-	NODE *tail; // tail pointer
-} * LLIST;
-
 NODE *createNode(int k, NODE *ptr)
 {
 	NODE *temp = malloc(sizeof *temp);
