@@ -2,9 +2,12 @@
 	/* C headers */
 	#include "def.h"
 	#include "ass4_20CS10063_20CS30057.tab.h"
+
+	#include <string.h>
 %}
 
 %option yylineno
+%option nounput
 
 /* Regular Expression Definitions */
 LETTER_						[a-zA-Z_]
@@ -72,6 +75,54 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 "register"					{ return REGISTER; }
 "union"						{ return UNION;  }
 
+"..."						{ return ELLIPSIS; }
+"<<="						{ return LEFT_SHIFT_ASSIGNMENT; }
+">>="						{ return RIGHT_SHIFT_ASSIGNMENT; }
+"++"						{ return INCREMENT; }
+"--"						{ return DECREMENT; }
+"->"						{ return ARROW; }
+"<<"						{ return LEFT_SHIFT; }
+">>"						{ return RIGHT_SHIFT; }
+"*="						{ return STAR_ASSIGNMENT; }
+"/="						{ return FRONT_SLASH_ASSIGNMENT; }
+"%="						{ return MODULO_ASSIGNMENT; }
+"+="						{ return PLUS_ASSIGNMENT; }
+"-="						{ return MINUS_ASSIGNMENT; }
+"<="						{ return LESS_THAN_EQUAL_TO; }
+">="						{ return GREATER_THAN_EQUAL_TO; }
+"=="						{ return EQUAL_TO; }
+"&&"						{ return LOGICAL_AND; }
+"||"						{ return LOGICAL_OR; }
+"!="						{ return NOT_EQUAL_TO; }
+"&="						{ return BITWISE_AND_ASSIGNMENT; }
+"|="						{ return BITWISE_OR_ASSIGNMENT; }
+"^="						{ return BITWISE_XOR_ASSIGNMENT; }
+"["							{ return LEFT_SQUARE_BRACKET; }
+"]"							{ return RIGHT_SQUARE_BRACKET; }
+"/"							{ return FRONT_SLASH; }
+"?"							{ return QUESTION_MARK; }
+"="							{ return ASSIGNMENT; }
+","							{ return COMMA; }
+"("							{ return LEFT_PARENTHESES; }
+"{"							{ return LEFT_BRACE; }
+"}"							{ return RIGHT_BRACE; }
+"."							{ return DOT; }
+"*"							{ return STAR; }
+"+"							{ return PLUS; }
+"-"							{ return MINUS; }
+"~"							{ return TILDE; }
+"!"							{ return EXCLAMATION; }
+"%"							{ return MODULO; }
+"<"							{ return LESS_THAN; }
+">"							{ return GREATER_THAN; }
+":"							{ return COLON; }
+";"							{ return SEMI_COLON; }
+"#"							{ return HASH; }
+")"							{ return RIGHT_PARENTHESES; }
+"&"							{ return BITWISE_AND; }
+"|"							{ return BITWISE_OR; }
+"^"							{ return BITWISE_XOR; }
+
 {LINE_COMMENT}				{;}
 {BLOCK_COMMENT}				{
 								int c;
@@ -94,12 +145,12 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 								}
 							}
 
-{IDENTIFIER}				{ return IDENTIFIER; }
-{INT_CONST}					{ return INTEGER_CONSTANT; }
-{FLOAT_CONST}				{ return FLOATING_CONSTANT; }
-{ENUM_CONST}				{ return ENUMERATION_CONSTANT; }
-{CHAR_CONST}				{ return CHARACTER_CONSTANT; }
-{STRING_LITERAL}			{ return STRING_LITERAL; }
+{IDENTIFIER}				{ strcpy(yylval.identifierVal, yytext); return IDENTIFIER; }
+{INT_CONST}					{ yylval.intVal = atoi(yytext); return INTEGER_CONSTANT; }
+{FLOAT_CONST}				{ yylval.floatVal = atof(yytext); return FLOATING_CONSTANT; }
+{ENUM_CONST}				{ strcpy(yylval.enumVal, yytext); return ENUMERATION_CONSTANT; }
+{CHAR_CONST}				{ strcpy(yylval.charVal, yytext); return CHARACTER_CONSTANT; }
+{STRING_LITERAL}			{ strcpy(yylval.stringVal, yytext); return STRING_LITERAL; }
 [ \t]						{;}
 [\r]?[\n]					{ printf("\n"); }
 .							{ printf("Unknown token `%s` found on line %d\n", yytext, yylineno); return ERROR; }

@@ -4,12 +4,12 @@
 %}
 
 %union {
-	char *identifierVal;
+	char identifierVal[1024];
 	int intVal;
 	float floatVal;
-	char *enumVal;
-	char *charVal;
-	char *stringVal;
+	char enumVal[1024];
+	char charVal[1024];
+	char stringVal[1024];
 }
 
 %token AUTO
@@ -57,53 +57,53 @@
 %token<charVal> CHARACTER_CONSTANT
 %token<stringVal> STRING_LITERAL
 
-%token LEFT_SQUARE_BRACKET
+%token ELLIPSIS
+%token LEFT_SHIFT_ASSIGNMENT
+%token RIGHT_SHIFT_ASSIGNMENT
 %token INCREMENT
+%token DECREMENT
+%token ARROW
+%token LEFT_SHIFT
+%token RIGHT_SHIFT
+%token STAR_ASSIGNMENT
+%token FRONT_SLASH_ASSIGNMENT
+%token MODULO_ASSIGNMENT
+%token PLUS_ASSIGNMENT
+%token MINUS_ASSIGNMENT
+%token LESS_THAN_EQUAL_TO
+%token GREATER_THAN_EQUAL_TO
+%token EQUAL_TO
+%token LOGICAL_AND
+%token LOGICAL_OR
+%token NOT_EQUAL_TO
+%token BITWISE_AND_ASSIGNMENT
+%token BITWISE_OR_ASSIGNMENT
+%token BITWISE_XOR_ASSIGNMENT
+%token LEFT_SQUARE_BRACKET
+%token RIGHT_SQUARE_BRACKET
 %token FRONT_SLASH
 %token QUESTION_MARK
 %token ASSIGNMENT
 %token COMMA
-%token RIGHT_SQUARE_BRACKET
 %token LEFT_PARENTHESES
 %token LEFT_BRACE
 %token RIGHT_BRACE
 %token DOT
-%token ARROW
-%token ASTERISK
+%token STAR
 %token PLUS
 %token MINUS
 %token TILDE
 %token EXCLAMATION
 %token MODULO
-%token LEFT_SHIFT
-%token RIGHT_SHIFT
 %token LESS_THAN
 %token GREATER_THAN
-%token LESS_THAN_EQUAL_TO
-%token GREATER_THAN_EQUAL_TO
 %token COLON
 %token SEMI_COLON
-%token ELLIPSIS
-%token ASTERISK_ASSIGNMENT
-%token FRONT_SLASH_ASSIGNMENT
-%token MODULO_ASSIGNMENT
-%token PLUS_ASSIGNMENT
-%token MINUS_ASSIGNMENT
-%token LEFT_SHIFT_ASSIGNMENT
 %token HASH
-%token DECREMENT
 %token RIGHT_PARENTHESES
 %token BITWISE_AND
-%token EQUAL_TO
-%token BITWISE_XOR
 %token BITWISE_OR
-%token LOGICAL_AND
-%token LOGICAL_OR
-%token RIGHT_SHIFT_ASSIGNMENT
-%token NOT_EQUAL_TO
-%token BITWISE_AND_ASSIGNMENT
-%token BITWISE_OR_ASSIGNMENT
-%token BITWISE_XOR_ASSIGNMENT
+%token BITWISE_XOR
 
 %token ERROR
 
@@ -183,7 +183,7 @@
 	unary_operator:
 					BITWISE_AND
 						{ yyinfo("unary_operator => &"); }
-					| ASTERISK
+					| STAR
 						{ yyinfo("unary_operator => *"); }
 					| PLUS
 						{ yyinfo("unary_operator => +"); }
@@ -205,7 +205,7 @@
 	multiplicative_expression:
 					cast_expression
 						{ yyinfo("multiplicative_expression => cast_expression"); }
-					| multiplicative_expression ASTERISK cast_expression
+					| multiplicative_expression STAR cast_expression
 						{ yyinfo("multiplicative_expression => multiplicative_expression * cast_expression"); }
 					| multiplicative_expression FRONT_SLASH cast_expression
 						{ yyinfo("multiplicative_expression => multiplicative_expression / cast_expression"); }
@@ -305,7 +305,7 @@
 	assignment_operator:
 					ASSIGNMENT
 						{ yyinfo("assignment_operator => ="); }
-					| ASTERISK_ASSIGNMENT
+					| STAR_ASSIGNMENT
 						{ yyinfo("assignment_operator => *="); }
 					| FRONT_SLASH_ASSIGNMENT
 						{ yyinfo("assignment_operator => /="); }
@@ -506,7 +506,7 @@
 						{ yyinfo("direct_declarator => direct_declarator [ static type_qualifier_list_opt assignment_expression ]"); }
 					| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list STATIC assignment_expression RIGHT_SQUARE_BRACKET
 						{ yyinfo("direct_declarator => direct_declarator [ type_qualifier_list static assignment_expression ]"); }
-					| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list_opt ASTERISK RIGHT_SQUARE_BRACKET
+					| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list_opt STAR RIGHT_SQUARE_BRACKET
 						{ yyinfo("direct_declarator => direct_declarator [ type_qualifier_list_opt * ]"); }
 					| direct_declarator LEFT_PARENTHESES parameter_type_list RIGHT_PARENTHESES
 						{ yyinfo("direct_declarator => direct_declarator ( parameter_type_list )"); }
@@ -536,9 +536,9 @@
 					;
 
 	pointer:
-					ASTERISK type_qualifier_list_opt
+					STAR type_qualifier_list_opt
 						{ yyinfo("pointer => * type_qualifier_list_opt"); }
-					| ASTERISK type_qualifier_list_opt pointer
+					| STAR type_qualifier_list_opt pointer
 						{ yyinfo("pointer => * type_qualifier_list_opt pointer"); }
 					;
 
