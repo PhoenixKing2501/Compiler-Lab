@@ -621,7 +621,7 @@
 					LEFT_SQUARE_BRACKET constant_expression RIGHT_SQUARE_BRACKET
 						{ yyinfo("designator => [ constant_expression ]"); }
 					| DOT IDENTIFIER
-						{ yyinfo("designator => . IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $2); }   
+						{ yyinfo("designator => . IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $2); }
 					;
 
 	/* Statements */
