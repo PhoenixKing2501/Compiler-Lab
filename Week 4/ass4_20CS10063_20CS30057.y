@@ -115,15 +115,15 @@
 
 	primary_expression: 
 					IDENTIFIER 
-						{ yyinfo("primary_expression => IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $1); }
+						{ yyinfo("primary_expression => IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $1); }
 					| INTEGER_CONSTANT 
-						{ yyinfo("primary_expression => INTEGER_CONSTANT"); printf("\t\t\t\tINTEGER_CONSTANT = %d\n", $1); }
+						{ yyinfo("primary_expression => INTEGER_CONSTANT"); printf("\t\t\t\tINTEGER_CONSTANT = `%d`\n", $1); }
 					| FLOATING_CONSTANT 
-						{ yyinfo("primary_expression => FLOATING_CONSTANT"); printf("\t\t\t\tFLOATING_CONSTANT = %f\n", $1); }
+						{ yyinfo("primary_expression => FLOATING_CONSTANT"); printf("\t\t\t\tFLOATING_CONSTANT = `%f`\n", $1); }
 					| CHARACTER_CONSTANT 
-						{ yyinfo("primary_expression => CHARACTER_CONSTANT"); printf("\t\t\t\tCHARACTER_CONSTANT = %s\n", $1); }
+						{ yyinfo("primary_expression => CHARACTER_CONSTANT"); printf("\t\t\t\tCHARACTER_CONSTANT = `%s`\n", $1); }
 					| STRING_LITERAL 
-						{ yyinfo("primary_expression => STRING_LITERAL"); printf("\t\t\t\tSTRING_LITERAL = %s\n", $1); }
+						{ yyinfo("primary_expression => STRING_LITERAL"); printf("\t\t\t\tSTRING_LITERAL = `%s`\n", $1); }
 					| LEFT_PARENTHESES expression RIGHT_PARENTHESES
 						{ yyinfo("primary_expression => ( expression )"); }
 					;
@@ -136,9 +136,9 @@
 					| postfix_expression LEFT_PARENTHESES argument_expression_list_opt RIGHT_PARENTHESES
 						{ yyinfo("postfix_expression => postfix_expression ( argument_expression_list_opt )"); }
 					| postfix_expression DOT IDENTIFIER
-						{ yyinfo("postfix_expression => postfix_expression . IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $3); }
+						{ yyinfo("postfix_expression => postfix_expression . IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $3); }
 					| postfix_expression ARROW IDENTIFIER
-						{ yyinfo("postfix_expression => postfix_expression -> IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $3); }
+						{ yyinfo("postfix_expression => postfix_expression -> IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $3); }
 					| postfix_expression INCREMENT
 						{ yyinfo("postfix_expression => postfix_expression ++"); }
 					| postfix_expression DECREMENT
@@ -208,7 +208,7 @@
 					| multiplicative_expression FRONT_SLASH cast_expression
 						{ yyinfo("multiplicative_expression => multiplicative_expression / cast_expression"); }
 					| multiplicative_expression MODULO cast_expression
-						{ yyinfo("multiplicative_expression => multiplicative_expression %% cast_expression"); }
+						{ yyinfo("multiplicative_expression => multiplicative_expression % cast_expression"); }
 					;
 
 	additive_expression:
@@ -443,12 +443,12 @@
 					| ENUM identifier_opt LEFT_BRACE enumerator_list COMMA RIGHT_BRACE
 						{ yyinfo("enum_specifier => enum identifier_opt { enumerator_list , }"); }
 					| ENUM IDENTIFIER
-						{ yyinfo("enum_specifier => enum IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $2); }
+						{ yyinfo("enum_specifier => enum IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $2); }
 					;
 
 	identifier_opt:
 					IDENTIFIER 
-						{ yyinfo("identifier_opt => IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $1); }
+						{ yyinfo("identifier_opt => IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $1); }
 					| 
 						{ yyinfo("identifier_opt => epsilon"); }
 					;
@@ -460,11 +460,13 @@
 						{ yyinfo("enumerator_list => enumerator_list , enumerator"); }
 					;
 
+/* Here IDENTIFIER should have been ENUMERATION_CONSTANT, but since flex can't recognise it this rule gives error. Hence IDENTIFIER token used here */
+
 	enumerator:
-					ENUMERATION_CONSTANT 
-						{ yyinfo("enumerator => ENUMERATION_CONSTANT"); printf("\t\t\t\tENUMERATION_CONSTANT = %s\n", $1); }
-					| ENUMERATION_CONSTANT ASSIGNMENT constant_expression
-						{ yyinfo("enumerator => ENUMERATION_CONSTANT = constant_expression"); printf("\t\t\t\tENUMERATION_CONSTANT = %s\n", $1); }
+					IDENTIFIER 
+						{ yyinfo("enumerator => ENUMERATION_CONSTANT"); printf("\t\t\t\tENUMERATION_CONSTANT = `%s`\n", $1); }
+					| IDENTIFIER ASSIGNMENT constant_expression
+						{ yyinfo("enumerator => ENUMERATION_CONSTANT = constant_expression"); printf("\t\t\t\tENUMERATION_CONSTANT = `%s`\n", $1); }
 					;
 
 	type_qualifier:
@@ -495,7 +497,7 @@
 
 	direct_declarator:
 					IDENTIFIER 
-						{ yyinfo("direct_declarator => IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $1); }
+						{ yyinfo("direct_declarator => IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $1); }
 					| LEFT_PARENTHESES declarator RIGHT_PARENTHESES
 						{ yyinfo("direct_declarator => ( declarator )"); }
 					| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list_opt assignment_expression_opt RIGHT_SQUARE_BRACKET
@@ -570,9 +572,9 @@
 
 	identifier_list:
 					IDENTIFIER 
-						{ yyinfo("identifier_list => IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $1); }
+						{ yyinfo("identifier_list => IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $1); }
 					| identifier_list COMMA IDENTIFIER
-						{ yyinfo("identifier_list => identifier_list , IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $3); }
+						{ yyinfo("identifier_list => identifier_list , IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $3); }
 					;
 
 	type_name:
@@ -619,7 +621,7 @@
 					LEFT_SQUARE_BRACKET constant_expression RIGHT_SQUARE_BRACKET
 						{ yyinfo("designator => [ constant_expression ]"); }
 					| DOT IDENTIFIER
-						{ yyinfo("designator => . IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = %s\n", $2); }
+						{ yyinfo("designator => . IDENTIFIER"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $2); }
 					;
 
 	/* Statements */
@@ -641,9 +643,9 @@
 
 	labeled_statement:
 					IDENTIFIER COLON statement
-						{ yyinfo("labeled_statement => IDENTIFIER : statement"); printf("\t\t\t\tIDENTIFIER = %s\n", $1); }
+						{ yyinfo("labeled_statement => IDENTIFIER : statement"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $1); }
 					| CASE constant_expression COLON statement
-						{ yyinfo("labeled_statement => case constant_expression : statement"); }    
+						{ yyinfo("labeled_statement => case constant_expression : statement"); } 
 					| DEFAULT COLON statement
 						{ yyinfo("labeled_statement => default : statement"); }
 					;
@@ -708,7 +710,7 @@
 
 	jump_statement:
 					GOTO IDENTIFIER SEMI_COLON
-						{ yyinfo("jump_statement => goto IDENTIFIER ;"); printf("\t\t\t\tIDENTIFIER = %s\n", $2); }    
+						{ yyinfo("jump_statement => goto IDENTIFIER ;"); printf("\t\t\t\tIDENTIFIER = `%s`\n", $2); }    
 					| CONTINUE SEMI_COLON
 						{ yyinfo("jump_statement => continue ;"); }
 					| BREAK SEMI_COLON

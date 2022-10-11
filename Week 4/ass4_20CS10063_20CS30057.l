@@ -124,6 +124,7 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 "^"							{ return BITWISE_XOR; }
 
 {LINE_COMMENT}				{;}
+
 {BLOCK_COMMENT}				{
 								int c;
 
@@ -145,12 +146,12 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 								}
 							}
 
-{IDENTIFIER}				{ strcpy(yylval.identifierVal, yytext); return IDENTIFIER; }
-{INT_CONST}					{ yylval.intVal = atoi(yytext); return INTEGER_CONSTANT; }
-{FLOAT_CONST}				{ yylval.floatVal = atof(yytext); return FLOATING_CONSTANT; }
-{ENUM_CONST}				{ strcpy(yylval.enumVal, yytext); return ENUMERATION_CONSTANT; }
-{CHAR_CONST}				{ strcpy(yylval.charVal, yytext); return CHARACTER_CONSTANT; }
-{STRING_LITERAL}			{ strcpy(yylval.stringVal, yytext); return STRING_LITERAL; }
+{IDENTIFIER}				{ strcpy(yylval.identifierVal, yytext);	return IDENTIFIER; }
+{INT_CONST}					{ yylval.intVal = atoi(yytext);			return INTEGER_CONSTANT; }
+{FLOAT_CONST}				{ yylval.floatVal = atof(yytext);		return FLOATING_CONSTANT; }
+{ENUM_CONST}				{ strcpy(yylval.enumVal, yytext);		return ENUMERATION_CONSTANT; }
+{CHAR_CONST}				{ strcpy(yylval.charVal, yytext);		return CHARACTER_CONSTANT; }
+{STRING_LITERAL}			{ strcpy(yylval.stringVal, yytext);		return STRING_LITERAL; }
 [ \t]						{;}
 [\r]?[\n]					{ printf("\n"); }
 .							{ printf("Unknown token on line %d: %s\n", yylineno, yytext); return YYUNDEF; }
