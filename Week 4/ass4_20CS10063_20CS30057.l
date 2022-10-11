@@ -153,6 +153,6 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 {STRING_LITERAL}			{ strcpy(yylval.stringVal, yytext); return STRING_LITERAL; }
 [ \t]						{;}
 [\r]?[\n]					{ printf("\n"); }
-.							{ printf("Unknown token `%s` found on line %d\n", yytext, yylineno); return ERROR; }
+.							{ printf("Unknown token on line %d: %s\n", yylineno, yytext); return YYUNDEF; }
 
 %%

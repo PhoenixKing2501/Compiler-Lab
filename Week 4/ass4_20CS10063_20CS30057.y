@@ -105,8 +105,6 @@
 %token BITWISE_OR
 %token BITWISE_XOR
 
-%token ERROR
-
 %nonassoc RIGHT_PARENTHESES
 %nonassoc ELSE
 
@@ -754,13 +752,3 @@
 						{ yyinfo("declaration_list => declaration_list declaration"); }
 					;
 %%
-
-void yyerror(char *s)
-{
-	printf("ERROR encountered at line %d: %s\n", yylineno, s);
-}
-
-void yyinfo(char *s)
-{
-	printf("INFO for line %d: %s\n", yylineno, s);
-}
