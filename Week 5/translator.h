@@ -8,8 +8,8 @@
 #include <iomanip>
 #include <iostream>
 #include <list>
-#include <map>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 using namespace std;
@@ -48,7 +48,7 @@ struct SymbolType
 struct SymbolTable
 {
 	string name{};
-	map<string, Symbol> symbols{};
+	unordered_map<string, Symbol> symbols{};
 	SymbolTable *parent{};
 
 	SymbolTable(string = "NULL", SymbolTable * = nullptr);

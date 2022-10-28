@@ -78,4 +78,58 @@ string SymbolType::toString()
 	}
 }
 
+SymbolTable::SymbolTable(string name, SymbolTable *parent)
+	: name(name), parent(parent) {}
 
+Symbol *SymbolTable::lookup(string name)
+{
+	if (this->symbols.contains(name))
+	{
+		return &this->symbols[name];
+	}
+
+	Symbol *ret_ptr = nullptr;
+
+	if (this->parent)
+	{
+		ret_ptr = this->parent->lookup(name);
+	}
+
+	if (this == current_table && !ret_ptr)
+	{
+		this->symbols[name] = Symbol(name);
+		return &this->symbols[name];
+	}
+
+	return ret_ptr;
+}
+
+void SymbolTable::update()
+{
+	vector<SymbolTable *> visited{}; // vector to keep track of children tables to visit
+	size_t offset{};
+
+	for (auto &&map_entry : this->symbols) // for all symbols in the table
+	{
+		if (map_entry.first == this->symbols.begin()->first) // if the symbol is the first one in the table then set offset of it to 0
+		{
+			map_entry.second.offset = 0;
+			offset = map_entry.second.size;
+		}
+		else // else update the offset of the symbol and update the offset by adding the symbols width
+		{
+			map_entry.second.offset = offset;
+			offset += map_entry.second.size;
+		}
+
+		if (map_entry.second.nested_table) // remember children table
+		{
+			visited.push_back(map_entry.second.nested_table);
+		}
+	}
+
+	for (auto &&table : visited) // update children table
+	{
+		table->update();
+	}
+}
