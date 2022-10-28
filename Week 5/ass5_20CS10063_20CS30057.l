@@ -1,7 +1,7 @@
 %{
 	/* C headers */
 	#include "def.h"
-	#include "ass4_20CS10063_20CS30057.tab.h"
+	#include "ass5_20CS10063_20CS30057.tab.h"
 
 	#include <string.h>
 %}
@@ -33,7 +33,6 @@ FLOAT_CONST					{FRAC_CONST}{EXP_PART}?|{DIGIT_SEQ}{EXP_PART}
 ENUM_CONST					{IDENTIFIER}
 CHAR_CONST					\'{C_CHAR_SEQ}\'
 STRING_LITERAL				\"{S_CHAR_SEQ}\"
-/* PUNCTUATOR					<<=|>>=|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\.\.\.|\*=|\/=|%=|\+=|-=|&=|\^=|\|\||\|=|[[\](){}.+\-*\/&~!%<>\^|?:;,#=] */
 
 %%
 
@@ -97,6 +96,7 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 "&="						{ return BITWISE_AND_ASSIGNMENT; }
 "|="						{ return BITWISE_OR_ASSIGNMENT; }
 "^="						{ return BITWISE_XOR_ASSIGNMENT; }
+
 "["							{ return LEFT_SQUARE_BRACKET; }
 "]"							{ return RIGHT_SQUARE_BRACKET; }
 "/"							{ return FRONT_SLASH; }

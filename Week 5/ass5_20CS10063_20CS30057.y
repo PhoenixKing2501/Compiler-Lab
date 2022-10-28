@@ -434,7 +434,7 @@
 					specifier_qualifier_list
 						{ yyinfo("specifier_qualifier_list_opt -> specifier_qualifier_list"); }
 					| 
-						{ yyinfo	("specifier_qualifier_list_opt -> epsilon"); }
+						{ yyinfo("specifier_qualifier_list_opt -> epsilon"); }
 					;
 
 	enum_specifier:
