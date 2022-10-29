@@ -30,7 +30,6 @@ BLOCK_COMMENT				\/\*
 IDENTIFIER					{LETTER_}({LETTER_}|{DIGIT})*
 INT_CONST					0|{NZDIGIT}{DIGIT}*
 FLOAT_CONST					{FRAC_CONST}{EXP_PART}?|{DIGIT_SEQ}{EXP_PART}
-ENUM_CONST					{IDENTIFIER}
 CHAR_CONST					\'{C_CHAR_SEQ}\'
 STRING_LITERAL				\"{S_CHAR_SEQ}\"
 
@@ -43,12 +42,12 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 "break"						{ return BREAK; }
 "extern"					{ return EXTERN; }
 "return"					{ return RETURN; }
-"void"						{ return VOID; }
+"void"						{ return KEY_VOID; }
 "case"						{ return CASE; }
-"float"						{ return FLOAT; }
+"float"						{ return KEY_FLOAT; }
 "short"						{ return SHORT; }
 "volatile"					{ return VOLATILE; }
-"char"						{ return CHAR; }
+"char"						{ return KEY_CHAR; }
 "for"						{ return FOR; }
 "signed"					{ return SIGNED; }
 "while"						{ return WHILE; }
@@ -65,7 +64,7 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 "struct"					{ return STRUCT; }
 "_Imaginary"				{ return _IMAGINARY; }
 "do"						{ return DO; }
-"int"						{ return INT; }
+"int"						{ return KEY_INT; }
 "switch"					{ return SWITCH; }
 "double"					{ return DOUBLE; }
 "long"						{ return LONG; }
@@ -146,12 +145,11 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 								}
 							}
 
-{IDENTIFIER}				{ strcpy(yylval.identifierVal, yytext);	return IDENTIFIER; }
-{INT_CONST}					{ yylval.intVal = atoi(yytext);			return INTEGER_CONSTANT; }
-{FLOAT_CONST}				{ yylval.floatVal = atof(yytext);		return FLOATING_CONSTANT; }
-{ENUM_CONST}				{ strcpy(yylval.enumVal, yytext);		return ENUMERATION_CONSTANT; }
-{CHAR_CONST}				{ strcpy(yylval.charVal, yytext);		return CHARACTER_CONSTANT; }
-{STRING_LITERAL}			{ strcpy(yylval.stringVal, yytext);		return STRING_LITERAL; }
+{IDENTIFIER}				{ yylval.symbol = currentTable->lookup(yytext);	return IDENTIFIER; }
+{INT_CONST}					{ yylval.intVal = atoi(yytext);					return INTEGER_CONSTANT; }
+{FLOAT_CONST}				{ strcpy(yylval.floatVal, yytext);				return FLOATING_CONSTANT; }
+{CHAR_CONST}				{ strcpy(yylval.charVal, yytext);				return CHARACTER_CONSTANT; }
+{STRING_LITERAL}			{ strcpy(yylval.stringVal, yytext);				return STRING_LITERAL; }
 [ \t]						{;}
 [\r]?[\n]					{ printf("\n"); }
 .							{ printf("Unknown token on line %d: %s\n", yylineno, yytext); return YYUNDEF; }

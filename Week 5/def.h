@@ -1,11 +1,15 @@
+#pragma once
+
 #ifndef _DEF_H_
 #define _DEF_H_
+
+#include <translator.h>
 
 int yylex();
 int yyparse();
 
-void yyerror(char *);
-void yyinfo(char *);
+void yyerror(const string &);
+void yyinfo(const string &);
 
 int yywrap(void);
 

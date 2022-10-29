@@ -102,12 +102,12 @@ struct Array
 	enum struct ArrayEnum
 	{
 		OTHER,
-		POINTER,
+		PTR,
 		ARRAY,
 	} type{};
 
 	Symbol *symbol{}, *temp{};
-	SymbolType *subArrayType{};
+	SymbolType *sub_array_type{};
 };
 
 struct Statement
@@ -133,7 +133,5 @@ extern SymbolTable *current_table, *global_table;
 extern Symbol *current_symbol;
 extern SymbolType::SymbolEnum current_type;
 extern int table_count, temp_count;
-
-extern int yyparse();
 
 #endif // _TRANSLATOR_H_
