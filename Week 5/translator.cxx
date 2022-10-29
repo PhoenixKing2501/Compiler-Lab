@@ -81,24 +81,24 @@ string SymbolType::toString()
 SymbolTable::SymbolTable(const string &name, SymbolTable *parent)
 	: name(name), parent(parent) {}
 
-Symbol *SymbolTable::lookup(const string &name)
+Symbol *SymbolTable::lookup(const string &name_)
 {
-	if (this->symbols.contains(name))
+	if (this->symbols.contains(name_))
 	{
-		return &this->symbols[name];
+		return &this->symbols[name_];
 	}
 
 	Symbol *ret_ptr = nullptr;
 
 	if (this->parent)
 	{
-		ret_ptr = this->parent->lookup(name);
+		ret_ptr = this->parent->lookup(name_);
 	}
 
 	if (this == current_table && !ret_ptr)
 	{
-		this->symbols[name] = Symbol(name);
-		return &this->symbols[name];
+		this->symbols[name_] = Symbol(name_);
+		return &this->symbols[name_];
 	}
 
 	return ret_ptr;
@@ -172,17 +172,17 @@ void SymbolTable::print()
 	}
 }
 
-Symbol::Symbol(const string &name, SymbolType::SymbolEnum type, const string &init)
-	: name(name), type(new SymbolType(type)), offset(0),
+Symbol::Symbol(const string &name_, SymbolType::SymbolEnum type_, const string &init)
+	: name(name_), offset(0), type(new SymbolType(type_)),
 	  nested_table(nullptr), initialValue(init), isFunction(false)
 {
 	this->size = this->type->getSize();
 }
 
-Symbol *Symbol::update(SymbolType *type)
+Symbol *Symbol::update(SymbolType *type_)
 {
-	this->type = type;
-	size = type->getSize();
+	this->type = type_;
+	size = this->type->getSize();
 	return this;
 }
 
@@ -260,10 +260,10 @@ Symbol *Symbol::convert(SymbolType::SymbolEnum type_)
 	return this;
 }
 
-Quad::Quad(const string &result, const string &arg1, const string &op, const string &arg2)
-	: result(result), op(op), arg1(arg1), arg2(arg2) {}
-Quad::Quad(const string &result, int arg1, const string &op, const string &arg2)
-	: result(result), op(op), arg1(to_string(arg1)), arg2(arg2) {}
+Quad::Quad(const string &op, const string &arg1, const string &arg2, const string &result)
+	: op(op), arg1(arg1), arg2(arg2), result(result) {}
+Quad::Quad(const string &op, int arg1, const string &arg2, const string &result)
+	: op(op), arg1(to_string(arg1)), arg2(arg2), result(result) {}
 
 void Quad::print()
 {
@@ -413,11 +413,11 @@ void Quad::print()
 
 void emit(const string &op, const string &result, const string &arg1, const string &arg2)
 {
-	quad_array.push_back(new Quad(result, arg1, op, arg2));
+	quad_array.push_back(new Quad(op, arg1, arg2, result));
 }
 void emit(const string &op, const string &result, int arg1, const string &arg2)
 {
-	quad_array.push_back(new Quad(result, arg1, op, arg2));
+	quad_array.push_back(new Quad(op, arg1, arg2, result));
 }
 
 void backpatch(const list<size_t> &list_, size_t addr)
