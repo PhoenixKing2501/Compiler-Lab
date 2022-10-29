@@ -8,8 +8,8 @@
 #include <iomanip>
 #include <iostream>
 #include <list>
+#include <map>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 using namespace std;
@@ -48,11 +48,11 @@ struct SymbolType
 struct SymbolTable
 {
 	string name{};
-	unordered_map<string, Symbol> symbols{};
+	map<string, Symbol> symbols{};
 	SymbolTable *parent{};
 
-	SymbolTable(string = "NULL", SymbolTable * = nullptr);
-	Symbol *lookup(string);
+	SymbolTable(const string & = "NULL", SymbolTable * = nullptr);
+	Symbol *lookup(const string &);
 	void print();
 	void update();
 };
@@ -66,7 +66,8 @@ struct Symbol
 	string initialValue{};
 	bool isFunction{};
 
-	Symbol(string, SymbolType::SymbolEnum = SymbolType::SymbolEnum::INT, string = "");
+	// Symbol() = default;
+	Symbol(const string & = "", SymbolType::SymbolEnum = SymbolType::SymbolEnum::INT, const string & = "");
 	Symbol *update(SymbolType *);
 	Symbol *convert(SymbolType::SymbolEnum);
 };
@@ -75,8 +76,8 @@ struct Quad
 {
 	string op{}, arg1{}, arg2{}, result{};
 
-	Quad(string, string, string = "=", string = "");
-	Quad(string, int, string = "=", string = "");
+	Quad(const string &, const string &, const string & = "=", const string & = "");
+	Quad(const string &, int, const string & = "=", const string & = "");
 	void print();
 };
 
@@ -90,7 +91,7 @@ struct Expression
 		BOOL,
 	} type{};
 
-	list<int> trueList{}, falseList{}, nextList{};
+	list<size_t> trueList{}, falseList{}, nextList{};
 
 	void toInt();
 	void toBool();
@@ -98,8 +99,6 @@ struct Expression
 
 struct Array
 {
-	Symbol *temp{};
-
 	enum struct ArrayEnum
 	{
 		OTHER,
@@ -107,33 +106,33 @@ struct Array
 		ARRAY,
 	} type{};
 
-	Symbol *symbol{};
+	Symbol *symbol{}, *temp{};
 	SymbolType *subArrayType{};
 };
 
 struct Statement
 {
-	list<int> nextList{};
+	list<size_t> nextList{};
 };
 
-void emit(string, string, string = "", string = "");
-void emit(string, string, int, string = "");
+void emit(const string &, const string &, const string & = "", const string & = "");
+void emit(const string &, const string &, int, const string & = "");
 
-void backpatch(list<int>, int);
-list<int> make_list(int);
-list<int> merge_list(list<int>, list<int>);
+void backpatch(const list<size_t> &list_, size_t addr);
+list<size_t> make_list(int);
+list<size_t> merge(list<size_t> &&first, list<size_t> &&second);
 
-int nextInstruction();
-Symbol *gentemp(SymbolType::SymbolEnum, string = "");
+size_t nextInstruction();
+Symbol *gentemp(SymbolType::SymbolEnum, const string & = "");
 void changeTable(SymbolTable *);
 
 bool typeCheck(Symbol *&, Symbol *&);
 
-extern vector<Quad *> quad_array{};
-extern SymbolTable *current_table{}, *global_table{};
-extern Symbol *current_symbo{};
-extern SymbolType::SymbolEnum current_type{};
-extern int table_count{}, temp_count{};
+extern vector<Quad *> quad_array;
+extern SymbolTable *current_table, *global_table;
+extern Symbol *current_symbol;
+extern SymbolType::SymbolEnum current_type;
+extern int table_count, temp_count;
 
 extern int yyparse();
 

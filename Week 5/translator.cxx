@@ -2,7 +2,7 @@
 
 vector<Quad *> quad_array{};
 SymbolTable *current_table{}, *global_table{};
-Symbol *current_symbo{};
+Symbol *current_symbol{};
 SymbolType::SymbolEnum current_type{};
 int table_count{}, temp_count{};
 
@@ -78,10 +78,10 @@ string SymbolType::toString()
 	}
 }
 
-SymbolTable::SymbolTable(string name, SymbolTable *parent)
+SymbolTable::SymbolTable(const string &name, SymbolTable *parent)
 	: name(name), parent(parent) {}
 
-Symbol *SymbolTable::lookup(string name)
+Symbol *SymbolTable::lookup(const string &name)
 {
 	if (this->symbols.contains(name))
 	{
@@ -131,5 +131,427 @@ void SymbolTable::update()
 	for (auto &&table : visited) // update children table
 	{
 		table->update();
+	}
+}
+
+void SymbolTable::print()
+{
+	cout << string(140, '=') << '\n';
+	cout << "Table Name: " << this->name << "\t\t Parent Name: " << (this->parent ? this->parent->name : "None") << '\n';
+	cout << string(140, '=') << '\n';
+	cout << setw(20) << "Name"
+		 << setw(40) << "Type"
+		 << setw(20) << "Initial Value"
+		 << setw(20) << "Offset"
+		 << setw(20) << "Size"
+		 << setw(20) << "Child"
+		 << '\n';
+
+	vector<SymbolTable *> tovisit{};
+
+	for (auto &&map_entry : this->symbols)
+	{
+		cout << setw(20) << map_entry.first;
+		cout << setw(40) << (map_entry.second.isFunction ? "function" : map_entry.second.type->toString());
+		cout << setw(20) << map_entry.second.initialValue
+			 << setw(20) << map_entry.second.offset
+			 << setw(20) << map_entry.second.size;
+		cout << setw(20) << (map_entry.second.nested_table ? map_entry.second.nested_table->name : "NULL") << '\n';
+
+		if (map_entry.second.nested_table)
+		{
+			tovisit.push_back(map_entry.second.nested_table);
+		}
+	}
+
+	cout << string(140, '-') << "\n\n";
+
+	for (auto &&table : tovisit)
+	{
+		table->print();
+	}
+}
+
+Symbol::Symbol(const string &name, SymbolType::SymbolEnum type, const string &init)
+	: name(name), type(new SymbolType(type)), offset(0),
+	  nested_table(nullptr), initialValue(init), isFunction(false)
+{
+	this->size = this->type->getSize();
+}
+
+Symbol *Symbol::update(SymbolType *type)
+{
+	this->type = type;
+	size = type->getSize();
+	return this;
+}
+
+Symbol *Symbol::convert(SymbolType::SymbolEnum type_)
+{
+	// if the current type is float
+	if (this->type->type == SymbolType::SymbolEnum::FLOAT)
+	{
+		// if the target type is int
+		if (type_ == SymbolType::SymbolEnum::INT)
+		{
+			// generate symbol of new type
+			Symbol *fin_ = gentemp(type_);
+			emit("=", fin_->name, "Float_To_Int(" + this->name + ")");
+			return fin_;
+		}
+		// if the target type is char
+		else if (type_ == SymbolType::SymbolEnum::CHAR)
+		{
+			// generate symbol of new type
+			Symbol *fin_ = gentemp(type_);
+			emit("=", fin_->name, "Float_To_Char(" + this->name + ")");
+			return fin_;
+		}
+		// reutrn orignal symbol if the final type is not int or
+		// char
+		return this;
+	}
+	// if current type is int
+	else if (this->type->type == SymbolType::SymbolEnum::INT)
+	{
+		// if the target type is float
+		if (type_ == SymbolType::SymbolEnum::FLOAT)
+		{
+			// generate symbol of new type
+			Symbol *fin_ = gentemp(type_);
+			emit("=", fin_->name, "Int_To_Float(" + this->name + ")");
+			return fin_;
+		}
+		// if the target type is char
+		else if (type_ == SymbolType::SymbolEnum::CHAR)
+		{
+			// generate symbol of new type
+			Symbol *fin_ = gentemp(type_);
+			emit("=", fin_->name, "Int_To_Char(" + this->name + ")");
+			return fin_;
+		}
+		// return orignal symbol if the final type is not float or
+		// char
+		return this;
+	}
+	// if the current type is char
+	else if (this->type->type == SymbolType::SymbolEnum::CHAR)
+	{
+		// if the target type is int
+		if (type_ == SymbolType::SymbolEnum::INT)
+		{
+			// generate symbol of new type
+			Symbol *fin_ = gentemp(type_);
+			emit("=", fin_->name, "Char_To_Int(" + this->name + ")");
+			return fin_;
+		}
+		// if the target type is float
+		else if (type_ == SymbolType::SymbolEnum::FLOAT)
+		{
+			// generate symbol of new type
+			Symbol *fin_ = gentemp(type_);
+			emit("=", fin_->name, "Char_To_Float(" + this->name + ")");
+			return fin_;
+		}
+		// return orignal symbol if the final type is not int or
+		// float
+		return this;
+	}
+	return this;
+}
+
+Quad::Quad(const string &result, const string &arg1, const string &op, const string &arg2)
+	: result(result), op(op), arg1(arg1), arg2(arg2) {}
+Quad::Quad(const string &result, int arg1, const string &op, const string &arg2)
+	: result(result), op(op), arg1(to_string(arg1)), arg2(arg2) {}
+
+void Quad::print()
+{
+	// if binary operations
+	auto binary_print = [&]()
+	{
+		cout << "\t" << this->result
+			 << " = " << this->arg1
+			 << " " << this->op
+			 << " " << this->arg2
+			 << '\n';
+	};
+
+	// if relational operators
+	auto relation_print = [&]()
+	{
+		cout << "\tif " << this->arg1
+			 << " " << this->op
+			 << " " << this->arg2
+			 << " goto " << this->result
+			 << '\n';
+	};
+
+	// if shift operators
+	auto shift_print = [&]()
+	{
+		cout << "\t" << this->result
+			 << " " << this->op[0]
+			 << " " << this->op[1]
+			 << this->arg1 << '\n';
+	};
+
+	// if special type of operators
+	auto shift_print_str = [&](const string &tp)
+	{
+		cout << "\t" << this->result
+			 << " " << tp
+			 << " " << this->arg1
+			 << '\n';
+	};
+
+	/* we define the printing format for all operators */
+	if (this->op == "=")
+	{
+		cout << "\t" << this->result
+			 << " = " << this->arg1
+			 << '\n';
+	}
+	else if (this->op == "goto")
+	{
+		cout << "\tgoto " << this->result
+			 << '\n';
+	}
+	else if (this->op == "return")
+	{
+		cout << "\treturn " << this->result
+			 << '\n';
+	}
+	else if (this->op == "call")
+	{
+		cout << "\t" << this->result
+			 << " = call " << this->arg1
+			 << ", " << this->arg2
+			 << '\n';
+	}
+	else if (this->op == "param")
+	{
+		cout << "\tparam " << this->result
+			 << '\n';
+	}
+	else if (this->op == "label")
+	{
+		cout << this->result << '\n';
+	}
+	else if (this->op == "=[]")
+	{
+		cout << "\t" << this->result
+			 << " = " << this->arg1
+			 << "[" << this->arg2
+			 << "]\n";
+	}
+	else if (this->op == "[]=")
+	{
+		cout << "\t" << this->result
+			 << "[" << this->arg1
+			 << "] = " << this->arg2
+			 << '\n';
+	}
+	else if (this->op == "+" or
+			 this->op == "-" or
+			 this->op == "*" or
+			 this->op == "/" or
+			 this->op == "%" or
+			 this->op == "|" or
+			 this->op == "^" or
+			 this->op == "&" or
+			 this->op == "<<" or
+			 this->op == ">>")
+	{
+		binary_print();
+	}
+	else if (this->op == "==" or
+			 this->op == "!=" or
+			 this->op == "<" or
+			 this->op == ">" or
+			 this->op == "<=" or
+			 this->op == ">=")
+	{
+		relation_print();
+	}
+	else if (this->op == "=&" or
+			 this->op == "=*")
+	{
+		shift_print();
+	}
+	else if (this->op == "*=")
+	{
+		cout << "\t"
+			 << "*" << this->result
+			 << " = " << this->arg1
+			 << '\n';
+	}
+	else if (this->op == "=-")
+	{
+		shift_print_str("= -");
+	}
+	else if (this->op == "~")
+	{
+		shift_print_str("= ~");
+	}
+	else if (this->op == "!")
+	{
+		shift_print_str("= !");
+	}
+	else
+	{
+		// if none of the above operators
+		cout << this->op
+			 << this->arg1
+			 << this->arg2
+			 << this->result
+			 << '\n';
+
+		cout << "INVALID OPERATOR\n ";
+	}
+}
+
+void emit(const string &op, const string &result, const string &arg1, const string &arg2)
+{
+	quad_array.push_back(new Quad(result, arg1, op, arg2));
+}
+void emit(const string &op, const string &result, int arg1, const string &arg2)
+{
+	quad_array.push_back(new Quad(result, arg1, op, arg2));
+}
+
+void backpatch(const list<size_t> &list_, size_t addr)
+{
+	// for all the addresses in the list, add the target address
+	for (auto &i : list_)
+	{
+		quad_array[i - 1]->result = to_string(addr);
+	}
+}
+
+list<size_t> make_list(size_t base)
+{
+	// returns list with the base address as its only value
+	return {base};
+}
+
+list<size_t> merge(list<size_t> &&first, list<size_t> &&second)
+{
+	// merge two lists
+	list<size_t> ret = move(first);
+	ret.merge(second);
+	return ret;
+}
+
+void Expression::toInt()
+{
+	// if the expression type is boolean
+	if (this->type == Expression::ExprEnum::BOOL)
+	{
+		// generate symbol of new type and do backpatching and other required operations
+		this->symbol = gentemp(SymbolType::SymbolEnum::INT);
+		backpatch(this->trueList, (quad_array.size() + 1));	 // update the true list
+		emit("=", this->symbol->name, "true");				 // emit the quad
+		emit("goto", to_string(quad_array.size() + 2));		 // emit the goto quad
+		backpatch(this->falseList, (quad_array.size() + 1)); // update the false list
+		emit("=", this->symbol->name, "false");
+	}
+}
+
+void Expression::toBool()
+{
+	// if the expression type is non boolean
+	if (this->type == Expression::ExprEnum::NONBOOL)
+	{
+		// generate symbol of new type and do backpatching and other required operations
+		this->falseList = make_list(quad_array.size() + 1); // update the falselist
+		emit("==", "", this->symbol->name, "0");			// emit general goto statements
+		this->trueList = make_list(quad_array.size() + 1);	// update the truelist
+		emit("goto", "");
+	}
+}
+
+size_t nextInstruction()
+{
+	return quad_array.size() + 1;
+}
+
+Symbol *gentemp(SymbolType::SymbolEnum type, const string &s)
+{
+	string &&name = "t" + to_string(temp_count++);
+	return &(current_table->symbols[name] = Symbol(name, type, s));
+}
+
+void changeTable(SymbolTable *table)
+{
+	current_table = table;
+}
+
+bool typeCheck(Symbol *&a, Symbol *&b)
+{
+	// lambda function to check if a and b are of the same type
+	function<bool(SymbolType *, SymbolType *)>
+		type_comp = [&](SymbolType *first, SymbolType *second) -> bool
+	{
+		if (not first and
+			not second)
+		{
+			return true;
+		}
+		else if (not first or
+				 not second or
+				 first->type != second->type)
+		{
+			return false;
+		}
+		else
+		{
+			return type_comp(first->array_type, second->array_type);
+		}
+	};
+	// if the types are same return true
+	if (type_comp(a->type, b->type))
+		return true;
+	// if the types are not same but can be cast safely according the rules, then cast and return
+	else if (a->type->type == SymbolType::SymbolEnum::FLOAT or
+			 b->type->type == SymbolType::SymbolEnum::FLOAT)
+	{
+		a = a->convert(SymbolType::SymbolEnum::FLOAT);
+		b = b->convert(SymbolType::SymbolEnum::FLOAT);
+		return true;
+	}
+	else if (a->type->type == SymbolType::SymbolEnum::INT or
+			 b->type->type == SymbolType::SymbolEnum::INT)
+	{
+		a = a->convert(SymbolType::SymbolEnum::INT);
+		b = b->convert(SymbolType::SymbolEnum::INT);
+		return true;
+	}
+	// return false if not possible to cast safelt to same type
+	else
+	{
+		return false;
+	}
+}
+
+int main()
+{
+	// initialization of global variables
+	table_count = 0;
+	temp_count = 0;
+	global_table = new SymbolTable("global");
+	current_table = global_table;
+	cout << left; // left allign
+
+	yyparse();
+
+	global_table->update();
+	global_table->print();
+	int ins = 1;
+
+	for (auto &&it : quad_array)
+	{
+		cout << setw(4) << ins++ << ": ";
+		it->print();
 	}
 }
