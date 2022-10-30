@@ -53,9 +53,9 @@
 %token KEY_VOID
 %token VOLATILE
 %token WHILE
-%token _BOOL
-%token _COMPLEX
-%token _IMAGINARY
+%token BOOL
+%token COMPLEX
+%token IMAGINARY
 
 %token<symbol> IDENTIFIER
 %token<intVal> INTEGER_CONSTANT
@@ -187,35 +187,35 @@
 					IDENTIFIER 
 						{
 							yyinfo("primary_expression ==> IDENTIFIER");
-							$$ = new Expression();
+							$$ = new Expression{};
 							$$->symbol = $1;
 							$$->type = Expression::NONBOOL;
 						}
 					| INTEGER_CONSTANT 
 						{
 							yyinfo("primary_expression ==> INTEGER_CONSTANT");
-							$$ = new Expression();
+							$$ = new Expression{};
 							$$->symbol = gentemp(SymbolType::SymbolEnum::INT, to_string($1));
 							emit("=", $$->symbol->name, $1);
 						}
 					| FLOATING_CONSTANT 
 						{
 							yyinfo("primary_expression ==> FLOATING_CONSTANT");
-							$$ = new Expression();
+							$$ = new Expression{};
 							$$->symbol = gentemp(SymbolType::SymbolEnum::FLOAT, $1);
 							emit("=", $$->symbol->name, $1);
 						}
 					| CHARACTER_CONSTANT 
 						{
 							yyinfo("primary_expression ==> CHARACTER_CONSTANT");
-							$$ = new Expression();
+							$$ = new Expression{};
 							$$->symbol = gentemp(SymbolType::SymbolEnum::CHAR, $1);
 							emit("=", $$->symbol->name, $1);
 						}
 					| STRING_LITERAL 
 						{
 							yyinfo("primary_expression ==> STRING_LITERAL");
-							$$ = new Expression();
+							$$ = new Expression{};
 							$$->symbol = gentemp(SymbolType::SymbolEnum::PTR, $1);
 							$$->symbol->type->array_type = new SymbolType(SymbolType::SymbolEnum::CHAR);
 						}
@@ -230,7 +230,7 @@
 					primary_expression
 						{
 							yyinfo("postfix_expression ==> primary_expression");
-							$$ = new Array();
+							$$ = new Array{};
 							$$->symbol = $1->symbol;
 							$$->temp = $$->symbol;
 							$$->sub_array_type = $1->symbol->type;
@@ -239,13 +239,13 @@
 						{
 							yyinfo("postfix_expression ==> postfix_expression [ expression ]");
 
-							$$ = new Array();
+							$$ = new Array{};
 							$$->symbol = $1->symbol;
 							$$->sub_array_type = $1->sub_array_type->arrayType;
 							$$->temp = gentemp(SymbolType::SymbolEnum::INT);
 							$$->type = Array::ARRAY;
 
-							if($1->type == Array::ARRAY)
+							if ($1->type == Array::ARRAY)
 							{
 								Symbol *sym = gentemp(SymbolType::SymbolEnum::INT);
 								emit("*", sym->name, $3->symbol->name, to_string($$->sub_array_type->getSize()));
@@ -260,7 +260,7 @@
 						{
 							yyinfo("postfix_expression ==> postfix_expression ( argument_expression_list_opt )");
 
-							$$ = new Array();
+							$$ = new Array{};
 							$$->symbol = gentemp($1->symbol->type->type);
 							emit("call", $$->symbol->name, $1->symbol->name, to_string($3));
 						}
@@ -272,7 +272,7 @@
 						{
 							yyinfo("postfix_expression ==> postfix_expression ++");
 							
-							$$ = new Array();
+							$$ = new Array{};
 							$$->symbol = gentemp($1->symbol->type->type);
 							emit("=", $$->symbol->name, $1->symbol->name);
 							emit("+", $1->symbol->name, $1->symbol->name, "1"); 
@@ -281,7 +281,7 @@
 						{
 							yyinfo("postfix_expression ==> postfix_expression --");
 							
-							$$ = new Array();
+							$$ = new Array{};
 							$$->symbol = gentemp($1->symbol->type->type);
 							emit("=", $$->symbol->name, $1->symbol->name);
 							emit("-", $1->symbol->name, $1->symbol->name, "1"); 
@@ -342,9 +342,9 @@
 						{
 							yyinfo("unary_expression ==> unary_operator cast_expression");
 
-							if(strcmp($1, "&") == 0)
+							if (strcmp($1, "&") == 0)
 							{
-								$$ = new Array();
+								$$ = new Array{};
 								$$->symbol = gentemp(SymbolType::SymbolEnum::PTR);
 								$$->symbol->type->array_type = $2->symbol->type;
 
@@ -352,7 +352,7 @@
 							}
 							else if (strcmp($1, "*") == 0)
 							{
-								$$ = new Array();
+								$$ = new Array{};
 								$$->symbol = $2->symbol;
 								$$->temp = gentemp($2->temp->type->array_type->type);
 								$$->temp->type->array_type = $2->temp->type->array_type->array_type;
@@ -366,7 +366,7 @@
 							}
 							else
 							{
-								$$ = new Array();
+								$$ = new Array{};
 								$$->symbol = gentemp($2->symbol->type->type);
 								emit($1, $$->symbol->name, $2->symbol->name);
 							}
@@ -379,44 +379,239 @@
 
 	unary_operator:
 					BITWISE_AND
-						{ yyinfo("unary_operator ==> &"); }
+						{
+							yyinfo("unary_operator ==> &");
+							strcpy($$, "&");
+						}
 					| STAR
-						{ yyinfo("unary_operator ==> *"); }
+						{
+							yyinfo("unary_operator ==> *");
+							strcpy($$, "*");
+						}
 					| PLUS
-						{ yyinfo("unary_operator ==> +"); }
+						{
+							yyinfo("unary_operator ==> +");
+							strcpy($$, "+");
+						}
 					| MINUS
-						{ yyinfo("unary_operator ==> -"); }
+						{
+							yyinfo("unary_operator ==> -");
+							strcpy($$, "minus");
+						}
 					| TILDE
-						{ yyinfo("unary_operator ==> ~"); }
+						{
+							yyinfo("unary_operator ==> ~");
+							strcpy($$, "~");
+						}
 					| EXCLAMATION
-						{ yyinfo("unary_operator ==> !"); }
+						{
+							yyinfo("unary_operator ==> !");
+							strcpy($$, "+");
+						}
 					;
 
 	cast_expression:
 					unary_expression
-						{ yyinfo("cast_expression ==> unary_expression"); }
+						{
+							yyinfo("cast_expression ==> unary_expression");
+							$$ = $1;
+						}
 					| LEFT_PARENTHESES type_name RIGHT_PARENTHESES cast_expression
-						{ yyinfo("cast_expression ==> ( type_name ) cast_expression"); }
+						{
+							yyinfo("cast_expression ==> ( type_name ) cast_expression");
+							
+							$$ = new Array{};
+							$$->symbol = $4->symbol->convert(current_type);
+						}
 					;
+
+/*
+ * In this translation step, an array goes to an expression
+ * 
+ * We first extract the base type of the array, then obtain the value, by indexing if the type is array,
+ * using the symbol name, the temporary is used to calculate the location and assign the newly generated temporary
+ * 
+ * If it is a pointer or normal array then equate the symbol
+ * 
+ * Once this is done apply the necessary operation (*, / or %) after proper type-checking
+ * 
+ * Follow the same procedure for additive and shift expressions, check types,
+ * generate temporary and store the result of the operation in the newly generated temporary
+ */
 
 	multiplicative_expression:
 					cast_expression
-						{ yyinfo("multiplicative_expression ==> cast_expression"); }
+						{
+							yyinfo("multiplicative_expression ==> cast_expression");
+
+							SymbolType *base_type = $1->symbol->type;
+							while (base_type->array_type)
+							{
+								base_type = base_type->array_type;
+							}
+
+							$$ = new Expression{};
+							if ($1->type == Array::ArrayEnum::ARRAY)
+							{
+								$$->symbol = gentemp(base_type->type);
+								emit("=[]", $$->symbol->name, $1->symbol->name, $1->temp->name);
+							}
+							else if ($1->type == Array::ArrayEnum::PTR)
+							{
+								$$->symbol = $1->temp;
+							}
+							else
+							{
+								$$->symbol = $1->symbol;
+							}
+						}
 					| multiplicative_expression STAR cast_expression
-						{ yyinfo("multiplicative_expression ==> multiplicative_expression * cast_expression"); }
+						{
+							yyinfo("multiplicative_expression ==> multiplicative_expression * cast_expression");
+							
+							SymbolType *base_type = $3->symbol->type;
+							while (base_type->arrayType)
+							{
+								base_type = base_type->arrayType;
+							}
+
+							Symbol *temp{};
+							if ($3->type == Array::ArrayEnum::ARRAY)
+							{
+								temp = gentemp(base_type->type);
+								emit("=[]", temp->name, $3->symbol->name, $3->temp->name);
+							}
+							else if ($3->type == Array::ArrayEnum::PTR)
+							{
+								temp = $3->temp;
+							}
+							else
+							{
+								temp = $3->symbol;
+							}
+
+							if (type_check($1->symbol, temp))
+							{
+								$$ = new Expression{};
+								$$->symbol = gentemp($1->symbol->type->type);
+								emit("*", $$->symbol->name, $1->symbol->name, temp->name);
+							}
+							else
+							{
+								yyerror("Type Error!");
+							}
+						}
 					| multiplicative_expression FRONT_SLASH cast_expression
-						{ yyinfo("multiplicative_expression ==> multiplicative_expression / cast_expression"); }
+						{
+							yyinfo("multiplicative_expression ==> multiplicative_expression / cast_expression");
+
+							SymbolType *base_type = $3->symbol->type;
+							while (base_type->arrayType)
+							{
+								base_type = base_type->arrayType;
+							}
+
+							Symbol *temp;
+							if ($3->type == Array::ArrayEnum::ARRAY)
+							{
+								temp = gentemp(base_type->type);
+								emit("=[]", temp->name, $3->symbol->name, $3->temp->name);
+							}
+							else if ($3->type == Array::ArrayEnum::PTR)
+							{
+								temp = $3->temp;
+							}
+							else
+							{
+								temp = $3->symbol;
+							}
+
+							if(type_check($1->symbol, temp))
+							{
+								$$ = new Expression{};
+								$$->symbol = gentemp($1->symbol->type->type);
+								emit("/", $$->symbol->name, $1->symbol->name, temp->name);
+							}
+							else
+							{
+								yyerror("Type Error!");
+							}
+						}
 					| multiplicative_expression MODULO cast_expression
-						{ yyinfo("multiplicative_expression ==> multiplicative_expression % cast_expression"); }
+						{
+							yyinfo("multiplicative_expression ==> multiplicative_expression % cast_expression");
+
+							SymbolType *base_type = $3->symbol->type;
+							while (base_type->arrayType)
+							{
+								base_type = base_type->arrayType;
+							}
+
+							Symbol *temp;
+							if ($3->type == Array::ArrayEnum::ARRAY)
+							{
+								temp = gentemp(base_type->type);
+								emit("=[]", temp->name, $3->symbol->name, $3->temp->name);
+							}
+							else if ($3->type == Array::ArrayEnum::PTR)
+							{
+								temp = $3->temp;
+							}
+							else
+							{
+								temp = $3->symbol;
+							}
+
+							if(type_check($1->symbol, temp))
+							{
+								$$ = new Expression{};
+								$$->symbol = gentemp($1->symbol->type->type);
+								emit("%", $$->symbol->name, $1->symbol->name, temp->name);
+							}
+							else
+							{
+								yyerror("Type Error!");
+							}
+						}
 					;
 
 	additive_expression:
 					multiplicative_expression
-						{ yyinfo("additive_expression ==> multiplicative_expression"); }
+						{
+							yyinfo("additive_expression ==> multiplicative_expression");
+
+							$$ = $1;
+						}
 					| additive_expression PLUS multiplicative_expression
-						{ yyinfo("additive_expression ==> additive_expression + multiplicative_expression"); }
+						{
+							yyinfo("additive_expression ==> additive_expression + multiplicative_expression");
+
+							if (type_check($1->symbol, $3->symbol))
+							{
+								$$ = new Expression{};
+								$$->symbol = gentemp($1->symbol->type->type);
+								emit("+", $$->symbol->name, $1->symbol->name, $3->symbol->name);
+							}
+							else
+							{
+								yyerror("Type Error!");
+							}
+						}
 					| additive_expression MINUS multiplicative_expression
-						{ yyinfo("additive_expression ==> additive_expression - multiplicative_expression"); }
+						{
+							yyinfo("additive_expression ==> additive_expression - multiplicative_expression");
+
+							if (type_check($1->symbol, $3->symbol))
+							{
+								$$ = new Expression{};
+								$$->symbol = gentemp($1->symbol->type->type);
+								emit("-", $$->symbol->name, $1->symbol->name, $3->symbol->name);
+							}
+							else
+							{
+								yyerror("Type Error!");
+							}
+						}
 					;
 
 	shift_expression:
@@ -612,11 +807,11 @@
 						{ yyinfo("type_specifier ==> signed"); }
 					| UNSIGNED
 						{ yyinfo("type_specifier ==> unsigned"); }
-					| _BOOL
+					| BOOL
 						{ yyinfo("type_specifier ==> _Bool"); }
-					| _COMPLEX
+					| COMPLEX
 						{ yyinfo("type_specifier ==> _Complex"); }
-					| _IMAGINARY
+					| IMAGINARY
 						{ yyinfo("type_specifier ==> _Imaginary"); }
 					| enum_specifier 
 						{ yyinfo("type_specifier ==> enum_specifier"); }
@@ -953,14 +1148,3 @@
 						{ yyinfo("declaration_list ==> declaration_list declaration"); }
 					;
 %%
-
-void yyerror(const string &s)
-{
-	printf("ERROR [Line %d] : %s\n", lineCount, s.c_str());
-}
-
-/* void yyinfo(const string &s) {
-	#ifdef _DEBUG
-		printf("INFO [Line %d] : %s\n", lineCount, s.c_str());
-	#endif
-} */

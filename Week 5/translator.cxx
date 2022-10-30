@@ -1,4 +1,4 @@
-#include "translator.h"
+#include "def.h"
 
 vector<Quad *> quad_array{};
 SymbolTable *current_table{}, *global_table{};
@@ -487,14 +487,13 @@ void changeTable(SymbolTable *table)
 	current_table = table;
 }
 
-bool typeCheck(Symbol *&a, Symbol *&b)
+bool type_check(Symbol *&a, Symbol *&b)
 {
 	// lambda function to check if a and b are of the same type
 	function<bool(SymbolType *, SymbolType *)>
 		type_comp = [&](SymbolType *first, SymbolType *second) -> bool
 	{
-		if (not first and
-			not second)
+		if (not first and not second)
 		{
 			return true;
 		}
@@ -532,6 +531,18 @@ bool typeCheck(Symbol *&a, Symbol *&b)
 	{
 		return false;
 	}
+}
+
+void yyerror(const string &s)
+{
+	printf("ERROR [Line %d] : %s\n", yylineno, s.c_str());
+}
+
+void yyinfo(const string &s)
+{
+#ifdef PARSE
+	printf("INFO [Line %d] : %s\n", yylineno, s.c_str());
+#endif
 }
 
 int main()

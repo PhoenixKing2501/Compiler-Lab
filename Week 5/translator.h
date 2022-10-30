@@ -126,7 +126,7 @@ size_t nextInstruction();
 Symbol *gentemp(SymbolType::SymbolEnum, const string & = "");
 void changeTable(SymbolTable *);
 
-bool typeCheck(Symbol *&, Symbol *&);
+bool type_check(Symbol *&, Symbol *&);
 
 extern vector<Quad *> quad_array;
 extern SymbolTable *current_table, *global_table;
