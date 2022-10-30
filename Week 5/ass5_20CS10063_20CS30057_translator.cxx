@@ -161,7 +161,7 @@ void SymbolTable::print()
 	for (auto &&map_entry : this->symbols)
 	{
 		cout << setw(20) << quoted(map_entry.first, '`')
-			 << setw(40) << quoted(/* map_entry.second.is_function ? "function" :  */map_entry.second.type->toString(), '`')
+			 << setw(40) << quoted(map_entry.second.is_function ? "function" : map_entry.second.type->toString(), '`')
 			 << setw(20) << (map_entry.second.initial_value == "" or map_entry.second.initial_value.empty() ? "" : '`' + map_entry.second.initial_value + '`')
 			 << setw(20) << quoted(to_string(map_entry.second.size), '`')
 			 << setw(20) << quoted(to_string(map_entry.second.offset), '`')

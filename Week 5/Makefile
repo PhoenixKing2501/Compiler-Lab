@@ -18,3 +18,6 @@ ass5_20CS10063_20CS30057.tab.c ass5_20CS10063_20CS30057.tab.h: ass5_20CS10063_20
 
 clean:
 	rm parser ass5_20CS10063_20CS30057_translator.o ass5_20CS10063_20CS30057.yy.* ass5_20CS10063_20CS30057.tab.* ass5_20CS10063_20CS30057.output
+
+test: parser
+	

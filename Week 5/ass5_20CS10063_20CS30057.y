@@ -1794,9 +1794,9 @@ function_definition: // modified to prevent block change
 
 			table_count = 0;
 			$2->is_function = true;
-			$2->type = new SymbolType(SymbolType::SymbolEnum::FUNC);
-			$2->initial_value = "";
-			$2->size = 0;
+			// $2->type = new SymbolType(SymbolType::SymbolEnum::FUNC);
+			// $2->initial_value = "";
+			// $2->size = 0;
 			change_table(global_table);
 		}
 	;
