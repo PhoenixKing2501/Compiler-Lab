@@ -120,7 +120,7 @@ void emit(const string &, const string &, int, const string & = "");
 
 void backpatch(const list<size_t> &list_, size_t addr);
 list<size_t> make_list(int);
-list<size_t> merge(list<size_t> &&first, list<size_t> &&second);
+list<size_t> merge_list(list<size_t> &first, list<size_t> second);
 
 size_t next_instruction();
 Symbol *gentemp(SymbolType::SymbolEnum, const string & = "");

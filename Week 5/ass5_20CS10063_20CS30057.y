@@ -876,15 +876,15 @@ inclusive_OR_expression:
 M:
 		{
 			yyinfo("M => epsilon");
-			$$ = nextInstruction();
+			$$ = next_instruction();
 		}
 	;
 
 N: 
 		{
 			yyinfo("N => epsilon");
-			$$ = new Statement();
-			$$->nextList = makeList(nextInstruction());
+			$$ = new Statement{};
+			$$->next_list = makeList(next_instruction());
 			emit("goto", "");
 		}
 	;
@@ -892,56 +892,113 @@ N:
 /*
  * The backpatching and merge being done for the next three translations is as discussed in the class
  * A conversion into BOOL is made and appropriate backpatching is carried out
+ *
  * For logical and
- * backpatch(B 1 .truelist, M.instr );
- * B.truelist = B 2 .truelist;
- * B.falselist = merge(B 1 .falselist, B 2 .falselist);
+ * backpatch(B 1 .true_list, M.instr );
+ * B.true_list = B 2 .true_list;
+ * B.false_list = merge(B 1 .false_list, B 2 .false_list);
+ *
  * For logical or
- * backpatch(B 1 .falselist, M.instr );
- * B.truelist = merge(B 1 .truelist, B 2 .truelist);
- * B.falselist = B 2 .falselist;
+ * backpatch(B 1 .false_list, M.instr );
+ * B.true_list = merge(B 1 .true_list, B 2 .true_list);
+ * B.false_list = B 2 .false_list;
+ *
  * For ? :
  * E .loc = gentemp();
  * E .type = E 2 .type; // Assume E 2 .type = E 3 .type
- * emit(E .loc ’=’ E 3 .loc); // Control gets here by fall-through
+ * emit(E .loc '=' E 3 .loc); // Control gets here by fall-through
  * l = makelist(nextinstr );
  * emit(goto .... );
  * backpatch(N 2 .nextlist, nextinstr );
- * emit(E .loc ’=’ E 2 .loc);
+ * emit(E .loc '=' E 2 .loc);
  * l = merge(l, makelist(nextinstr ));
  * emit(goto .... );
  * backpatch(N 1 .nextlist, nextinstr );
  * convInt2Bool(E 1 );
- * backpatch(E 1 .truelist, M 1 .instr );
- * backpatch(E 1 .falselist, M 2 .instr );
+ * backpatch(E 1 .true_list, M 1 .instr );
+ * backpatch(E 1 .false_list, M 2 .instr );
  * backpatch(l, nextinstr );
+ *
  */
 
 
 logical_AND_expression:
 	inclusive_OR_expression
-		{ yyinfo("logical_AND_expression ==> inclusive_OR_expression"); }
-	| logical_AND_expression LOGICAL_AND inclusive_OR_expression
-		{ yyinfo("logical_AND_expression ==> logical_AND_expression && inclusive_OR_expression"); }
+		{
+			yyinfo("logical_AND_expression ==> inclusive_OR_expression");
+			$$ = $1;
+		}
+	| logical_AND_expression LOGICAL_AND M inclusive_OR_expression
+		{
+			yyinfo("logical_AND_expression ==> logical_AND_expression && inclusive_OR_expression");
+
+			$1->to_bool();
+			$4->to_bool();
+			$$ = new Expression{};
+			$$->type = Expression::ExprEnum::BOOL;
+			backpatch($1->true_list, $3);
+			$$->true_list = $4->true_list;
+			$$->false_list = merge_list($1->false_list, $4->false_list);
+		}
 	;
 
 logical_OR_expression:
 	logical_AND_expression
-		{ yyinfo("logical_OR_expression ==> logical_AND_expression"); }
-	| logical_OR_expression LOGICAL_OR logical_AND_expression
-		{ yyinfo("logical_OR_expression ==> logical_OR_expression || logical_AND_expression"); }
+		{
+			yyinfo("logical_OR_expression ==> logical_AND_expression");
+			$$ = $1;
+		}
+	| logical_OR_expression LOGICAL_OR M logical_AND_expression
+		{
+			yyinfo("logical_OR_expression ==> logical_OR_expression || logical_AND_expression");
+
+			$1->to_bool();
+			$4->to_bool();
+			$$ = new Expression{};
+			$$->type = Expression::ExprEnum::BOOL;
+			backpatch($1->false_list, $3);
+			$$->true_list = merge_list($1->true_list, $4->true_list);
+			$$->false_list = $4->false_list;
+		}
 	;
 
 conditional_expression:
 	logical_OR_expression
-		{ yyinfo("conditional_expression ==> logical_OR_expression"); }
-	| logical_OR_expression QUESTION_MARK expression COLON conditional_expression
-		{ yyinfo("conditional_expression ==> logical_OR_expression ? expression : conditional_expression"); }
+		{
+			yyinfo("conditional_expression ==> logical_OR_expression");
+			$$ = $1;
+		}
+	| logical_OR_expression N QUESTION_MARK M expression N COLON M conditional_expression
+		{
+			yyinfo("conditional_expression ==> logical_OR_expression ? expression : conditional_expression");
+
+			$$->symbol = gentemp($5->symbol->type->type);
+			emit("=", $$->symbol->name, $9->symbol->name);
+
+			list<size_t> l = make_list(next_instruction());
+			emit("goto", "");
+
+			backpatch($6->next_list, next_instruction());
+			emit("=", $$->symbol->name, $5->symbol->name);
+
+			l = merge_list(l, make_list(next_instruction()));
+			emit("goto", "");
+
+			backpatch($2->next_list, next_instruction());
+			$1->toBool();
+
+			backpatch($1->true_list, $4);
+			backpatch($1->false_list, $8);
+			backpatch(l, next_instruction());
+		}
 	;
 
 assignment_expression:
 	conditional_expression
-		{ yyinfo("assignment_expression ==> conditional_expression"); }
+		{
+			yyinfo("assignment_expression ==> conditional_expression");
+			$$ = $1;
+		}
 	| unary_expression assignment_operator assignment_expression
 		{ yyinfo("assignment_expression ==> unary_expression assignment_operator assignment_expression"); }
 	;

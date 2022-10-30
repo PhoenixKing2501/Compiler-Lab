@@ -435,7 +435,7 @@ list<size_t> make_list(size_t base)
 	return {base};
 }
 
-list<size_t> merge(list<size_t> &&first, list<size_t> &&second)
+list<size_t> merge_list(list<size_t> &first, list<size_t> second)
 {
 	// merge two lists
 	list<size_t> ret = move(first);
@@ -555,6 +555,9 @@ int main()
 	cout << left; // left allign
 
 	yyparse();
+
+	list<size_t> l1, l2;
+	l2 = merge_list(l1, make_list(next_instruction()));
 
 	global_table->update();
 	global_table->print();
