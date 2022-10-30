@@ -149,7 +149,7 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 {CHAR_CONST}				{ strcpy(yylval.charVal, yytext);					return CHARACTER_CONSTANT; }
 {STRING_LITERAL}			{ strcpy(yylval.stringVal, yytext);					return STRING_LITERAL; }
 [ \t]						{;}
-[\r]?[\n]					{ printf("\n"); }
+[\r]?[\n]					{;}
 .							{ printf("Unknown token on line %d: %s\n", yylineno, yytext); return YYUNDEF; }
 
 %%

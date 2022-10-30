@@ -3,18 +3,16 @@
 #ifndef _TRANSLATOR_H_
 #define _TRANSLATOR_H_
 
-// #include <cstring>
-// #include <functional>
-// #include <iomanip>
-// #include <iostream>
-// #include <list>
-// #include <map>
-// #include <string>
-// #include <vector>
-// #include <cstdio>
-// #include <cstdlib>
-
-#include <bits/stdc++.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -71,7 +69,7 @@ struct Symbol
 	bool is_function{};
 
 	// Symbol() = default;
-	Symbol(const string & = "", SymbolType::SymbolEnum = SymbolType::SymbolEnum::INT, const string & = "");
+	Symbol(const string & = "", SymbolType::SymbolEnum = SymbolType::SymbolEnum::VOID, const string & = "");
 	Symbol *update(SymbolType *);
 	Symbol *convert(SymbolType::SymbolEnum);
 };

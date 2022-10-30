@@ -143,8 +143,8 @@ void SymbolTable::print()
 	cout << setw(20) << "Name"
 		 << setw(40) << "Type"
 		 << setw(20) << "Initial Value"
-		 << setw(20) << "Offset"
 		 << setw(20) << "Size"
+		 << setw(20) << "Offset"
 		 << setw(20) << "Child"
 		 << '\n';
 
@@ -160,12 +160,12 @@ void SymbolTable::print()
 
 	for (auto &&map_entry : this->symbols)
 	{
-		cout << setw(20) << '`' + map_entry.first + '`'
-			 << setw(40) << '`' + (map_entry.second.is_function ? "function" : map_entry.second.type->toString()) + '`'
+		cout << setw(20) << quoted(map_entry.first, '`')
+			 << setw(40) << quoted(/* map_entry.second.is_function ? "function" :  */map_entry.second.type->toString(), '`')
 			 << setw(20) << (map_entry.second.initial_value == "" or map_entry.second.initial_value.empty() ? "" : '`' + map_entry.second.initial_value + '`')
-			 << setw(20) << '`' + to_string(map_entry.second.offset) + '`'
-			 << setw(20) << '`' + to_string(map_entry.second.size) + '`'
-			 << setw(20) << '`' + (map_entry.second.nested_table ? map_entry.second.nested_table->name : "NULL") + '`'
+			 << setw(20) << quoted(to_string(map_entry.second.size), '`')
+			 << setw(20) << quoted(to_string(map_entry.second.offset), '`')
+			 << setw(20) << quoted(map_entry.second.nested_table ? map_entry.second.nested_table->name : "NULL", '`')
 			 << '\n';
 
 		if (map_entry.second.nested_table)
@@ -174,7 +174,7 @@ void SymbolTable::print()
 		}
 	}
 
-	cout << string(140, '*') << "\n\n";
+	cout << string(140, '*') << string(4, '\n');
 
 	for (auto &&table : tovisit)
 	{
@@ -184,7 +184,7 @@ void SymbolTable::print()
 
 Symbol::Symbol(const string &name_, SymbolType::SymbolEnum type_, const string &init)
 	: name(name_), offset(0), type(new SymbolType(type_)),
-	  nested_table(nullptr), initial_value(init), is_function(false)
+	  nested_table(nullptr), initial_value(init)
 {
 	this->size = this->type->getSize();
 }
@@ -293,7 +293,7 @@ void Quad::print()
 		cout << "\tif " << this->arg1
 			 << " " << this->op
 			 << " " << this->arg2
-			 << " goto " << this->result
+			 << " goto L" << this->result
 			 << '\n';
 	};
 
@@ -303,7 +303,7 @@ void Quad::print()
 		cout << "\t" << this->result
 			 << " " << this->op[0]
 			 << " " << this->op[1]
-			 << this->arg1 
+			 << this->arg1
 			 << '\n';
 	};
 
@@ -325,7 +325,7 @@ void Quad::print()
 	}
 	else if (this->op == "goto")
 	{
-		cout << "\tgoto " << this->result
+		cout << "\tgoto L" << this->result
 			 << '\n';
 	}
 	else if (this->op == "return")
@@ -560,11 +560,11 @@ int main()
 
 	global_table->update();
 	global_table->print();
-	int ins = 1;
+	int ins{};
 
 	for (auto &&it : quad_array)
 	{
-		cout << setw(4) << ins++ << ": ";
+		cout << setw(6) << "L" + to_string(++ins) << ":\t";
 		it->print();
 	}
 }
