@@ -1646,22 +1646,104 @@ expression_opt:
 		}
 	;
 
+/*
+ * IF ELSE
+ * -> the %prec THEN is to remove conflicts during translation
+ *
+ * Markers M and guard N have been added as discussed in the class
+ * S -> if (B) M S1 N
+ * backpatch(B.truelist, M.instr )
+ * S.nextlist = merge(B.falselist, merge(S1.nextlist, N.nextlist))
+ *
+ * S -> if (B) M 1 S 1 N else M 2 S 2
+ * backpatch(B.truelist, M1.instr )
+ * backpatch(B.falselist, M2.instr )
+ * S.nextlist = merge(merge(S1.nextlist, N.nextlist), S2 .nextlist)
+ *
+ */
+
 selection_statement:
-	IF LEFT_PARENTHESES expression RIGHT_PARENTHESES statement
-		{ yyinfo("selection_statement ==> if ( expression ) statement"); }
-	| IF LEFT_PARENTHESES expression RIGHT_PARENTHESES statement ELSE statement
-		{ yyinfo("selection_statement ==> if ( expression ) statement else statement"); }
+	IF LEFT_PARENTHESES expression RIGHT_PARENTHESES M statement N %prec THEN
+		{
+			yyinfo("selection_statement ==> if ( expression ) statement");
+
+			$$ = new Statement{};
+			$3->to_bool();
+			backpatch($3->true_list, $5);
+			$$->next_list = merge_list($3->false_list, merge_list($6->next_list, $7->next_list));
+		}
+	| IF LEFT_PARENTHESES expression RIGHT_PARENTHESES M statement N ELSE M statement
+		{
+			yyinfo("selection_statement ==> if ( expression ) statement else statement");
+
+			$$ = new Statement{};
+			$3->to_bool();
+			backpatch($3->true_list, $5); // if true go to M
+			backpatch($3->false_list, $9); // if false go to else
+			$$->next_list = merge_list($10->next_list, merge_list($6->next_list, $7->next_list));
+		}
 	| SWITCH LEFT_PARENTHESES expression RIGHT_PARENTHESES statement
 		{ yyinfo("selection_statement ==> switch ( expression ) statement"); }
 	;
 
+
+/*
+ * LOOPS
+ *
+ * while M1 (B) M2 S1
+ * backpatch(S1.nextlist, M1.instr );
+ * backpatch(B.truelist, M2.instr );
+ * S.nextlist = B.falselist;
+ * emit(”goto”, M1.instr );
+ *
+ * do M1 S1 M2 while ( B );
+ * backpatch(B.truelist, M1.instr );
+ * backpatch(S1 .nextlist, M2.instr );
+ * S.nextlist = B.falselist;
+ *
+ * for ( E1 ; M1 B ; M2 E2 N ) M3 S1
+ * backpatch(B.truelist, M3.instr );
+ * backpatch(N.nextlist, M1.instr );
+ * backpatch(S1.nextlist, M2.instr );
+ * emit(”goto” M2.instr );
+ * S.nextlist = B.falselist;
+ *
+ */
+
 iteration_statement:
-	WHILE LEFT_PARENTHESES expression RIGHT_PARENTHESES statement
-		{ yyinfo("iteration_statement ==> while ( expression ) statement"); }
-	| DO statement WHILE LEFT_PARENTHESES expression RIGHT_PARENTHESES SEMI_COLON
-		{ yyinfo("iteration_statement ==> do statement while ( expression ) ;"); }
-	| FOR LEFT_PARENTHESES expression_opt SEMI_COLON expression_opt SEMI_COLON expression_opt RIGHT_PARENTHESES statement
-		{ yyinfo("iteration_statement ==> for ( expression_opt ; expression_opt ; expression_opt ) statement"); }
+	WHILE M LEFT_PARENTHESES expression RIGHT_PARENTHESES M statement
+		{
+			yyinfo("iteration_statement ==> while ( expression ) statement");
+
+			$$ = new Statement{};
+			$4->to_bool();
+			backpatch($7->next_list, $2); // after statement go back to M1
+			backpatch($4->true_list, $6); // if true go to M2
+			$$->next_list = $4->false_list; // exit if false
+			emit("goto", to_string($2));
+		}
+	| DO M statement M WHILE LEFT_PARENTHESES expression RIGHT_PARENTHESES SEMI_COLON
+		{
+			yyinfo("iteration_statement ==> do statement while ( expression ) ;");
+
+			$$ = new Statement{};
+			$7->to_bool();
+			backpatch($7->true_list, $2); // if true go back to M1
+			backpatch($3->next_list, $4); // after statement is executed go to M2
+			$$->next_list = $7->false_list;
+		}
+	| FOR LEFT_PARENTHESES expression_opt SEMI_COLON M expression_opt SEMI_COLON M expression_opt N RIGHT_PARENTHESES M statement
+		{
+			yyinfo("iteration_statement ==> for ( expression_opt ; expression_opt ; expression_opt ) statement");
+
+			$$ = new Statement{};
+			$6->to_bool();
+			backpatch($6->true_list, $12); // if true go to M3 (loop body)
+			backpatch($10->next_list, $5); // after N go to M1 (condition check)
+			backpatch($13->next_list, $8); // after S1 (loop body) go to M2 (increment/decrement/any other operation)
+			emit("goto", to_string($8));
+			$$->next_list = $6->false_list;
+		}
 	| FOR LEFT_PARENTHESES declaration expression_opt SEMI_COLON expression_opt RIGHT_PARENTHESES statement
 		{ yyinfo("iteration_statement ==> for ( declaration expression_opt ; expression_opt ) statement"); }
 	;
@@ -1674,7 +1756,19 @@ jump_statement:
 	| BREAK SEMI_COLON
 		{ yyinfo("jump_statement ==> break ;"); }
 	| RETURN expression_opt SEMI_COLON
-		{ yyinfo("jump_statement ==> return expression_opt ;"); }
+		{
+			yyinfo("jump_statement ==> return expression_opt ;");
+
+			$$ = new Statement{};
+			if($2->symbol)
+			{
+				emit("return", $2->symbol->name); // emit the current symbol name at return if it exists otherwise empty
+			}
+			else
+			{
+				emit("return", "");
+			}
+		}
 	;
 
 /* External definitions */
@@ -1693,9 +1787,15 @@ external_declaration:
 		{ yyinfo("external_declaration ==> declaration"); }
 	;
 
-function_definition:
-	declaration_specifiers declarator declaration_list_opt compound_statement
-		{ yyinfo("function_definition ==> declaration_specifiers declarator declaration_list_opt compound_statement"); }
+function_definition: // modified to prevent block change
+	declaration_specifiers declarator declaration_list_opt change_scope LEFT_BRACE block_item_list_opt RIGHT_BRACE
+		{
+			yyinfo("function_definition ==> declaration_specifiers declarator declaration_list_opt { block_item_list_opt }");
+
+			table_count = 0;
+			$2->is_function = true;
+			change_table(global_table);
+		}
 	;
 
 declaration_list_opt:
