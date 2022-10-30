@@ -545,6 +545,11 @@ void yyinfo(const string &s)
 #endif
 }
 
+int yywrap(void)
+{
+	return 1;
+}
+
 int main()
 {
 	// initialization of global variables

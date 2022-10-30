@@ -2,8 +2,6 @@
 	/* C headers */
 	#include "def.h"
 	#include "ass5_20CS10063_20CS30057.tab.h"
-
-	#include <string.h>
 %}
 
 %option yylineno
@@ -129,12 +127,12 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 
 								while(1)
 								{
-									while ((c = input()) != '*' && c != EOF)
+									while ((c = yyinput()) != '*' && c != EOF)
 										;	/* eat up text of comment */
 
 									if (c == '*')
 									{
-										while ((c = input()) == '*')
+										while ((c = yyinput()) == '*')
 											;
 
 										if (c == '/')
@@ -145,11 +143,11 @@ STRING_LITERAL				\"{S_CHAR_SEQ}\"
 								}
 							}
 
-{IDENTIFIER}				{ yylval.symbol = currentTable->lookup(yytext);	return IDENTIFIER; }
-{INT_CONST}					{ yylval.intVal = atoi(yytext);					return INTEGER_CONSTANT; }
-{FLOAT_CONST}				{ strcpy(yylval.floatVal, yytext);				return FLOATING_CONSTANT; }
-{CHAR_CONST}				{ strcpy(yylval.charVal, yytext);				return CHARACTER_CONSTANT; }
-{STRING_LITERAL}			{ strcpy(yylval.stringVal, yytext);				return STRING_LITERAL; }
+{IDENTIFIER}				{ yylval.symbol = current_table->lookup(yytext);	return IDENTIFIER; }
+{INT_CONST}					{ yylval.intVal = atoi(yytext);						return INTEGER_CONSTANT; }
+{FLOAT_CONST}				{ strcpy(yylval.floatVal, yytext);					return FLOATING_CONSTANT; }
+{CHAR_CONST}				{ strcpy(yylval.charVal, yytext);					return CHARACTER_CONSTANT; }
+{STRING_LITERAL}			{ strcpy(yylval.stringVal, yytext);					return STRING_LITERAL; }
 [ \t]						{;}
 [\r]?[\n]					{ printf("\n"); }
 .							{ printf("Unknown token on line %d: %s\n", yylineno, yytext); return YYUNDEF; }

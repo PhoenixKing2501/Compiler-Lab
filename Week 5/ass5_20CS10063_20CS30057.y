@@ -1,6 +1,5 @@
 %{
 	#include "def.h"
-	#include <stdio.h>
 %}
 
 %union {
@@ -112,7 +111,6 @@
 %token BITWISE_XOR
 
 %nonassoc RIGHT_PARENTHESES
-%nonassoc ELSE
 
 %start translation_unit
 %right THEN ELSE
@@ -170,7 +168,7 @@
 
 // Symbol
 %type<symbol>
-	initialiser
+	initializer
 	direct_declarator
 	init_declarator
 	declarator
@@ -189,7 +187,7 @@ primary_expression:
 			yyinfo("primary_expression ==> IDENTIFIER");
 			$$ = new Expression{};
 			$$->symbol = $1;
-			$$->type = Expression::NONBOOL;
+			$$->type = Expression::ExprEnum::NONBOOL;
 		}
 	| INTEGER_CONSTANT 
 		{
@@ -241,11 +239,11 @@ postfix_expression:
 
 			$$ = new Array{};
 			$$->symbol = $1->symbol;
-			$$->sub_array_type = $1->sub_array_type->arrayType;
+			$$->sub_array_type = $1->sub_array_type->array_type;
 			$$->temp = gentemp(SymbolType::SymbolEnum::INT);
-			$$->type = Array::ARRAY;
+			$$->type = Array::ArrayEnum::ARRAY;
 
-			if ($1->type == Array::ARRAY)
+			if ($1->type == Array::ArrayEnum::ARRAY)
 			{
 				Symbol *sym = gentemp(SymbolType::SymbolEnum::INT);
 				emit("*", sym->name, $3->symbol->name, to_string($$->sub_array_type->getSize()));
@@ -265,9 +263,9 @@ postfix_expression:
 			emit("call", $$->symbol->name, $1->symbol->name, to_string($3));
 		}
 	| postfix_expression DOT IDENTIFIER
-		{ yyinfo("postfix_expression ==> postfix_expression . IDENTIFIER"); printf("IDENTIFIER = `%s`\n", $3); }
+		{ yyinfo("postfix_expression ==> postfix_expression . IDENTIFIER"); }
 	| postfix_expression ARROW IDENTIFIER
-		{ yyinfo("postfix_expression ==> postfix_expression -> IDENTIFIER"); printf("IDENTIFIER = `%s`\n", $3); }
+		{ yyinfo("postfix_expression ==> postfix_expression -> IDENTIFIER"); }
 	| postfix_expression INCREMENT
 		{
 			yyinfo("postfix_expression ==> postfix_expression ++");
@@ -470,9 +468,9 @@ multiplicative_expression:
 			yyinfo("multiplicative_expression ==> multiplicative_expression * cast_expression");
 
 			SymbolType *base_type = $3->symbol->type;
-			while (base_type->arrayType)
+			while (base_type->array_type)
 			{
-				base_type = base_type->arrayType;
+				base_type = base_type->array_type;
 			}
 
 			Symbol *temp{};
@@ -506,9 +504,9 @@ multiplicative_expression:
 			yyinfo("multiplicative_expression ==> multiplicative_expression / cast_expression");
 
 			SymbolType *base_type = $3->symbol->type;
-			while (base_type->arrayType)
+			while (base_type->array_type)
 			{
-				base_type = base_type->arrayType;
+				base_type = base_type->array_type;
 			}
 
 			Symbol *temp;
@@ -542,9 +540,9 @@ multiplicative_expression:
 			yyinfo("multiplicative_expression ==> multiplicative_expression % cast_expression");
 
 			SymbolType *base_type = $3->symbol->type;
-			while (base_type->arrayType)
+			while (base_type->array_type)
 			{
-				base_type = base_type->arrayType;
+				base_type = base_type->array_type;
 			}
 
 			Symbol *temp;
@@ -884,7 +882,7 @@ N:
 		{
 			yyinfo("N => epsilon");
 			$$ = new Statement{};
-			$$->next_list = makeList(next_instruction());
+			$$->next_list = make_list(next_instruction());
 			emit("goto", "");
 		}
 	;
@@ -985,7 +983,7 @@ conditional_expression:
 			emit("goto", "");
 
 			backpatch($2->next_list, next_instruction());
-			$1->toBool();
+			$1->to_bool();
 
 			backpatch($1->true_list, $4);
 			backpatch($1->false_list, $8);
@@ -1124,9 +1122,9 @@ init_declarator:
 			yyinfo("init_declarator ==> declarator = initializer");
 
 			// if there is some initial value assign it 
-			if($3->initialValue != "") 
+			if ($3->initial_value != "") 
 			{
-				$1->initialValue = $3->initialValue;
+				$1->initial_value = $3->initial_value;
 			}
 			
 			// = assignment
@@ -1149,26 +1147,26 @@ type_specifier:
 	KEY_VOID
 		{
 			yyinfo("type_specifier ==> void");
-			currnt_type = SymbolTable::SymbolEnum::VOID;
+			current_type = SymbolType::SymbolEnum::VOID;
 		}
 	| KEY_CHAR
 		{
 			yyinfo("type_specifier ==> char");
-			currnt_type = SymbolTable::SymbolEnum::CHAR;
+			current_type = SymbolType::SymbolEnum::CHAR;
 		}
 	| SHORT
 		{ yyinfo("type_specifier ==> short"); }
 	| KEY_INT
 		{
 			yyinfo("type_specifier ==> int");
-			currnt_type = SymbolTable::SymbolEnum::INT;
+			current_type = SymbolType::SymbolEnum::INT;
 		}
 	| LONG
 		{ yyinfo("type_specifier ==> long"); }
 	| KEY_FLOAT
 		{
 			yyinfo("type_specifier ==> float");
-			currnt_type = SymbolTable::SymbolEnum::FLOAT;
+			current_type = SymbolType::SymbolEnum::FLOAT;
 		}
 	| DOUBLE
 		{ yyinfo("type_specifier ==> double"); }
@@ -1206,12 +1204,12 @@ enum_specifier:
 	| ENUM identifier_opt LEFT_BRACE enumerator_list COMMA RIGHT_BRACE
 		{ yyinfo("enum_specifier ==> enum identifier_opt { enumerator_list , }"); }
 	| ENUM IDENTIFIER
-		{ yyinfo("enum_specifier ==> enum IDENTIFIER"); printf("IDENTIFIER = `%s`\n", $2); }
+		{ yyinfo("enum_specifier ==> enum IDENTIFIER"); }
 	;
 
 identifier_opt:
 	IDENTIFIER 
-		{ yyinfo("identifier_opt ==> IDENTIFIER"); printf("IDENTIFIER = `%s`\n", $1); }
+		{ yyinfo("identifier_opt ==> IDENTIFIER"); }
 	| 
 		{ yyinfo("identifier_opt ==> epsilon"); }
 	;
@@ -1227,9 +1225,9 @@ enumerator_list:
 
 enumerator:
 	IDENTIFIER 
-		{ yyinfo("enumerator ==> ENUMERATION_CONSTANT"); printf("ENUMERATION_CONSTANT = `%s`\n", $1); }
+		{ yyinfo("enumerator ==> ENUMERATION_CONSTANT"); }
 	| IDENTIFIER ASSIGNMENT constant_expression
-		{ yyinfo("enumerator ==> ENUMERATION_CONSTANT = constant_expression"); printf("ENUMERATION_CONSTANT = `%s`\n", $1); }
+		{ yyinfo("enumerator ==> ENUMERATION_CONSTANT = constant_expression"); }
 	;
 
 type_qualifier:
@@ -1252,7 +1250,7 @@ declarator:
 			yyinfo("declarator ==> pointer direct_declarator");
 
 			SymbolType *it = $1;
-			while(it->array_type)
+			while (it->array_type)
 			{
 				it = it->array_type;
 			}
@@ -1266,7 +1264,7 @@ declarator:
 
 change_scope:
 		{
-			if(not current_symbol->nested_table)
+			if (not current_symbol->nested_table)
 			{
 				change_table(new SymbolTable(""));
 			}
@@ -1291,7 +1289,7 @@ direct_declarator:
 		{
 			yyinfo("direct_declarator ==> IDENTIFIER");
 			$$ = $1->update(new SymbolType(current_type)); // update type to the last type seen
-			currentSymbol = $$;
+			current_symbol = $$;
 		}
 	| LEFT_PARENTHESES declarator RIGHT_PARENTHESES
 		{
@@ -1308,16 +1306,16 @@ direct_declarator:
 
 			SymbolType *it1 = $1->type, *it2 = NULL;
 
-			while(it1->type == SymbolType::SymbolEnum::ARRAY)
+			while (it1->type == SymbolType::SymbolEnum::ARRAY)
 			{
 				// go to the base level of a nested type
 				it2 = it1;
-				it1 = it1->arrayType;
+				it1 = it1->array_type;
 			}
-			if(it2)
+			if (it2)
 			{ 
 				// nested array case
-				it2->arrayType = new SymbolType(SymbolType::SymbolEnum::ARRAY, it1, stoull($3->symbol->initial_value.c_str()));	
+				it2->array_type = new SymbolType(SymbolType::SymbolEnum::ARRAY, it1, stoull($3->symbol->initial_value.c_str()));	
 				$$ = $1->update($1->type);
 			}
 			else
@@ -1332,16 +1330,16 @@ direct_declarator:
 
 			SymbolType *it1 = $1->type, *it2 = NULL;
 
-			while(it1->type == SymbolType::SymbolEnum::ARRAY)
+			while (it1->type == SymbolType::SymbolEnum::ARRAY)
 			{
 				// go to the base level of a nested type
 				it2 = it1;
-				it1 = it1->arrayType;
+				it1 = it1->array_type;
 			}
-			if(it2)
+			if (it2)
 			{ 
 				// nested array case
-				it2->arrayType = new SymbolType(SymbolType::SymbolEnum::ARRAY, it1, 0);
+				it2->array_type = new SymbolType(SymbolType::SymbolEnum::ARRAY, it1, 0);
 				$$ = $1->update($1->type);
 			}
 			else
@@ -1356,15 +1354,17 @@ direct_declarator:
 		{ yyinfo("direct_declarator ==> direct_declarator [ assignment_expression ]"); }
 	| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list STATIC assignment_expression RIGHT_SQUARE_BRACKET
 		{ yyinfo("direct_declarator ==> direct_declarator [ type_qualifier_list static assignment_expression ]"); }
-	| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list_opt STAR RIGHT_SQUARE_BRACKET
-		{ yyinfo("direct_declarator ==> direct_declarator [ type_qualifier_list_opt * ]"); }
+	| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list STAR RIGHT_SQUARE_BRACKET
+		{ yyinfo("direct_declarator ==> direct_declarator [ type_qualifier_list * ]"); }
+	| direct_declarator LEFT_SQUARE_BRACKET STAR RIGHT_SQUARE_BRACKET
+		{ yyinfo("direct_declarator ==> direct_declarator [ * ]"); }
 	| direct_declarator LEFT_PARENTHESES change_scope parameter_type_list RIGHT_PARENTHESES
 		{
 			yyinfo("direct_declarator ==> direct_declarator ( parameter_type_list )");
 
 			// function declaration
 			current_table->name = $1->name;
-			if($1->type->type != SymbolType::SymboEnum::VOID)
+			if ($1->type->type != SymbolType::SymbolEnum::VOID)
 			{
 				// set type of return value
 				current_table->lookup("return")->update($1->type);
@@ -1382,7 +1382,7 @@ direct_declarator:
 			yyinfo("direct_declarator => direct_declarator ( )");
 
 			current_table->name = $1->name;
-			if($1->type->type != SymbolType::SymbolEnum::VOID) {
+			if ($1->type->type != SymbolType::SymbolEnum::VOID) {
 				// set type of return value
 				current_table->lookup("return")->update($1->type);
 			}
@@ -1421,12 +1421,12 @@ pointer:
 	STAR type_qualifier_list_opt
 		{
 			yyinfo("pointer ==> * type_qualifier_list_opt");
-			$$ = new SymbolType(SymbolType::SymbolEnum::POINTER);
+			$$ = new SymbolType(SymbolType::SymbolEnum::PTR);
 		}
 	| STAR type_qualifier_list_opt pointer
 		{
 			yyinfo("pointer ==> * type_qualifier_list_opt pointer"); 
-			$$ = new SymbolType(SymbolType::SymbolEnum::POINTER, $3)
+			$$ = new SymbolType(SymbolType::SymbolEnum::PTR, $3);
 		}
 	;
 
@@ -1460,9 +1460,9 @@ parameter_declaration:
 
 identifier_list:
 	IDENTIFIER 
-		{ yyinfo("identifier_list ==> IDENTIFIER"); printf("IDENTIFIER = `%s`\n", $1); }
+		{ yyinfo("identifier_list ==> IDENTIFIER"); }
 	| identifier_list COMMA IDENTIFIER
-		{ yyinfo("identifier_list ==> identifier_list , IDENTIFIER"); printf("IDENTIFIER = `%s`\n", $3); }
+		{ yyinfo("identifier_list ==> identifier_list , IDENTIFIER"); }
 	;
 
 type_name:
@@ -1512,7 +1512,7 @@ designator:
 	LEFT_SQUARE_BRACKET constant_expression RIGHT_SQUARE_BRACKET
 		{ yyinfo("designator ==> [ constant_expression ]"); }
 	| DOT IDENTIFIER
-		{ yyinfo("designator ==> . IDENTIFIER"); printf("IDENTIFIER = `%s`\n", $2); }
+		{ yyinfo("designator ==> . IDENTIFIER"); }
 	;
 
 /* Statements */
@@ -1551,7 +1551,7 @@ statement:
 
 labeled_statement:
 	IDENTIFIER COLON statement
-		{ yyinfo("labeled_statement ==> IDENTIFIER : statement"); printf("IDENTIFIER = `%s`\n", $1); }
+		{ yyinfo("labeled_statement ==> IDENTIFIER : statement"); }
 	| CASE constant_expression COLON statement
 		{ yyinfo("labeled_statement ==> case constant_expression : statement"); } 
 	| DEFAULT COLON statement
@@ -1570,7 +1570,7 @@ change_block:
 			table_count++;
 			Symbol *s = current_table->lookup(name); // create new entry in symbol table
 			s->nested_table = new SymbolTable(name, current_table);
-			s->type = new SymbolType(SymbolType::BLOCK);
+			s->type = new SymbolType(SymbolType::SymbolEnum::BLOCK);
 			current_symbol = s;
 		} 
 	;
@@ -1580,7 +1580,7 @@ compound_statement:
 		{
 			yyinfo("compound_statement ==> { block_item_list_opt }");
 			$$ = $4;
-			changeTable(currentTable->parent); // block over, move back to the parent table
+			change_table(current_table->parent); // block over, move back to the parent table
 		}
 	;
 
@@ -1603,7 +1603,7 @@ block_item_list:
 			yyinfo("block_item_list ==> block_item");
 			$$ = $1;
 		}
-	| block_item_list block_item
+	| block_item_list M block_item
 		{
 			yyinfo("block_item_list ==> block_item_list block_item");
 			$$ = $3;
@@ -1750,7 +1750,7 @@ iteration_statement:
 
 jump_statement:
 	GOTO IDENTIFIER SEMI_COLON
-		{ yyinfo("jump_statement ==> goto IDENTIFIER ;"); printf("IDENTIFIER = `%s`\n", $2); }    
+		{ yyinfo("jump_statement ==> goto IDENTIFIER ;"); }
 	| CONTINUE SEMI_COLON
 		{ yyinfo("jump_statement ==> continue ;"); }
 	| BREAK SEMI_COLON
@@ -1760,7 +1760,7 @@ jump_statement:
 			yyinfo("jump_statement ==> return expression_opt ;");
 
 			$$ = new Statement{};
-			if($2->symbol)
+			if ($2->symbol)
 			{
 				emit("return", $2->symbol->name); // emit the current symbol name at return if it exists otherwise empty
 			}
