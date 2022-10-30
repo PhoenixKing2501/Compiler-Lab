@@ -443,30 +443,30 @@ list<size_t> merge(list<size_t> &&first, list<size_t> &&second)
 	return ret;
 }
 
-void Expression::toInt()
+void Expression::to_int()
 {
 	// if the expression type is boolean
 	if (this->type == Expression::ExprEnum::BOOL)
 	{
 		// generate symbol of new type and do backpatching and other required operations
 		this->symbol = gentemp(SymbolType::SymbolEnum::INT);
-		backpatch(this->trueList, (quad_array.size() + 1));	 // update the true list
-		emit("=", this->symbol->name, "true");				 // emit the quad
-		emit("goto", to_string(quad_array.size() + 2));		 // emit the goto quad
-		backpatch(this->falseList, (quad_array.size() + 1)); // update the false list
+		backpatch(this->true_list, (quad_array.size() + 1));  // update the true list
+		emit("=", this->symbol->name, "true");				  // emit the quad
+		emit("goto", to_string(quad_array.size() + 2));		  // emit the goto quad
+		backpatch(this->false_list, (quad_array.size() + 1)); // update the false list
 		emit("=", this->symbol->name, "false");
 	}
 }
 
-void Expression::toBool()
+void Expression::to_bool()
 {
 	// if the expression type is non boolean
 	if (this->type == Expression::ExprEnum::NONBOOL)
 	{
 		// generate symbol of new type and do backpatching and other required operations
-		this->falseList = make_list(quad_array.size() + 1); // update the falselist
-		emit("==", "", this->symbol->name, "0");			// emit general goto statements
-		this->trueList = make_list(quad_array.size() + 1);	// update the truelist
+		this->false_list = make_list(quad_array.size() + 1); // update the false_list
+		emit("==", "", this->symbol->name, "0");			 // emit general goto statements
+		this->true_list = make_list(quad_array.size() + 1);	 // update the true_list
 		emit("goto", "");
 	}
 }

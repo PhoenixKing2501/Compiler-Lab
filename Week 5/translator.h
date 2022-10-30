@@ -91,10 +91,10 @@ struct Expression
 		BOOL,
 	} type{};
 
-	list<size_t> trueList{}, falseList{}, nextList{};
+	list<size_t> true_list{}, false_list{}, next_list{};
 
-	void toInt();
-	void toBool();
+	void to_int();
+	void to_bool();
 };
 
 struct Array
@@ -112,7 +112,7 @@ struct Array
 
 struct Statement
 {
-	list<size_t> nextList{};
+	list<size_t> next_list{};
 };
 
 void emit(const string &, const string &, const string & = "", const string & = "");
@@ -122,7 +122,7 @@ void backpatch(const list<size_t> &list_, size_t addr);
 list<size_t> make_list(int);
 list<size_t> merge(list<size_t> &&first, list<size_t> &&second);
 
-size_t nextInstruction();
+size_t next_instruction();
 Symbol *gentemp(SymbolType::SymbolEnum, const string & = "");
 void changeTable(SymbolTable *);
 
