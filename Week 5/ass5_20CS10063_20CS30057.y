@@ -1264,7 +1264,7 @@ declarator:
 		{ yyinfo("declarator ==> direct_declarator"); }
 	;
 
-change_scope
+change_scope:
 		{
 			if(not current_symbol->nested_table)
 			{
@@ -1350,16 +1350,48 @@ direct_declarator:
 				$$ = $1->update(new SymbolType(SymbolType::SymbolEnum::ARRAY, $1->type, 0));
 			}
 		}
-	| direct_declarator LEFT_SQUARE_BRACKET STATIC type_qualifier_list_opt assignment_expression RIGHT_SQUARE_BRACKET
-		{ yyinfo("direct_declarator ==> direct_declarator [ static type_qualifier_list_opt assignment_expression ]"); }
+	| direct_declarator LEFT_SQUARE_BRACKET STATIC type_qualifier_list assignment_expression RIGHT_SQUARE_BRACKET
+		{ yyinfo("direct_declarator ==> direct_declarator [ static type_qualifier_list assignment_expression ]"); }
+	| direct_declarator LEFT_SQUARE_BRACKET STATIC assignment_expression RIGHT_SQUARE_BRACKET
+		{ yyinfo("direct_declarator ==> direct_declarator [ assignment_expression ]"); }
 	| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list STATIC assignment_expression RIGHT_SQUARE_BRACKET
 		{ yyinfo("direct_declarator ==> direct_declarator [ type_qualifier_list static assignment_expression ]"); }
 	| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list_opt STAR RIGHT_SQUARE_BRACKET
 		{ yyinfo("direct_declarator ==> direct_declarator [ type_qualifier_list_opt * ]"); }
-	| direct_declarator LEFT_PARENTHESES parameter_type_list RIGHT_PARENTHESES
-		{ yyinfo("direct_declarator ==> direct_declarator ( parameter_type_list )"); }
-	| direct_declarator LEFT_PARENTHESES identifier_list_opt RIGHT_PARENTHESES
-		{ yyinfo("direct_declarator ==> direct_declarator ( identifier_list_opt )"); }
+	| direct_declarator LEFT_PARENTHESES change_scope parameter_type_list RIGHT_PARENTHESES
+		{
+			yyinfo("direct_declarator ==> direct_declarator ( parameter_type_list )");
+
+			// function declaration
+			current_table->name = $1->name;
+			if($1->type->type != SymbolType::SymboEnum::VOID)
+			{
+				// set type of return value
+				current_table->lookup("return")->update($1->type);
+			}
+			// move back to the global table and set the nested table for the function
+			$1->nested_table = current_table;
+			current_table->parent = global_table;
+			change_table(global_table);
+			current_symbol = $$;
+		}
+	| direct_declarator LEFT_PARENTHESES identifier_list RIGHT_PARENTHESES
+		{ yyinfo("direct_declarator ==> direct_declarator ( identifier_list )"); }
+	| direct_declarator LEFT_PARENTHESES change_scope RIGHT_PARENTHESES
+		{
+			yyinfo("direct_declarator => direct_declarator ( )");
+
+			current_table->name = $1->name;
+			if($1->type->type != SymbolType::SymbolEnum::VOID) {
+				// set type of return value
+				current_table->lookup("return")->update($1->type);
+			}
+			// move back to the global table and set the nested table for the function
+			$1->nested_table = current_table;
+			current_table->parent = global_table;
+			change_table(global_table);
+			current_symbol = $$;
+		}
 	;
 
 type_qualifier_list_opt:
@@ -1387,9 +1419,15 @@ identifier_list_opt:
 
 pointer:
 	STAR type_qualifier_list_opt
-		{ yyinfo("pointer ==> * type_qualifier_list_opt"); }
+		{
+			yyinfo("pointer ==> * type_qualifier_list_opt");
+			$$ = new SymbolType(SymbolType::SymbolEnum::POINTER);
+		}
 	| STAR type_qualifier_list_opt pointer
-		{ yyinfo("pointer ==> * type_qualifier_list_opt pointer"); }
+		{
+			yyinfo("pointer ==> * type_qualifier_list_opt pointer"); 
+			$$ = new SymbolType(SymbolType::SymbolEnum::POINTER, $3)
+		}
 	;
 
 type_qualifier_list:
@@ -1434,9 +1472,12 @@ type_name:
 
 initializer:
 	assignment_expression
-		{ yyinfo("initializer ==> assignment_expression"); }
+		{
+			yyinfo("initializer ==> assignment_expression");
+			$$ = $1->symbol;
+		}
 	| LEFT_BRACE initializer_list RIGHT_BRACE
-		{ yyinfo("initializer ==> { initializer_list }"); }  
+		{ yyinfo("initializer ==> { initializer_list }"); }
 	| LEFT_BRACE initializer_list COMMA RIGHT_BRACE
 		{ yyinfo("initializer ==> { initializer_list , }"); }
 	;
@@ -1480,15 +1521,32 @@ statement:
 	labeled_statement
 		{ yyinfo("statement ==> labeled_statement"); }
 	| compound_statement
-		{ yyinfo("statement ==> compound_statement"); }
+		{
+			yyinfo("statement ==> compound_statement");
+			$$ = $1;
+		}
 	| expression_statement
-		{ yyinfo("statement ==> expression_statement"); }
+		{
+			yyinfo("statement ==> expression_statement");
+
+			$$ = new Statement{};
+			$$->next_list = $1->next_list;
+		}
 	| selection_statement
-		{ yyinfo("statement ==> selection_statement"); }
+		{
+			yyinfo("statement ==> selection_statement");
+			$$ = $1;
+		}
 	| iteration_statement
-		{ yyinfo("statement ==> iteration_statement"); }
+		{
+			yyinfo("statement ==> iteration_statement");
+			$$ = $1;
+		}
 	| jump_statement
-		{ yyinfo("statement ==> jump_statement"); }
+		{
+			yyinfo("statement ==> jump_statement");
+			$$ = $1;
+		}
 	;
 
 labeled_statement:
@@ -1500,42 +1558,92 @@ labeled_statement:
 		{ yyinfo("labeled_statement ==> default : statement"); }
 	;
 
+
+/*
+ * Used to change the symbol table when a new block is encountered
+ * Helps create a hierarchy of symbol tables
+ */
+
+change_block: 
+		{
+			string name = current_table->name + "_" + to_string(table_count);
+			table_count++;
+			Symbol *s = current_table->lookup(name); // create new entry in symbol table
+			s->nested_table = new SymbolTable(name, current_table);
+			s->type = new SymbolType(SymbolType::BLOCK);
+			current_symbol = s;
+		} 
+	;
+
 compound_statement:
-	LEFT_BRACE block_item_list_opt RIGHT_BRACE
-		{ yyinfo("compound_statement ==> { block_item_list_opt }"); }
+	LEFT_BRACE change_block change_scope block_item_list_opt RIGHT_BRACE
+		{
+			yyinfo("compound_statement ==> { block_item_list_opt }");
+			$$ = $4;
+			changeTable(currentTable->parent); // block over, move back to the parent table
+		}
 	;
 
 block_item_list_opt:
 	block_item_list
-		{ yyinfo("block_item_list_opt ==> block_item_list"); }
+		{
+			yyinfo("block_item_list_opt ==> block_item_list");
+			$$ = $1;
+		}
 	|
-		{ yyinfo("block_item_list_opt ==> epsilon"); }
+		{
+			yyinfo("block_item_list_opt ==> epsilon");
+			$$ = new Statement{};
+		}
 	;
 
 block_item_list:
 	block_item
-		{ yyinfo("block_item_list ==> block_item"); }
+		{
+			yyinfo("block_item_list ==> block_item");
+			$$ = $1;
+		}
 	| block_item_list block_item
-		{ yyinfo("block_item_list ==> block_item_list block_item"); }
+		{
+			yyinfo("block_item_list ==> block_item_list block_item");
+			$$ = $3;
+
+			backpatch($1->next_list, $2);
+		}
 	;
 
 block_item:
 	declaration
-		{ yyinfo("block_item ==> declaration"); }
+		{
+			yyinfo("block_item ==> declaration");
+			$$ = new Statement{};
+		}
 	| statement
-		{ yyinfo("block_item ==> statement"); }
+		{
+			yyinfo("block_item ==> statement");
+			$$ = $1;
+		}
 	;
 
 expression_statement:
 	expression_opt SEMI_COLON
-		{ yyinfo("expression_statement ==> expression_opt ;"); }
+		{
+			yyinfo("expression_statement ==> expression_opt ;");
+			$$ = $1;
+		}
 	;
 
 expression_opt:
 	expression
-		{ yyinfo("expression_opt ==> expression"); }
+		{
+			yyinfo("expression_opt ==> expression");
+			$$ = $1;
+		}
 	|
-		{ yyinfo("expression_opt ==> epsilon"); }
+		{
+			yyinfo("expression_opt ==> epsilon");
+			$$ = new Expression{};
+		}
 	;
 
 selection_statement:
