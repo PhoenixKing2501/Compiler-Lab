@@ -152,8 +152,8 @@ void SymbolTable::print()
 	for (auto &&map_entry : this->symbols)
 	{
 		cout << setw(20) << map_entry.first;
-		cout << setw(40) << (map_entry.second.isFunction ? "function" : map_entry.second.type->toString());
-		cout << setw(20) << map_entry.second.initialValue
+		cout << setw(40) << (map_entry.second.is_function ? "function" : map_entry.second.type->toString());
+		cout << setw(20) << map_entry.second.initial_value
 			 << setw(20) << map_entry.second.offset
 			 << setw(20) << map_entry.second.size;
 		cout << setw(20) << (map_entry.second.nested_table ? map_entry.second.nested_table->name : "NULL") << '\n';
@@ -174,7 +174,7 @@ void SymbolTable::print()
 
 Symbol::Symbol(const string &name_, SymbolType::SymbolEnum type_, const string &init)
 	: name(name_), offset(0), type(new SymbolType(type_)),
-	  nested_table(nullptr), initialValue(init), isFunction(false)
+	  nested_table(nullptr), initial_value(init), is_function(false)
 {
 	this->size = this->type->getSize();
 }
@@ -482,7 +482,7 @@ Symbol *gentemp(SymbolType::SymbolEnum type, const string &s)
 	return &(current_table->symbols[name] = Symbol(name, type, s));
 }
 
-void changeTable(SymbolTable *table)
+void change_table(SymbolTable *table)
 {
 	current_table = table;
 }

@@ -63,8 +63,8 @@ struct Symbol
 	size_t size{}, offset{};
 	SymbolType *type{};
 	SymbolTable *nested_table{};
-	string initialValue{};
-	bool isFunction{};
+	string initial_value{};
+	bool is_function{};
 
 	// Symbol() = default;
 	Symbol(const string & = "", SymbolType::SymbolEnum = SymbolType::SymbolEnum::INT, const string & = "");
@@ -124,7 +124,7 @@ list<size_t> merge_list(list<size_t> &first, list<size_t> second);
 
 size_t next_instruction();
 Symbol *gentemp(SymbolType::SymbolEnum, const string & = "");
-void changeTable(SymbolTable *);
+void change_table(SymbolTable *);
 
 bool type_check(Symbol *&, Symbol *&);
 

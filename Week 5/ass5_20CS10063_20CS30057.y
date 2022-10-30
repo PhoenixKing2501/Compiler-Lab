@@ -1061,7 +1061,10 @@ assignment_operator:
 
 expression:
 	assignment_expression
-		{ yyinfo("expression ==> assignment_expression"); }
+		{
+			yyinfo("expression ==> assignment_expression");
+			$$ = $1;
+		}
 	| expression COMMA assignment_expression
 		{ yyinfo("expression ==> expression , assignment_expression"); }
 	;
@@ -1112,9 +1115,23 @@ init_declarator_list:
 
 init_declarator:
 	declarator
-		{ yyinfo("init_declarator ==> declarator"); }
+		{
+			yyinfo("init_declarator ==> declarator");
+			$$ = $1;
+		}
 	| declarator ASSIGNMENT initializer
-		{ yyinfo("init_declarator ==> declarator = initializer"); }
+		{
+			yyinfo("init_declarator ==> declarator = initializer");
+
+			// if there is some initial value assign it 
+			if($3->initialValue != "") 
+			{
+				$1->initialValue = $3->initialValue;
+			}
+			
+			// = assignment
+			emit("=", $1->name, $3->name);
+		}
 	;
 
 storage_class_specifier:
@@ -1130,17 +1147,29 @@ storage_class_specifier:
 
 type_specifier:
 	KEY_VOID
-		{ yyinfo("type_specifier ==> void"); }
+		{
+			yyinfo("type_specifier ==> void");
+			currnt_type = SymbolTable::SymbolEnum::VOID;
+		}
 	| KEY_CHAR
-		{ yyinfo("type_specifier ==> char"); }
+		{
+			yyinfo("type_specifier ==> char");
+			currnt_type = SymbolTable::SymbolEnum::CHAR;
+		}
 	| SHORT
 		{ yyinfo("type_specifier ==> short"); }
 	| KEY_INT
-		{ yyinfo("type_specifier ==> int"); }
+		{
+			yyinfo("type_specifier ==> int");
+			currnt_type = SymbolTable::SymbolEnum::INT;
+		}
 	| LONG
 		{ yyinfo("type_specifier ==> long"); }
 	| KEY_FLOAT
-		{ yyinfo("type_specifier ==> float"); }
+		{
+			yyinfo("type_specifier ==> float");
+			currnt_type = SymbolTable::SymbolEnum::FLOAT;
+		}
 	| DOUBLE
 		{ yyinfo("type_specifier ==> double"); }
 	| SIGNED
@@ -1218,24 +1247,109 @@ function_specifier:
 	;
 
 declarator:
-	pointer_opt direct_declarator
-		{ yyinfo("declarator ==> pointer_opt direct_declarator"); }
+	pointer direct_declarator
+		{
+			yyinfo("declarator ==> pointer direct_declarator");
+
+			SymbolType *it = $1;
+			while(it->array_type)
+			{
+				it = it->array_type;
+			}
+
+			it->array_type = $2->type;
+			$$ = $2->update($1);
+		}
+	| direct_declarator
+		{ yyinfo("declarator ==> direct_declarator"); }
 	;
 
-pointer_opt:
+change_scope
+		{
+			if(not current_symbol->nested_table)
+			{
+				change_table(new SymbolTable(""));
+			}
+			else
+			{
+				change_table(current_symbol->nested_table);
+				emit("label", current_table->name);
+			}
+		}
+	;
+
+/* pointer_opt:
 	pointer
 		{ yyinfo("pointer_opt ==> pointer"); }
 	|
 		{ yyinfo("pointer_opt ==> epsilon"); }
-	;
+	; 
+*/
 
 direct_declarator:
 	IDENTIFIER 
-		{ yyinfo("direct_declarator ==> IDENTIFIER"); printf("IDENTIFIER = `%s`\n", $1); }
+		{
+			yyinfo("direct_declarator ==> IDENTIFIER");
+			$$ = $1->update(new SymbolType(current_type)); // update type to the last type seen
+			currentSymbol = $$;
+		}
 	| LEFT_PARENTHESES declarator RIGHT_PARENTHESES
-		{ yyinfo("direct_declarator ==> ( declarator )"); }
-	| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list_opt assignment_expression_opt RIGHT_SQUARE_BRACKET
-		{ yyinfo("direct_declarator ==> direct_declarator [ type_qualifier_list_opt assignment_expression_opt ]"); }
+		{
+			yyinfo("direct_declarator ==> ( declarator )");
+			$$ = $2;
+		}
+	| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list assignment_expression RIGHT_SQUARE_BRACKET
+		{ yyinfo("direct_declarator ==> direct_declarator [ type_qualifier_list assignment_expression ]"); }
+	| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list RIGHT_SQUARE_BRACKET
+		{ yyinfo("direct_declarator ==> direct_declarator [ type_qualifier_list ]"); }
+	| direct_declarator LEFT_SQUARE_BRACKET assignment_expression RIGHT_SQUARE_BRACKET
+		{
+			yyinfo("direct_declarator ==> direct_declarator [ assignment_expression ]");
+
+			SymbolType *it1 = $1->type, *it2 = NULL;
+
+			while(it1->type == SymbolType::SymbolEnum::ARRAY)
+			{
+				// go to the base level of a nested type
+				it2 = it1;
+				it1 = it1->arrayType;
+			}
+			if(it2)
+			{ 
+				// nested array case
+				it2->arrayType = new SymbolType(SymbolType::SymbolEnum::ARRAY, it1, stoull($3->symbol->initial_value.c_str()));	
+				$$ = $1->update($1->type);
+			}
+			else
+			{
+				// fresh array
+				$$ = $1->update(new SymbolType(SymbolType::SymbolEnum::ARRAY, $1->type, stoull($3->symbol->initial_value.c_str())));
+			}
+		}
+	| direct_declarator LEFT_SQUARE_BRACKET RIGHT_SQUARE_BRACKET
+		{
+			yyinfo("direct_declarator ==> direct_declarator [ ]");
+
+			SymbolType *it1 = $1->type, *it2 = NULL;
+
+			while(it1->type == SymbolType::SymbolEnum::ARRAY)
+			{
+				// go to the base level of a nested type
+				it2 = it1;
+				it1 = it1->arrayType;
+			}
+			if(it2)
+			{ 
+				// nested array case
+				it2->arrayType = new SymbolType(SymbolType::SymbolEnum::ARRAY, it1, 0);
+				$$ = $1->update($1->type);
+			}
+			else
+			{
+				// fresh array
+				$$ = $1->update(new SymbolType(SymbolType::SymbolEnum::ARRAY, $1->type, 0));
+			}
+		}
 	| direct_declarator LEFT_SQUARE_BRACKET STATIC type_qualifier_list_opt assignment_expression RIGHT_SQUARE_BRACKET
 		{ yyinfo("direct_declarator ==> direct_declarator [ static type_qualifier_list_opt assignment_expression ]"); }
 	| direct_declarator LEFT_SQUARE_BRACKET type_qualifier_list STATIC assignment_expression RIGHT_SQUARE_BRACKET
@@ -1255,6 +1369,7 @@ type_qualifier_list_opt:
 		{ yyinfo("type_qualifier_list_opt ==> epsilon"); }
 	;
 
+/*
 assignment_expression_opt:
 	assignment_expression
 		{ yyinfo("assignment_expression_opt ==> assignment_expression"); }
@@ -1268,6 +1383,7 @@ identifier_list_opt:
 	|
 		{ yyinfo("identifier_list_opt ==> epsilon"); }
 	;
+*/
 
 pointer:
 	STAR type_qualifier_list_opt
