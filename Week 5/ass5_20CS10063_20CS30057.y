@@ -526,7 +526,7 @@ multiplicative_expression:
 				temp = $3->symbol;
 			}
 
-			if(type_check($1->symbol, temp))
+			if (type_check($1->symbol, temp))
 			{
 				$$ = new Expression{};
 				$$->symbol = gentemp($1->symbol->type->type);
@@ -562,7 +562,7 @@ multiplicative_expression:
 				temp = $3->symbol;
 			}
 
-			if(type_check($1->symbol, temp))
+			if (type_check($1->symbol, temp))
 			{
 				$$ = new Expression{};
 				$$->symbol = gentemp($1->symbol->type->type);
@@ -669,7 +669,7 @@ relational_expression:
 		{
 			yyinfo("relational_expression ==> relational_expression < shift_expression");
 
-			if(type_check($1->symbol, $3->symbol))
+			if (type_check($1->symbol, $3->symbol))
 			{
 				$$ = new Expression{};
 				$$->type = Expression::ExprEnum::BOOL;
@@ -688,7 +688,7 @@ relational_expression:
 		{
 			yyinfo("relational_expression ==> relational_expression > shift_expression");
 
-			if(type_check($1->symbol, $3->symbol))
+			if (type_check($1->symbol, $3->symbol))
 			{
 				$$ = new Expression{};
 				$$->type = Expression::ExprEnum::BOOL;
@@ -707,7 +707,7 @@ relational_expression:
 		{
 			yyinfo("relational_expression ==> relational_expression <= shift_expression");
 
-			if(type_check($1->symbol, $3->symbol))
+			if (type_check($1->symbol, $3->symbol))
 			{
 				$$ = new Expression{};
 				$$->type = Expression::ExprEnum::BOOL;
@@ -726,7 +726,7 @@ relational_expression:
 		{
 			yyinfo("relational_expression ==> relational_expression >= shift_expression");
 
-			if(type_check($1->symbol, $3->symbol))
+			if (type_check($1->symbol, $3->symbol))
 			{
 				$$ = new Expression{};
 				$$->type = Expression::ExprEnum::BOOL;
@@ -753,7 +753,7 @@ equality_expression:
 		{
 			yyinfo("equality_expression ==> equality_expression == relational_expression");
 
-			if(type_check($1->symbol, $3->symbol))
+			if (type_check($1->symbol, $3->symbol))
 			{
 				$1->to_int();
 				$3->to_int();
@@ -775,7 +775,7 @@ equality_expression:
 		{
 			yyinfo("equality_expression ==> equality_expression != relational_expression");
 
-			if(type_check($1->symbol, $3->symbol))
+			if (type_check($1->symbol, $3->symbol))
 			{
 				$1->to_int();
 				$3->to_int();
@@ -1000,7 +1000,38 @@ assignment_expression:
 			$$ = $1;
 		}
 	| unary_expression assignment_operator assignment_expression
-		{ yyinfo("assignment_expression ==> unary_expression assignment_operator assignment_expression"); }
+		{
+			yyinfo("assignment_expression ==> unary_expression assignment_operator assignment_expression");
+
+			switch ($1->type)
+			{
+				case Array::ArrayEnum::ARRAY:
+				{
+					// assignment to array
+					$3->symbol = $3->symbol->convert($1->sub_array_type->type);
+					emit("[]=", $1->symbol->name, $1->temp->name, $3->symbol->name);
+				}
+				break;
+
+				case Array::ArrayEnum::PTR:
+				{
+					// assignment to pointer
+					$3->symbol = $3->symbol->convert($1->temp->type->type);
+					emit("*=", $1->temp->name, $3->symbol->name);
+				}
+				break;
+
+				default:
+				{
+					// assignment to other
+					$3->symbol = $3->symbol->convert($1->symbol->type->type);
+					emit("=", $1->symbol->name, $3->symbol->name);
+				}
+				break;
+			}
+			
+			$$ = $3;
+		}
 	;
 
 assignment_operator:
