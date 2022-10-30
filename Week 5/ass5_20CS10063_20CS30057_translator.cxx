@@ -1,4 +1,4 @@
-#include "def.h"
+#include "ass5_20CS10063_20CS30057_translator.h"
 
 vector<Quad *> quad_array{};
 SymbolTable *current_table{}, *global_table{};
@@ -136,9 +136,10 @@ void SymbolTable::update()
 
 void SymbolTable::print()
 {
-	cout << string(140, '=') << '\n';
-	cout << "Table Name: " << this->name << "\t\t Parent Name: " << (this->parent ? this->parent->name : "None") << '\n';
-	cout << string(140, '=') << '\n';
+	cout << string(140, '*') << '\n';
+	cout << "Table Name: `" << this->name << "`\t\t Parent Name: `" << (this->parent ? this->parent->name : "None") << "`\n";
+	cout << string(140, '*') << '\n';
+
 	cout << setw(20) << "Name"
 		 << setw(40) << "Type"
 		 << setw(20) << "Initial Value"
@@ -147,16 +148,25 @@ void SymbolTable::print()
 		 << setw(20) << "Child"
 		 << '\n';
 
+	cout << setw(20) << "----"
+		 << setw(40) << "----"
+		 << setw(20) << "-------------"
+		 << setw(20) << "------"
+		 << setw(20) << "----"
+		 << setw(20) << "-----"
+		 << "\n\n";
+
 	vector<SymbolTable *> tovisit{};
 
 	for (auto &&map_entry : this->symbols)
 	{
-		cout << setw(20) << map_entry.first;
-		cout << setw(40) << (map_entry.second.is_function ? "function" : map_entry.second.type->toString());
-		cout << setw(20) << map_entry.second.initial_value
-			 << setw(20) << map_entry.second.offset
-			 << setw(20) << map_entry.second.size;
-		cout << setw(20) << (map_entry.second.nested_table ? map_entry.second.nested_table->name : "NULL") << '\n';
+		cout << setw(20) << '`' + map_entry.first + '`'
+			 << setw(40) << '`' + (map_entry.second.is_function ? "function" : map_entry.second.type->toString()) + '`'
+			 << setw(20) << (map_entry.second.initial_value == "" or map_entry.second.initial_value.empty() ? "" : '`' + map_entry.second.initial_value + '`')
+			 << setw(20) << '`' + to_string(map_entry.second.offset) + '`'
+			 << setw(20) << '`' + to_string(map_entry.second.size) + '`'
+			 << setw(20) << '`' + (map_entry.second.nested_table ? map_entry.second.nested_table->name : "NULL") + '`'
+			 << '\n';
 
 		if (map_entry.second.nested_table)
 		{
@@ -164,7 +174,7 @@ void SymbolTable::print()
 		}
 	}
 
-	cout << string(140, '-') << "\n\n";
+	cout << string(140, '*') << "\n\n";
 
 	for (auto &&table : tovisit)
 	{
@@ -293,7 +303,8 @@ void Quad::print()
 		cout << "\t" << this->result
 			 << " " << this->op[0]
 			 << " " << this->op[1]
-			 << this->arg1 << '\n';
+			 << this->arg1 
+			 << '\n';
 	};
 
 	// if special type of operators
@@ -386,9 +397,9 @@ void Quad::print()
 			 << " = " << this->arg1
 			 << '\n';
 	}
-	else if (this->op == "=-")
+	else if (this->op == "minus")
 	{
-		shift_print_str("= -");
+		shift_print_str("= minus");
 	}
 	else if (this->op == "~")
 	{
@@ -471,7 +482,7 @@ void Expression::to_bool()
 	}
 }
 
-size_t nextInstruction()
+size_t next_instruction()
 {
 	return quad_array.size() + 1;
 }
@@ -531,23 +542,6 @@ bool type_check(Symbol *&a, Symbol *&b)
 	{
 		return false;
 	}
-}
-
-void yyerror(const string &s)
-{
-	printf("ERROR [Line %d] : %s\n", yylineno, s.c_str());
-}
-
-void yyinfo(const string &s)
-{
-#ifdef PARSE
-	printf("INFO [Line %d] : %s\n", yylineno, s.c_str());
-#endif
-}
-
-int yywrap(void)
-{
-	return 1;
 }
 
 int main()

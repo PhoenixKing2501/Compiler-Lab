@@ -1,11 +1,11 @@
 %{
-	/* C headers */
-	#include "def.h"
+	#include "ass5_20CS10063_20CS30057_translator.h"
 	#include "ass5_20CS10063_20CS30057.tab.h"
 %}
 
 %option yylineno
 %option nounput
+%option noyywrap
 
 /* Regular Expression Definitions */
 LETTER_						[a-zA-Z_]

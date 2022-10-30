@@ -3,14 +3,18 @@
 #ifndef _TRANSLATOR_H_
 #define _TRANSLATOR_H_
 
-#include <cstring>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <list>
-#include <map>
-#include <string>
-#include <vector>
+// #include <cstring>
+// #include <functional>
+// #include <iomanip>
+// #include <iostream>
+// #include <list>
+// #include <map>
+// #include <string>
+// #include <vector>
+// #include <cstdio>
+// #include <cstdlib>
+
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -119,7 +123,7 @@ void emit(const string &, const string &, const string & = "", const string & = 
 void emit(const string &, const string &, int, const string & = "");
 
 void backpatch(const list<size_t> &list_, size_t addr);
-list<size_t> make_list(int);
+list<size_t> make_list(size_t);
 list<size_t> merge_list(list<size_t> &first, list<size_t> second);
 
 size_t next_instruction();
@@ -133,5 +137,14 @@ extern SymbolTable *current_table, *global_table;
 extern Symbol *current_symbol;
 extern SymbolType::SymbolEnum current_type;
 extern int table_count, temp_count;
+
+int yyparse();
+int yylex();
+
+void yyerror(const string &);
+void yyinfo(const string &);
+
+extern char *yytext;
+extern int yylineno;
 
 #endif // _TRANSLATOR_H_

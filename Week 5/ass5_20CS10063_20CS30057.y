@@ -1,5 +1,5 @@
 %{
-	#include "def.h"
+	#include "ass5_20CS10063_20CS30057_translator.h"
 %}
 
 %union {
@@ -1812,3 +1812,15 @@ declaration_list:
 		{ yyinfo("declaration_list ==> declaration_list declaration"); }
 	;
 %%
+
+void yyerror(const string &s)
+{
+	printf("ERROR [Line %d] : %s\n", yylineno, s.c_str());
+}
+
+void yyinfo(const string &s)
+{
+#ifdef PARSE
+	printf("INFO [Line %d] : %s\n", yylineno, s.c_str());
+#endif
+}
