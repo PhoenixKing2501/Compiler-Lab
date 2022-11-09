@@ -5,9 +5,13 @@ SymbolTable *current_table{}, *global_table{};
 Symbol *current_symbol{};
 SymbolType::SymbolEnum current_type{};
 int table_count{}, temp_count{};
+vector<string> string_literals{};
+
+ActivationRecord::ActivationRecord()
+	: total_displacement{}, displacement{map<string, int>{}} {}
 
 SymbolType::SymbolType(SymbolEnum type, SymbolType *array_type, size_t width)
-	: type(type), width(width), array_type(array_type) {}
+	: type{type}, width{width}, array_type{array_type} {}
 
 size_t SymbolType::getSize()
 {
@@ -79,7 +83,7 @@ string SymbolType::toString()
 }
 
 SymbolTable::SymbolTable(const string &name, SymbolTable *parent)
-	: name(name), parent(parent) {}
+	: name{name}, parent{parent} {}
 
 Symbol *SymbolTable::lookup(const string &name_)
 {
@@ -271,9 +275,9 @@ Symbol *Symbol::convert(SymbolType::SymbolEnum type_)
 }
 
 Quad::Quad(const string &op, const string &arg1, const string &arg2, const string &result)
-	: op(op), arg1(arg1), arg2(arg2), result(result) {}
+	: op{op}, arg1{arg1}, arg2{arg2}, result{result} {}
 Quad::Quad(const string &op, int arg1, const string &arg2, const string &result)
-	: op(op), arg1(to_string(arg1)), arg2(arg2), result(result) {}
+	: op{op}, arg1(to_string(arg1)), arg2{arg2}, result{result} {}
 
 void Quad::print()
 {

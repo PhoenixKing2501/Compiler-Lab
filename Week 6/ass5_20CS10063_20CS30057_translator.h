@@ -30,8 +30,8 @@ struct SymbolType;
 
 struct ActivationRecord
 {
-	map<string, int> displacement;
-	int total_displacement;
+	map<string, int> displacement{};
+	int total_displacement{};
 
 	ActivationRecord();
 };
@@ -63,8 +63,8 @@ struct SymbolTable
 	string name{};
 	map<string, Symbol> symbols{};
 	SymbolTable *parent{};
-	ActivationRecord *activation_record;
-	vector<string> parameters;
+	ActivationRecord *activation_record{};
+	vector<string> parameters{};
 
 	SymbolTable(const string & = "NULL", SymbolTable * = nullptr);
 	Symbol *lookup(const string &);
@@ -153,15 +153,15 @@ void change_table(SymbolTable *);
 
 bool type_check(Symbol *&, Symbol *&);
 
-extern vector<Quad *> quad_array;
-extern SymbolTable *current_table, *global_table;
-extern Symbol *current_symbol;
-extern SymbolType::SymbolEnum current_type;
-extern int table_count, temp_count;
-extern vector<string> string_literals;
-extern FILE *yyin;
-extern char *yytext;
-extern int yylineno;
+extern vector<Quad *> quad_array{};
+extern SymbolTable *current_table{}, *global_table{};
+extern Symbol *current_symbol{};
+extern SymbolType::SymbolEnum current_type{};
+extern int table_count{}, temp_count{};
+extern vector<string> string_literals{};
+extern FILE *yyin{};
+extern char *yytext{};
+extern int yylineno{};
 
 int yyparse();
 int yylex();
