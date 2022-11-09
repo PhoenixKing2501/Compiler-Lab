@@ -6,24 +6,35 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <fstream>
 #include <functional>
 #include <iomanip>
 #include <iostream>
 #include <list>
 #include <map>
+#include <stack>
 #include <string>
 #include <vector>
 
 using namespace std;
 
-struct SymbolType;
-struct SymbolTable;
-struct Symbol;
+struct ActivationRecord;
+struct Array;
+struct Expression;
 struct Label;
 struct Quad;
-struct Expression;
-struct Array;
 struct Statement;
+struct Symbol;
+struct SymbolTable;
+struct SymbolType;
+
+struct ActivationRecord
+{
+	map<string, int> displacement;
+	int total_displacement;
+
+	ActivationRecord();
+};
 
 struct SymbolType
 {
@@ -52,6 +63,8 @@ struct SymbolTable
 	string name{};
 	map<string, Symbol> symbols{};
 	SymbolTable *parent{};
+	ActivationRecord *activation_record;
+	vector<string> parameters;
 
 	SymbolTable(const string & = "NULL", SymbolTable * = nullptr);
 	Symbol *lookup(const string &);
@@ -61,6 +74,15 @@ struct SymbolTable
 
 struct Symbol
 {
+	enum struct SymbolCategory
+	{
+		LOCAL,
+		GLOBAL,
+		PARAM,
+		TEMP,
+		FUNC
+	} category{};
+
 	string name{};
 	size_t size{}, offset{};
 	SymbolType *type{};
@@ -69,7 +91,7 @@ struct Symbol
 	bool is_function{};
 
 	// Symbol() = default;
-	Symbol(const string & = "", SymbolType::SymbolEnum = SymbolType::SymbolEnum::VOID, const string & = "");
+	Symbol(const string & = "", SymbolType::SymbolEnum = SymbolType::SymbolEnum::INT, const string & = "");
 	Symbol *update(SymbolType *);
 	Symbol *convert(SymbolType::SymbolEnum);
 };
@@ -121,6 +143,7 @@ void emit(const string &, const string &, const string & = "", const string & = 
 void emit(const string &, const string &, int, const string & = "");
 
 void backpatch(const list<size_t> &list_, size_t addr);
+void finalBackpatch();
 list<size_t> make_list(size_t);
 list<size_t> merge_list(list<size_t> &first, list<size_t> second);
 
@@ -135,14 +158,15 @@ extern SymbolTable *current_table, *global_table;
 extern Symbol *current_symbol;
 extern SymbolType::SymbolEnum current_type;
 extern int table_count, temp_count;
+extern vector<string> string_literals;
+extern FILE *yyin;
+extern char *yytext;
+extern int yylineno;
 
 int yyparse();
 int yylex();
 
 void yyerror(const string &);
 void yyinfo(const string &);
-
-extern char *yytext;
-extern int yylineno;
 
 #endif // _TRANSLATOR_H_
