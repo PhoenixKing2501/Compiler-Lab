@@ -577,7 +577,6 @@ additive_expression:
 	multiplicative_expression
 		{
 			yyinfo("additive_expression ==> multiplicative_expression");
-
 			$$ = $1;
 		}
 	| additive_expression PLUS multiplicative_expression
@@ -1564,7 +1563,7 @@ labeled_statement:
  * Helps create a hierarchy of symbol tables
  */
 
-change_block: 
+/* change_block: 
 		{
 			string name = current_table->name + "_" + to_string(table_count);
 			table_count++;
@@ -1573,10 +1572,10 @@ change_block:
 			s->type = new SymbolType(SymbolType::SymbolEnum::BLOCK);
 			current_symbol = s;
 		} 
-	;
+	; */
 
 compound_statement:
-	LEFT_BRACE change_block change_scope block_item_list_opt RIGHT_BRACE
+	LEFT_BRACE change_scope block_item_list_opt RIGHT_BRACE
 		{
 			yyinfo("compound_statement ==> { block_item_list_opt }");
 			$$ = $4;
@@ -1793,10 +1792,12 @@ function_definition: // modified to prevent block change
 			yyinfo("function_definition ==> declaration_specifiers declarator declaration_list_opt { block_item_list_opt }");
 
 			table_count = 0;
-			$2->is_function = true;
-			// $2->type = new SymbolType(SymbolType::SymbolEnum::FUNC);
-			// $2->initial_value = "";
-			// $2->size = 0;
+			emit("labelend", $2->name);
+			if($2->type->type != SymbolType::SymbolEnum::VOID) {
+				// set type of return value
+				current_table->lookup("return")->update($2->type);
+			}
+
 			change_table(global_table);
 		}
 	;
