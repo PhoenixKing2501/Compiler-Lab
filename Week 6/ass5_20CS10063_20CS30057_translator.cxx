@@ -5,7 +5,7 @@ SymbolTable *current_table{}, *global_table{};
 Symbol *current_symbol{};
 SymbolType::SymbolEnum current_type{};
 int table_count{}, temp_count{};
-vector<string> string_literals{};
+vector<string> StringLiterals{};
 
 ActivationRecord::ActivationRecord()
 	: total_displacement{}, displacement{map<string, int>{}} {}
@@ -101,8 +101,15 @@ Symbol *SymbolTable::lookup(const string &name_)
 
 	if (this == current_table && !ret_ptr)
 	{
-		this->symbols[name_] = Symbol(name_);
-		return &this->symbols[name_];
+		ret_ptr = new Symbol(name);
+		ret_ptr->category = Symbol::SymbolCategory::LOCAL;
+
+		if (current_table == global_table)
+		{
+			ret_ptr->category = Symbol::SymbolCategory::GLOBAL;
+		}
+
+		return &(this->symbols[name] = *ret_ptr);
 	}
 
 	return ret_ptr;
@@ -132,6 +139,31 @@ void SymbolTable::update()
 		}
 	}
 
+	activation_record = new ActivationRecord{};
+
+	// first stack the parameters
+	for (auto &&map_entry : this->symbols)
+	{
+		if (map_entry.second.category == Symbol::SymbolCategory::PARAM and
+			map_entry.second.size != 0)
+		{
+			activation_record->total_displacement -= map_entry.second.size;
+			activation_record->displacement[map_entry.second.name] = activation_record->total_displacement;
+		}
+	}
+
+	for (auto &&map_entry : this->symbols)
+	{
+		if (((map_entry.second.category == Symbol::SymbolCategory::LOCAL and
+			  map_entry.second.name != "return") or
+			 map_entry.second.category == Symbol::SymbolCategory::TEMP) and
+			map_entry.second.size != 0)
+		{
+			activation_record->total_displacement -= map_entry.second.size;
+			activation_record->displacement[map_entry.second.name] = activation_record->total_displacement;
+		}
+	}
+
 	for (auto &&table : visited) // update children table
 	{
 		table->update();
@@ -146,6 +178,7 @@ void SymbolTable::print()
 
 	cout << setw(20) << "Name"
 		 << setw(40) << "Type"
+		 << setw(20) << "Category"
 		 << setw(20) << "Initial Value"
 		 << setw(20) << "Size"
 		 << setw(20) << "Offset"
@@ -154,6 +187,7 @@ void SymbolTable::print()
 
 	cout << setw(20) << "----"
 		 << setw(40) << "----"
+		 << setw(20) << "--------"
 		 << setw(20) << "-------------"
 		 << setw(20) << "------"
 		 << setw(20) << "----"
@@ -165,8 +199,31 @@ void SymbolTable::print()
 	for (auto &&map_entry : this->symbols)
 	{
 		cout << setw(20) << quoted(map_entry.first, '`')
-			 << setw(40) << quoted(map_entry.second.is_function ? "function" : map_entry.second.type->toString(), '`')
-			 << setw(20) << (map_entry.second.initial_value == "" or map_entry.second.initial_value.empty() ? "" : '`' + map_entry.second.initial_value + '`')
+			 << setw(40) << quoted(map_entry.second.type->toString(), '`');
+
+		switch (map_entry.second.category)
+		{
+		case Symbol::SymbolCategory::LOCAL:
+			cout << quoted("local", '`');
+			break;
+		case Symbol::SymbolCategory::GLOBAL:
+			cout << quoted("global", '`');
+			break;
+		case Symbol::SymbolCategory::FUNC:
+			cout << quoted("function", '`');
+			break;
+		case Symbol::SymbolCategory::PARAM:
+			cout << quoted("parameter", '`');
+			break;
+		case Symbol::SymbolCategory::TEMP:
+			cout << quoted("temporary", '`');
+			break;
+
+		default:
+			break;
+		}
+
+		cout << setw(20) << (map_entry.second.initial_value == "" or map_entry.second.initial_value.empty() ? "" : '`' + map_entry.second.initial_value + '`')
 			 << setw(20) << quoted(to_string(map_entry.second.size), '`')
 			 << setw(20) << quoted(to_string(map_entry.second.offset), '`')
 			 << setw(20) << quoted(map_entry.second.nested_table ? map_entry.second.nested_table->name : "NULL", '`')
@@ -187,8 +244,8 @@ void SymbolTable::print()
 }
 
 Symbol::Symbol(const string &name_, SymbolType::SymbolEnum type_, const string &init)
-	: name(name_), offset(0), type(new SymbolType(type_)),
-	  nested_table(nullptr), initial_value(init)
+	: name{name_}, offset{}, type{new SymbolType{type_}},
+	  nested_table{nullptr}, initial_value{init}
 {
 	this->size = this->type->getSize();
 }
@@ -244,8 +301,7 @@ Symbol *Symbol::convert(SymbolType::SymbolEnum type_)
 			emit("=", fin_->name, "Int_To_Char(" + this->name + ")");
 			return fin_;
 		}
-		// return orignal symbol if the final type is not float or
-		// char
+		// return orignal symbol if the final type is not float or char
 		return this;
 	}
 	// if the current type is char
@@ -277,7 +333,7 @@ Symbol *Symbol::convert(SymbolType::SymbolEnum type_)
 Quad::Quad(const string &op, const string &arg1, const string &arg2, const string &result)
 	: op{op}, arg1{arg1}, arg2{arg2}, result{result} {}
 Quad::Quad(const string &op, int arg1, const string &arg2, const string &result)
-	: op{op}, arg1(to_string(arg1)), arg2{arg2}, result{result} {}
+	: op{op}, arg1{to_string(arg1)}, arg2{arg2}, result{result} {}
 
 void Quad::print()
 {
@@ -351,7 +407,13 @@ void Quad::print()
 	}
 	else if (this->op == "label")
 	{
-		cout << this->result << '\n';
+		cout << "Function start: " << this->result
+			 << '\n';
+	}
+	else if (this->op == "labelend")
+	{
+		cout << "Function end: " << this->result
+			 << '\n';
 	}
 	else if (this->op == "=[]")
 	{
@@ -405,6 +467,12 @@ void Quad::print()
 	{
 		shift_print_str("= minus");
 	}
+	else if (this->op == "=str")
+	{
+		cout << "\t" << this->result
+			 << " = " << StringLiterals[stoull(this->arg1)]
+			 << '\n';
+	}
 	else if (this->op == "~")
 	{
 		shift_print_str("= ~");
@@ -438,9 +506,38 @@ void emit(const string &op, const string &result, int arg1, const string &arg2)
 void backpatch(const list<size_t> &list_, size_t addr)
 {
 	// for all the addresses in the list, add the target address
-	for (auto &i : list_)
+	for (auto &&i : list_)
 	{
 		quad_array[i - 1]->result = to_string(addr);
+	}
+}
+
+void final_backpatch()
+{
+	// any dangling exits for void type functions are sent to function end
+	int curr = quad_array.size();
+	int last_exit = -1;
+	for (auto it = quad_array.rbegin(); it != quad_array.rend(); ++it)
+	{
+		string op = (*it)->op;
+		if (op == "labelend")
+		{
+			last_exit = curr;
+		}
+		else if (op == "goto" or
+				 op == "==" or
+				 op == "!=" or
+				 op == "<" or
+				 op == ">" or
+				 op == "<=" or
+				 op == ">=")
+		{
+			if ((*it)->result.empty())
+			{
+				(*it)->result = to_string(last_exit);
+			}
+		}
+		--curr;
 	}
 }
 
@@ -493,8 +590,9 @@ size_t next_instruction()
 
 Symbol *gentemp(SymbolType::SymbolEnum type, const string &s)
 {
-	string &&name = "t" + to_string(temp_count++);
-	return &(current_table->symbols[name] = Symbol(name, type, s));
+	Symbol *temp = new Symbol("t" + to_string(temp_count++), type, s);
+	temp->category = Symbol::SymbolCategory::TEMP;
+	return &(current_table->symbols[temp->name] = *temp);
 }
 
 void change_table(SymbolTable *table)

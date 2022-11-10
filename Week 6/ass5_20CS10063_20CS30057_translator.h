@@ -12,6 +12,7 @@
 #include <iostream>
 #include <list>
 #include <map>
+#include <ranges>
 #include <stack>
 #include <string>
 #include <vector>
@@ -88,7 +89,6 @@ struct Symbol
 	SymbolType *type{};
 	SymbolTable *nested_table{};
 	string initial_value{};
-	bool is_function{};
 
 	// Symbol() = default;
 	Symbol(const string & = "", SymbolType::SymbolEnum = SymbolType::SymbolEnum::INT, const string & = "");
@@ -143,7 +143,7 @@ void emit(const string &, const string &, const string & = "", const string & = 
 void emit(const string &, const string &, int, const string & = "");
 
 void backpatch(const list<size_t> &list_, size_t addr);
-void finalBackpatch();
+void final_backpatch();
 list<size_t> make_list(size_t);
 list<size_t> merge_list(list<size_t> &first, list<size_t> second);
 
@@ -153,15 +153,15 @@ void change_table(SymbolTable *);
 
 bool type_check(Symbol *&, Symbol *&);
 
-extern vector<Quad *> quad_array{};
-extern SymbolTable *current_table{}, *global_table{};
-extern Symbol *current_symbol{};
-extern SymbolType::SymbolEnum current_type{};
-extern int table_count{}, temp_count{};
-extern vector<string> string_literals{};
-extern FILE *yyin{};
-extern char *yytext{};
-extern int yylineno{};
+extern vector<Quad *> quad_array;
+extern SymbolTable *current_table, *global_table;
+extern Symbol *current_symbol;
+extern SymbolType::SymbolEnum current_type;
+extern int table_count, temp_count;
+extern vector<string> stringLiterals;
+extern FILE *yyin;
+extern char *yytext;
+extern int yylineno;
 
 int yyparse();
 int yylex();

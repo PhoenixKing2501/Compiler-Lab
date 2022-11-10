@@ -216,6 +216,9 @@ primary_expression:
 			$$ = new Expression{};
 			$$->symbol = gentemp(SymbolType::SymbolEnum::PTR, $1);
 			$$->symbol->type->array_type = new SymbolType(SymbolType::SymbolEnum::CHAR);
+
+			emit("=str", $$->symbol->name, string_literals.size());
+			string_literals.push_back($1);
 		}
 	| LEFT_PARENTHESES expression RIGHT_PARENTHESES
 		{
