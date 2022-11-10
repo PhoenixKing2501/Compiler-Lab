@@ -1,5 +1,5 @@
 %{
-	#include "ass5_20CS10063_20CS30057_translator.h"
+	#include "ass6_20CS10063_20CS30057_translator.h"
 %}
 
 %union {
@@ -217,8 +217,8 @@ primary_expression:
 			$$->symbol = gentemp(SymbolType::SymbolEnum::PTR, $1);
 			$$->symbol->type->array_type = new SymbolType(SymbolType::SymbolEnum::CHAR);
 
-			emit("=str", $$->symbol->name, string_literals.size());
-			string_literals.push_back($1);
+			emit("=str", $$->symbol->name, stringLiterals.size());
+			stringLiterals.push_back($1);
 		}
 	| LEFT_PARENTHESES expression RIGHT_PARENTHESES
 		{
@@ -263,6 +263,7 @@ postfix_expression:
 
 			$$ = new Array{};
 			$$->symbol = gentemp($1->symbol->type->type);
+			$$->symbol->type->array_type = $1->symbol->type->array_type;
 			emit("call", $$->symbol->name, $1->symbol->name, to_string($3));
 		}
 	| postfix_expression DOT IDENTIFIER
@@ -1306,7 +1307,7 @@ direct_declarator:
 		{
 			yyinfo("direct_declarator ==> direct_declarator [ assignment_expression ]");
 
-			SymbolType *it1 = $1->type, *it2 = NULL;
+			SymbolType *it1 = $1->type, *it2 = nullptr;
 
 			while (it1->type == SymbolType::SymbolEnum::ARRAY)
 			{
@@ -1330,7 +1331,7 @@ direct_declarator:
 		{
 			yyinfo("direct_declarator ==> direct_declarator [ ]");
 
-			SymbolType *it1 = $1->type, *it2 = NULL;
+			SymbolType *it1 = $1->type, *it2 = nullptr;
 
 			while (it1->type == SymbolType::SymbolEnum::ARRAY)
 			{
@@ -1373,6 +1374,7 @@ direct_declarator:
 			}
 			// move back to the global table and set the nested table for the function
 			$1->nested_table = current_table;
+			$1->category = Symbol::SymbolCategory::FUNC;
 			current_table->parent = global_table;
 			change_table(global_table);
 			current_symbol = $$;
@@ -1390,6 +1392,7 @@ direct_declarator:
 			}
 			// move back to the global table and set the nested table for the function
 			$1->nested_table = current_table;
+			$1->category = Symbol::SymbolCategory::FUNC;
 			current_table->parent = global_table;
 			change_table(global_table);
 			current_symbol = $$;
@@ -1455,7 +1458,11 @@ parameter_list:
 
 parameter_declaration:
 	declaration_specifiers declarator
-		{ yyinfo("parameter_declaration ==> declaration_specifiers declarator"); }
+		{
+			yyinfo("parameter_declaration ==> declaration_specifiers declarator");
+			$2->category = Symbol::SymbolCategory::PARAM; 
+			current_table->parameters.push_back($2->name);
+		}
 	| declaration_specifiers
 		{ yyinfo("parameter_declaration ==> declaration_specifiers"); }
 	;
@@ -1578,10 +1585,10 @@ labeled_statement:
 	; */
 
 compound_statement:
-	LEFT_BRACE change_scope block_item_list_opt RIGHT_BRACE
+	LEFT_BRACE block_item_list_opt RIGHT_BRACE
 		{
 			yyinfo("compound_statement ==> { block_item_list_opt }");
-			$$ = $4;
+			$$ = $2;
 			change_table(current_table->parent); // block over, move back to the parent table
 		}
 	;

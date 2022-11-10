@@ -3,6 +3,8 @@
 #ifndef _TRANSLATOR_H_
 #define _TRANSLATOR_H_
 
+#include <cctype>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -15,6 +17,7 @@
 #include <ranges>
 #include <stack>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 using namespace std;

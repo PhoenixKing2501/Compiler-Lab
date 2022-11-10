@@ -1,11 +1,11 @@
-#include "ass5_20CS10063_20CS30057_translator.h"
+#include "ass6_20CS10063_20CS30057_translator.h"
 
 vector<Quad *> quad_array{};
 SymbolTable *current_table{}, *global_table{};
 Symbol *current_symbol{};
 SymbolType::SymbolEnum current_type{};
 int table_count{}, temp_count{};
-vector<string> StringLiterals{};
+vector<string> stringLiterals{};
 
 ActivationRecord::ActivationRecord()
 	: total_displacement{}, displacement{map<string, int>{}} {}
@@ -470,7 +470,7 @@ void Quad::print()
 	else if (this->op == "=str")
 	{
 		cout << "\t" << this->result
-			 << " = " << StringLiterals[stoull(this->arg1)]
+			 << " = " << stringLiterals[stoull(this->arg1)]
 			 << '\n';
 	}
 	else if (this->op == "~")
@@ -623,7 +623,9 @@ bool type_check(Symbol *&a, Symbol *&b)
 	};
 	// if the types are same return true
 	if (type_comp(a->type, b->type))
+	{
 		return true;
+	}
 	// if the types are not same but can be cast safely according the rules, then cast and return
 	else if (a->type->type == SymbolType::SymbolEnum::FLOAT or
 			 b->type->type == SymbolType::SymbolEnum::FLOAT)
@@ -643,30 +645,5 @@ bool type_check(Symbol *&a, Symbol *&b)
 	else
 	{
 		return false;
-	}
-}
-
-int main()
-{
-	// initialization of global variables
-	table_count = 0;
-	temp_count = 0;
-	global_table = new SymbolTable("global");
-	current_table = global_table;
-	cout << left; // left allign
-
-	yyparse();
-
-	list<size_t> l1, l2;
-	l2 = merge_list(l1, make_list(next_instruction()));
-
-	global_table->update();
-	global_table->print();
-	int ins{};
-
-	for (auto &&it : quad_array)
-	{
-		cout << setw(6) << "L" + to_string(++ins) << ":\t";
-		it->print();
 	}
 }

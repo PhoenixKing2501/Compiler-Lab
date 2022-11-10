@@ -1,6 +1,6 @@
 %{
-	#include "ass5_20CS10063_20CS30057_translator.h"
-	#include "ass5_20CS10063_20CS30057.tab.h"
+	#include "ass6_20CS10063_20CS30057_translator.h"
+	#include "ass6_20CS10063_20CS30057.tab.h"
 %}
 
 %option yylineno
