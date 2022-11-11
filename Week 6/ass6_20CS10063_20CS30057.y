@@ -3,19 +3,19 @@
 %}
 
 %union {
+	int instrNum;
 	int intVal;
+	int paramCnt;
+	char charVal[1024];
 	char floatVal[32];
 	char identifierVal[1024];
-	char charVal[1024];
 	char stringVal[1024];
 	char unaryOp[8];
-	int instrNum;
-	int paramCnt;
+	Array *array;
 	Expression *expression;
 	Statement *statement;
-	Array *array;
-	SymbolType *symbolType;
 	Symbol *symbol;
+	SymbolType *symbolType;
 }
 
 %token AUTO
@@ -110,7 +110,7 @@
 %token BITWISE_OR
 %token BITWISE_XOR
 
-%nonassoc RIGHT_PARENTHESES
+/* %nonassoc RIGHT_PARENTHESES */
 
 %start translation_unit
 %right THEN ELSE
@@ -408,7 +408,7 @@ unary_operator:
 	| EXCLAMATION
 		{
 			yyinfo("unary_operator ==> !");
-			strcpy($$, "+");
+			strcpy($$, "!");
 		}
 	;
 
@@ -1589,7 +1589,7 @@ compound_statement:
 		{
 			yyinfo("compound_statement ==> { block_item_list_opt }");
 			$$ = $2;
-			change_table(current_table->parent); // block over, move back to the parent table
+			// change_table(current_table->parent); // block over, move back to the parent table
 		}
 	;
 
@@ -1799,7 +1799,7 @@ external_declaration:
 function_definition: // modified to prevent block change
 	declaration_specifiers declarator declaration_list_opt change_scope LEFT_BRACE block_item_list_opt RIGHT_BRACE
 		{
-			yyinfo("function_definition ==> declaration_specifiers declarator declaration_list_opt { block_item_list_opt }");
+			yyinfo("function_definition ==> declaration_specifiers declarator declaration_list_opt compound_statement");
 
 			table_count = 0;
 			emit("labelend", $2->name);

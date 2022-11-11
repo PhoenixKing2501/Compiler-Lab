@@ -8,7 +8,7 @@ int table_count{}, temp_count{};
 vector<string> stringLiterals{};
 
 ActivationRecord::ActivationRecord()
-	: total_displacement{}, displacement{map<string, int>{}} {}
+	: total_displacement{0}, displacement{map<string, int>{}} {}
 
 SymbolType::SymbolType(SymbolEnum type, SymbolType *array_type, size_t width)
 	: type{type}, width{width}, array_type{array_type} {}
@@ -18,7 +18,6 @@ size_t SymbolType::getSize()
 	switch (this->type)
 	{
 	case SymbolEnum::INT:
-	case SymbolEnum::PTR:
 		return 4;
 		break;
 
@@ -27,6 +26,7 @@ size_t SymbolType::getSize()
 		break;
 
 	case SymbolEnum::FLOAT:
+	case SymbolEnum::PTR:
 		return 8;
 		break;
 
@@ -85,18 +85,18 @@ string SymbolType::toString()
 SymbolTable::SymbolTable(const string &name, SymbolTable *parent)
 	: name{name}, parent{parent} {}
 
-Symbol *SymbolTable::lookup(const string &name_)
+Symbol *SymbolTable::lookup(const string &name)
 {
-	if (this->symbols.contains(name_))
+	if (this->symbols.contains(name))
 	{
-		return &this->symbols[name_];
+		return &this->symbols[name];
 	}
 
 	Symbol *ret_ptr = nullptr;
 
 	if (this->parent)
 	{
-		ret_ptr = this->parent->lookup(name_);
+		ret_ptr = this->parent->lookup(name);
 	}
 
 	if (this == current_table && !ret_ptr)
@@ -172,14 +172,14 @@ void SymbolTable::update()
 
 void SymbolTable::print()
 {
-	cout << string(140, '*') << '\n';
+	cout << string(180, '*') << '\n';
 	cout << "Table Name: `" << this->name << "`\t\t Parent Name: `" << (this->parent ? this->parent->name : "None") << "`\n";
-	cout << string(140, '*') << '\n';
+	cout << string(180, '*') << '\n';
 
 	cout << setw(20) << "Name"
 		 << setw(40) << "Type"
 		 << setw(20) << "Category"
-		 << setw(20) << "Initial Value"
+		 << setw(40) << "Initial Value"
 		 << setw(20) << "Size"
 		 << setw(20) << "Offset"
 		 << setw(20) << "Child"
@@ -188,7 +188,7 @@ void SymbolTable::print()
 	cout << setw(20) << "----"
 		 << setw(40) << "----"
 		 << setw(20) << "--------"
-		 << setw(20) << "-------------"
+		 << setw(40) << "-------------"
 		 << setw(20) << "------"
 		 << setw(20) << "----"
 		 << setw(20) << "-----"
@@ -204,26 +204,26 @@ void SymbolTable::print()
 		switch (map_entry.second.category)
 		{
 		case Symbol::SymbolCategory::LOCAL:
-			cout << quoted("local", '`');
+			cout << setw(20) << quoted("local", '`');
 			break;
 		case Symbol::SymbolCategory::GLOBAL:
-			cout << quoted("global", '`');
+			cout << setw(20) << quoted("global", '`');
 			break;
 		case Symbol::SymbolCategory::FUNC:
-			cout << quoted("function", '`');
+			cout << setw(20) << quoted("function", '`');
 			break;
 		case Symbol::SymbolCategory::PARAM:
-			cout << quoted("parameter", '`');
+			cout << setw(20) << quoted("parameter", '`');
 			break;
 		case Symbol::SymbolCategory::TEMP:
-			cout << quoted("temporary", '`');
+			cout << setw(20) << quoted("temporary", '`');
 			break;
 
 		default:
 			break;
 		}
 
-		cout << setw(20) << (map_entry.second.initial_value == "" or map_entry.second.initial_value.empty() ? "" : '`' + map_entry.second.initial_value + '`')
+		cout << setw(40) << (map_entry.second.initial_value == "" or map_entry.second.initial_value.empty() ? "" : '`' + map_entry.second.initial_value + '`')
 			 << setw(20) << quoted(to_string(map_entry.second.size), '`')
 			 << setw(20) << quoted(to_string(map_entry.second.offset), '`')
 			 << setw(20) << quoted(map_entry.second.nested_table ? map_entry.second.nested_table->name : "NULL", '`')
@@ -235,7 +235,7 @@ void SymbolTable::print()
 		}
 	}
 
-	cout << string(140, '*') << string(4, '\n');
+	cout << string(180, '*') << string(4, '\n');
 
 	for (auto &&table : tovisit)
 	{

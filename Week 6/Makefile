@@ -23,9 +23,10 @@ libiolib.a: ass2_20CS30057.o
 	ar -rcs libiolib.a ass2_20CS30057.o
 
 ass2_20CS30057.o: ass2_20CS30057.c myl.h
-	gcc -Wall -c ass2_20CS30057.c
+	g++ -c -Wall -I. ass2_20CS30057.c
 
 clean:
-	rm parser ass6_20CS10063_20CS30057_translator.o ass6_20CS10063_20CS30057.yy.* ass6_20CS10063_20CS30057.tab.* ass6_20CS10063_20CS30057.output
+	rm parser ass6_20CS10063_20CS30057_*.o ass6_20CS10063_20CS30057.yy.* ass6_20CS10063_20CS30057.tab.* ass6_20CS10063_20CS30057.output *.a
 
 test: parser libiolib.a
+	@echo "hello"
