@@ -1,0 +1,294 @@
+********************************************************************************************************************************************************************************************************
+Table Name: `global`		 Parent Name: `None`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`main`              `int`                                   `function`                                                                      `4`                 `0`                 `main`              
+`printInt`          `int`                                   `function`                                                                      `4`                 `4`                 `printInt`          
+`printStr`          `int`                                   `function`                                                                      `4`                 `8`                 `printStr`          
+`readInt`           `int`                                   `function`                                                                      `4`                 `12`                `readInt`           
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `main`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`n1`                `int`                                   `local`                                                                         `4`                 `0`                 `NULL`              
+`n2`                `int`                                   `local`                                                                         `4`                 `4`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `8`                 `NULL`              
+`t0`                `ptr(char)`                             `temp`              `"\n#### TEST 7 (Conditional operators) ####\n"`            `8`                 `12`                `NULL`              
+`t1`                `int`                                   `temp`                                                                          `4`                 `20`                `NULL`              
+`t10`               `int`                                   `temp`              `6`                                                         `4`                 `24`                `NULL`              
+`t11`               `ptr(char)`                             `temp`              `"\nTesting != operator: "`                                 `8`                 `28`                `NULL`              
+`t12`               `int`                                   `temp`                                                                          `4`                 `36`                `NULL`              
+`t13`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `40`                `NULL`              
+`t14`               `int`                                   `temp`                                                                          `4`                 `48`                `NULL`              
+`t15`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `52`                `NULL`              
+`t16`               `int`                                   `temp`                                                                          `4`                 `60`                `NULL`              
+`t17`               `int`                                   `temp`              `1`                                                         `4`                 `64`                `NULL`              
+`t18`               `int`                                   `temp`                                                                          `4`                 `68`                `NULL`              
+`t19`               `int`                                   `temp`              `3`                                                         `4`                 `72`                `NULL`              
+`t2`                `int`                                   `temp`              `5`                                                         `4`                 `76`                `NULL`              
+`t20`               `ptr(char)`                             `temp`              `"\nTesting < operator (strictly less): "`                  `8`                 `80`                `NULL`              
+`t21`               `int`                                   `temp`                                                                          `4`                 `88`                `NULL`              
+`t22`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `92`                `NULL`              
+`t23`               `int`                                   `temp`                                                                          `4`                 `100`               `NULL`              
+`t24`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `104`               `NULL`              
+`t25`               `int`                                   `temp`                                                                          `4`                 `112`               `NULL`              
+`t26`               `int`                                   `temp`              `1`                                                         `4`                 `116`               `NULL`              
+`t27`               `int`                                   `temp`                                                                          `4`                 `120`               `NULL`              
+`t28`               `ptr(char)`                             `temp`              `"\nTesting < operator (equality): "`                       `8`                 `124`               `NULL`              
+`t29`               `int`                                   `temp`                                                                          `4`                 `132`               `NULL`              
+`t3`                `int`                                   `temp`              `5`                                                         `4`                 `136`               `NULL`              
+`t30`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `140`               `NULL`              
+`t31`               `int`                                   `temp`                                                                          `4`                 `148`               `NULL`              
+`t32`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `152`               `NULL`              
+`t33`               `int`                                   `temp`                                                                          `4`                 `160`               `NULL`              
+`t34`               `ptr(char)`                             `temp`              `"\nTesting <= operator (equality): "`                      `8`                 `164`               `NULL`              
+`t35`               `int`                                   `temp`                                                                          `4`                 `172`               `NULL`              
+`t36`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `176`               `NULL`              
+`t37`               `int`                                   `temp`                                                                          `4`                 `184`               `NULL`              
+`t38`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `188`               `NULL`              
+`t39`               `int`                                   `temp`                                                                          `4`                 `196`               `NULL`              
+`t4`                `ptr(char)`                             `temp`              `"\nTesting == operator: "`                                 `8`                 `200`               `NULL`              
+`t40`               `int`                                   `temp`              `2`                                                         `4`                 `208`               `NULL`              
+`t41`               `int`                                   `temp`                                                                          `4`                 `212`               `NULL`              
+`t42`               `ptr(char)`                             `temp`              `"\nTesting <= operator (strictly less): "`                 `8`                 `216`               `NULL`              
+`t43`               `int`                                   `temp`                                                                          `4`                 `224`               `NULL`              
+`t44`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `228`               `NULL`              
+`t45`               `int`                                   `temp`                                                                          `4`                 `236`               `NULL`              
+`t46`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `240`               `NULL`              
+`t47`               `int`                                   `temp`                                                                          `4`                 `248`               `NULL`              
+`t48`               `int`                                   `temp`              `7`                                                         `4`                 `252`               `NULL`              
+`t49`               `ptr(char)`                             `temp`              `"\nTesting > operator (strictly greater): "`               `8`                 `256`               `NULL`              
+`t5`                `int`                                   `temp`                                                                          `4`                 `264`               `NULL`              
+`t50`               `int`                                   `temp`                                                                          `4`                 `268`               `NULL`              
+`t51`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `272`               `NULL`              
+`t52`               `int`                                   `temp`                                                                          `4`                 `280`               `NULL`              
+`t53`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `284`               `NULL`              
+`t54`               `int`                                   `temp`                                                                          `4`                 `292`               `NULL`              
+`t55`               `int`                                   `temp`              `7`                                                         `4`                 `296`               `NULL`              
+`t56`               `ptr(char)`                             `temp`              `"\nTesting > operator (equality): "`                       `8`                 `300`               `NULL`              
+`t57`               `int`                                   `temp`                                                                          `4`                 `308`               `NULL`              
+`t58`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `312`               `NULL`              
+`t59`               `int`                                   `temp`                                                                          `4`                 `320`               `NULL`              
+`t6`                `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `324`               `NULL`              
+`t60`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `332`               `NULL`              
+`t61`               `int`                                   `temp`                                                                          `4`                 `340`               `NULL`              
+`t62`               `ptr(char)`                             `temp`              `"\nTesting >= operator (equality): "`                      `8`                 `344`               `NULL`              
+`t63`               `int`                                   `temp`                                                                          `4`                 `352`               `NULL`              
+`t64`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `356`               `NULL`              
+`t65`               `int`                                   `temp`                                                                          `4`                 `364`               `NULL`              
+`t66`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `368`               `NULL`              
+`t67`               `int`                                   `temp`                                                                          `4`                 `376`               `NULL`              
+`t68`               `int`                                   `temp`              `8`                                                         `4`                 `380`               `NULL`              
+`t69`               `ptr(char)`                             `temp`              `"\nTesting >= operator (strictly greater): "`              `8`                 `384`               `NULL`              
+`t7`                `int`                                   `temp`                                                                          `4`                 `392`               `NULL`              
+`t70`               `int`                                   `temp`                                                                          `4`                 `396`               `NULL`              
+`t71`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `400`               `NULL`              
+`t72`               `int`                                   `temp`                                                                          `4`                 `408`               `NULL`              
+`t73`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `412`               `NULL`              
+`t74`               `int`                                   `temp`                                                                          `4`                 `420`               `NULL`              
+`t75`               `ptr(char)`                             `temp`              `"\n\n"`                                                    `8`                 `424`               `NULL`              
+`t76`               `int`                                   `temp`                                                                          `4`                 `432`               `NULL`              
+`t77`               `int`                                   `temp`              `0`                                                         `4`                 `436`               `NULL`              
+`t8`                `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `440`               `NULL`              
+`t9`                `int`                                   `temp`                                                                          `4`                 `448`               `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`n`                 `int`                                   `param`                                                                         `4`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printStr`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`return`            `int`                                   `local`                                                                         `4`                 `0`                 `NULL`              
+`s`                 `ptr(char)`                             `param`                                                                         `8`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `readInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`eP`                `ptr(int)`                              `param`                                                                         `8`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `8`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+L1    :	Function start: main
+L2    :		t0 = "\n#### TEST 7 (Conditional operators) ####\n"
+L3    :		param t0
+L4    :		t1 = call printStr, 1
+L5    :		t2 = 5
+L6    :		n1 = t2
+L7    :		t3 = 5
+L8    :		n2 = t3
+L9    :		t4 = "\nTesting == operator: "
+L10   :		param t4
+L11   :		t5 = call printStr, 1
+L12   :		if n1 == n2 goto L14
+L13   :		goto L18
+L14   :		t6 = "Passed"
+L15   :		param t6
+L16   :		t7 = call printStr, 1
+L17   :		goto L21
+L18   :		t8 = "Failed"
+L19   :		param t8
+L20   :		t9 = call printStr, 1
+L21   :		t10 = 6
+L22   :		n2 = t10
+L23   :		t11 = "\nTesting != operator: "
+L24   :		param t11
+L25   :		t12 = call printStr, 1
+L26   :		if n1 != n2 goto L28
+L27   :		goto L32
+L28   :		t13 = "Passed"
+L29   :		param t13
+L30   :		t14 = call printStr, 1
+L31   :		goto L35
+L32   :		t15 = "Failed"
+L33   :		param t15
+L34   :		t16 = call printStr, 1
+L35   :		t17 = 1
+L36   :		t18 = minus t17
+L37   :		n1 = t18
+L38   :		t19 = 3
+L39   :		n2 = t19
+L40   :		t20 = "\nTesting < operator (strictly less): "
+L41   :		param t20
+L42   :		t21 = call printStr, 1
+L43   :		if n1 < n2 goto L45
+L44   :		goto L49
+L45   :		t22 = "Passed"
+L46   :		param t22
+L47   :		t23 = call printStr, 1
+L48   :		goto L52
+L49   :		t24 = "Failed"
+L50   :		param t24
+L51   :		t25 = call printStr, 1
+L52   :		t26 = 1
+L53   :		t27 = minus t26
+L54   :		n2 = t27
+L55   :		t28 = "\nTesting < operator (equality): "
+L56   :		param t28
+L57   :		t29 = call printStr, 1
+L58   :		if n1 < n2 goto L60
+L59   :		goto L64
+L60   :		t30 = "Failed"
+L61   :		param t30
+L62   :		t31 = call printStr, 1
+L63   :		goto L67
+L64   :		t32 = "Passed"
+L65   :		param t32
+L66   :		t33 = call printStr, 1
+L67   :		t34 = "\nTesting <= operator (equality): "
+L68   :		param t34
+L69   :		t35 = call printStr, 1
+L70   :		if n1 <= n2 goto L72
+L71   :		goto L76
+L72   :		t36 = "Passed"
+L73   :		param t36
+L74   :		t37 = call printStr, 1
+L75   :		goto L79
+L76   :		t38 = "Failed"
+L77   :		param t38
+L78   :		t39 = call printStr, 1
+L79   :		t40 = 2
+L80   :		t41 = minus t40
+L81   :		n1 = t41
+L82   :		t42 = "\nTesting <= operator (strictly less): "
+L83   :		param t42
+L84   :		t43 = call printStr, 1
+L85   :		if n1 <= n2 goto L87
+L86   :		goto L91
+L87   :		t44 = "Passed"
+L88   :		param t44
+L89   :		t45 = call printStr, 1
+L90   :		goto L94
+L91   :		t46 = "Failed"
+L92   :		param t46
+L93   :		t47 = call printStr, 1
+L94   :		t48 = 7
+L95   :		n1 = t48
+L96   :		t49 = "\nTesting > operator (strictly greater): "
+L97   :		param t49
+L98   :		t50 = call printStr, 1
+L99   :		if n1 > n2 goto L101
+L100  :		goto L105
+L101  :		t51 = "Passed"
+L102  :		param t51
+L103  :		t52 = call printStr, 1
+L104  :		goto L108
+L105  :		t53 = "Failed"
+L106  :		param t53
+L107  :		t54 = call printStr, 1
+L108  :		t55 = 7
+L109  :		n2 = t55
+L110  :		t56 = "\nTesting > operator (equality): "
+L111  :		param t56
+L112  :		t57 = call printStr, 1
+L113  :		if n1 > n2 goto L115
+L114  :		goto L119
+L115  :		t58 = "Failed"
+L116  :		param t58
+L117  :		t59 = call printStr, 1
+L118  :		goto L122
+L119  :		t60 = "Passed"
+L120  :		param t60
+L121  :		t61 = call printStr, 1
+L122  :		t62 = "\nTesting >= operator (equality): "
+L123  :		param t62
+L124  :		t63 = call printStr, 1
+L125  :		if n1 >= n2 goto L127
+L126  :		goto L131
+L127  :		t64 = "Passed"
+L128  :		param t64
+L129  :		t65 = call printStr, 1
+L130  :		goto L134
+L131  :		t66 = "Failed"
+L132  :		param t66
+L133  :		t67 = call printStr, 1
+L134  :		t68 = 8
+L135  :		n1 = t68
+L136  :		t69 = "\nTesting >= operator (strictly greater): "
+L137  :		param t69
+L138  :		t70 = call printStr, 1
+L139  :		if n1 >= n2 goto L141
+L140  :		goto L145
+L141  :		t71 = "Passed"
+L142  :		param t71
+L143  :		t72 = call printStr, 1
+L144  :		goto L148
+L145  :		t73 = "Failed"
+L146  :		param t73
+L147  :		t74 = call printStr, 1
+L148  :		t75 = "\n\n"
+L149  :		param t75
+L150  :		t76 = call printStr, 1
+L151  :		t77 = 0
+L152  :		return t77
+L153  :	Function end: main

@@ -1,0 +1,311 @@
+********************************************************************************************************************************************************************************************************
+Table Name: `global`		 Parent Name: `None`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`fibNum`            `int`                                   `function`                                                                      `4`                 `0`                 `fibNum`            
+`main`              `int`                                   `function`                                                                      `4`                 `4`                 `main`              
+`printInt`          `int`                                   `function`                                                                      `4`                 `8`                 `printInt`          
+`printNums`         `void`                                  `function`                                                                      `0`                 `12`                `printNums`         
+`printStr`          `int`                                   `function`                                                                      `4`                 `12`                `printStr`          
+`readInt`           `int`                                   `function`                                                                      `4`                 `16`                `readInt`           
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `fibNum`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`n`                 `int`                                   `param`                                                                         `4`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `4`                 `NULL`              
+`t10`               `int`                                   `temp`              `1`                                                         `4`                 `8`                 `NULL`              
+`t11`               `int`                                   `temp`              `1`                                                         `4`                 `12`                `NULL`              
+`t12`               `int`                                   `temp`              `1`                                                         `4`                 `16`                `NULL`              
+`t13`               `int`                                   `temp`                                                                          `4`                 `20`                `NULL`              
+`t14`               `int`                                   `temp`                                                                          `4`                 `24`                `NULL`              
+`t15`               `int`                                   `temp`              `2`                                                         `4`                 `28`                `NULL`              
+`t16`               `int`                                   `temp`                                                                          `4`                 `32`                `NULL`              
+`t17`               `int`                                   `temp`                                                                          `4`                 `36`                `NULL`              
+`t18`               `int`                                   `temp`                                                                          `4`                 `40`                `NULL`              
+`t8`                `int`                                   `temp`              `0`                                                         `4`                 `44`                `NULL`              
+`t9`                `int`                                   `temp`              `0`                                                         `4`                 `48`                `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `main`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`end`               `int`                                   `local`                                                                         `4`                 `0`                 `NULL`              
+`ep`                `int`                                   `local`                                                                         `4`                 `4`                 `NULL`              
+`n`                 `int`                                   `local`                                                                         `4`                 `8`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `12`                `NULL`              
+`start`             `int`                                   `local`                                                                         `4`                 `16`                `NULL`              
+`t19`               `ptr(char)`                             `temp`              `"\n#### TEST 6 (Recursive function calls) ####"`           `8`                 `20`                `NULL`              
+`t20`               `int`                                   `temp`                                                                          `4`                 `28`                `NULL`              
+`t21`               `ptr(char)`                             `temp`              `"\nEnter start: "`                                         `8`                 `32`                `NULL`              
+`t22`               `int`                                   `temp`                                                                          `4`                 `40`                `NULL`              
+`t23`               `ptr(int)`                              `temp`                                                                          `8`                 `44`                `NULL`              
+`t24`               `int`                                   `temp`                                                                          `4`                 `52`                `NULL`              
+`t25`               `int`                                   `temp`              `0`                                                         `4`                 `56`                `NULL`              
+`t26`               `ptr(char)`                             `temp`              `"Invalid start\n"`                                         `8`                 `60`                `NULL`              
+`t27`               `int`                                   `temp`                                                                          `4`                 `68`                `NULL`              
+`t28`               `int`                                   `temp`              `0`                                                         `4`                 `72`                `NULL`              
+`t29`               `ptr(char)`                             `temp`              `"Enter end: "`                                             `8`                 `76`                `NULL`              
+`t30`               `int`                                   `temp`                                                                          `4`                 `84`                `NULL`              
+`t31`               `ptr(int)`                              `temp`                                                                          `8`                 `88`                `NULL`              
+`t32`               `int`                                   `temp`                                                                          `4`                 `96`                `NULL`              
+`t33`               `int`                                   `temp`              `0`                                                         `4`                 `100`               `NULL`              
+`t34`               `ptr(char)`                             `temp`              `"Invalid end\n"`                                           `8`                 `104`               `NULL`              
+`t35`               `int`                                   `temp`                                                                          `4`                 `112`               `NULL`              
+`t36`               `int`                                   `temp`              `0`                                                         `4`                 `116`               `NULL`              
+`t37`               `ptr(char)`                             `temp`              `"Invalid range\n"`                                         `8`                 `120`               `NULL`              
+`t38`               `int`                                   `temp`                                                                          `4`                 `128`               `NULL`              
+`t39`               `int`                                   `temp`              `0`                                                         `4`                 `132`               `NULL`              
+`t40`               `ptr(char)`                             `temp`              `"Numbers from "`                                           `8`                 `136`               `NULL`              
+`t41`               `int`                                   `temp`                                                                          `4`                 `144`               `NULL`              
+`t42`               `int`                                   `temp`                                                                          `4`                 `148`               `NULL`              
+`t43`               `ptr(char)`                             `temp`              `" to "`                                                    `8`                 `152`               `NULL`              
+`t44`               `int`                                   `temp`                                                                          `4`                 `160`               `NULL`              
+`t45`               `int`                                   `temp`                                                                          `4`                 `164`               `NULL`              
+`t46`               `ptr(char)`                             `temp`              `" are: "`                                                  `8`                 `168`               `NULL`              
+`t47`               `int`                                   `temp`                                                                          `4`                 `176`               `NULL`              
+`t48`               `void`                                  `temp`                                                                          `0`                 `180`               `NULL`              
+`t49`               `ptr(char)`                             `temp`              `"\n\nEnter value of n (<40) to find the nth fibonacci number: "``8`                 `180`               `NULL`              
+`t50`               `int`                                   `temp`                                                                          `4`                 `188`               `NULL`              
+`t51`               `ptr(int)`                              `temp`                                                                          `8`                 `192`               `NULL`              
+`t52`               `int`                                   `temp`                                                                          `4`                 `200`               `NULL`              
+`t53`               `int`                                   `temp`              `0`                                                         `4`                 `204`               `NULL`              
+`t54`               `ptr(char)`                             `temp`              `"Invalid n\n\n"`                                           `8`                 `208`               `NULL`              
+`t55`               `int`                                   `temp`                                                                          `4`                 `216`               `NULL`              
+`t56`               `int`                                   `temp`              `0`                                                         `4`                 `220`               `NULL`              
+`t57`               `int`                                   `temp`              `40`                                                        `4`                 `224`               `NULL`              
+`t58`               `ptr(char)`                             `temp`              `"n should be less than 40\n\n"`                            `8`                 `228`               `NULL`              
+`t59`               `int`                                   `temp`                                                                          `4`                 `236`               `NULL`              
+`t60`               `int`                                   `temp`              `0`                                                         `4`                 `240`               `NULL`              
+`t61`               `ptr(char)`                             `temp`              `"\nfib("`                                                  `8`                 `244`               `NULL`              
+`t62`               `int`                                   `temp`                                                                          `4`                 `252`               `NULL`              
+`t63`               `int`                                   `temp`                                                                          `4`                 `256`               `NULL`              
+`t64`               `ptr(char)`                             `temp`              `") = "`                                                    `8`                 `260`               `NULL`              
+`t65`               `int`                                   `temp`                                                                          `4`                 `268`               `NULL`              
+`t66`               `int`                                   `temp`                                                                          `4`                 `272`               `NULL`              
+`t67`               `int`                                   `temp`                                                                          `4`                 `276`               `NULL`              
+`t68`               `ptr(char)`                             `temp`              `"\n\n"`                                                    `8`                 `280`               `NULL`              
+`t69`               `int`                                   `temp`                                                                          `4`                 `288`               `NULL`              
+`t70`               `int`                                   `temp`              `0`                                                         `4`                 `292`               `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`n`                 `int`                                   `param`                                                                         `4`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printNums`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`curr`              `int`                                   `param`                                                                         `4`                 `0`                 `NULL`              
+`t0`                `int`                                   `temp`                                                                          `4`                 `4`                 `NULL`              
+`t1`                `ptr(char)`                             `temp`              `"\n"`                                                      `8`                 `8`                 `NULL`              
+`t2`                `int`                                   `temp`                                                                          `4`                 `16`                `NULL`              
+`t3`                `ptr(char)`                             `temp`              `" "`                                                       `8`                 `20`                `NULL`              
+`t4`                `int`                                   `temp`                                                                          `4`                 `28`                `NULL`              
+`t5`                `int`                                   `temp`              `1`                                                         `4`                 `32`                `NULL`              
+`t6`                `int`                                   `temp`                                                                          `4`                 `36`                `NULL`              
+`t7`                `void`                                  `temp`                                                                          `0`                 `40`                `NULL`              
+`till`              `int`                                   `param`                                                                         `4`                 `40`                `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printStr`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`return`            `int`                                   `local`                                                                         `4`                 `0`                 `NULL`              
+`s`                 `ptr(char)`                             `param`                                                                         `8`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `readInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`eP`                `ptr(int)`                              `param`                                                                         `8`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `8`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+L1    :	Function start: printNums
+L2    :		if curr > till goto L4
+L3    :		goto L6
+L4    :		return 
+L5    :		goto L6
+L6    :		param curr
+L7    :		t0 = call printInt, 1
+L8    :		if curr == till goto L10
+L9    :		goto L14
+L10   :		t1 = "\n"
+L11   :		param t1
+L12   :		t2 = call printStr, 1
+L13   :		goto L22
+L14   :		t3 = " "
+L15   :		param t3
+L16   :		t4 = call printStr, 1
+L17   :		t5 = 1
+L18   :		t6 = curr + t5
+L19   :		param t6
+L20   :		param till
+L21   :		t7 = call printNums, 2
+L22   :	Function end: printNums
+L23   :	Function start: fibNum
+L24   :		t8 = 0
+L25   :		if n == t8 goto L27
+L26   :		goto L30
+L27   :		t9 = 0
+L28   :		return t9
+L29   :		goto L46
+L30   :		t10 = 1
+L31   :		if n == t10 goto L33
+L32   :		goto L36
+L33   :		t11 = 1
+L34   :		return t11
+L35   :		goto L46
+L36   :		t12 = 1
+L37   :		t13 = n - t12
+L38   :		param t13
+L39   :		t14 = call fibNum, 1
+L40   :		t15 = 2
+L41   :		t16 = n - t15
+L42   :		param t16
+L43   :		t17 = call fibNum, 1
+L44   :		t18 = t14 + t17
+L45   :		return t18
+L46   :	Function end: fibNum
+L47   :	Function start: main
+L48   :		t19 = "\n#### TEST 6 (Recursive function calls) ####"
+L49   :		param t19
+L50   :		t20 = call printStr, 1
+L51   :		t21 = "\nEnter start: "
+L52   :		param t21
+L53   :		t22 = call printStr, 1
+L54   :		t23 = &ep
+L55   :		param t23
+L56   :		t24 = call readInt, 1
+L57   :		start = t24
+L58   :		t25 = 0
+L59   :		if ep != t25 goto L61
+L60   :		goto L67
+L61   :		t26 = "Invalid start\n"
+L62   :		param t26
+L63   :		t27 = call printStr, 1
+L64   :		t28 = 0
+L65   :		return t28
+L66   :		goto L67
+L67   :		t29 = "Enter end: "
+L68   :		param t29
+L69   :		t30 = call printStr, 1
+L70   :		t31 = &ep
+L71   :		param t31
+L72   :		t32 = call readInt, 1
+L73   :		end = t32
+L74   :		t33 = 0
+L75   :		if ep != t33 goto L77
+L76   :		goto L83
+L77   :		t34 = "Invalid end\n"
+L78   :		param t34
+L79   :		t35 = call printStr, 1
+L80   :		t36 = 0
+L81   :		return t36
+L82   :		goto L83
+L83   :		if start > end goto L85
+L84   :		goto L91
+L85   :		t37 = "Invalid range\n"
+L86   :		param t37
+L87   :		t38 = call printStr, 1
+L88   :		t39 = 0
+L89   :		return t39
+L90   :		goto L91
+L91   :		t40 = "Numbers from "
+L92   :		param t40
+L93   :		t41 = call printStr, 1
+L94   :		param start
+L95   :		t42 = call printInt, 1
+L96   :		t43 = " to "
+L97   :		param t43
+L98   :		t44 = call printStr, 1
+L99   :		param end
+L100  :		t45 = call printInt, 1
+L101  :		t46 = " are: "
+L102  :		param t46
+L103  :		t47 = call printStr, 1
+L104  :		param start
+L105  :		param end
+L106  :		t48 = call printNums, 2
+L107  :		t49 = "\n\nEnter value of n (<40) to find the nth fibonacci number: "
+L108  :		param t49
+L109  :		t50 = call printStr, 1
+L110  :		t51 = &ep
+L111  :		param t51
+L112  :		t52 = call readInt, 1
+L113  :		n = t52
+L114  :		t53 = 0
+L115  :		if ep != t53 goto L117
+L116  :		goto L123
+L117  :		t54 = "Invalid n\n\n"
+L118  :		param t54
+L119  :		t55 = call printStr, 1
+L120  :		t56 = 0
+L121  :		return t56
+L122  :		goto L147
+L123  :		t57 = 40
+L124  :		if n >= t57 goto L126
+L125  :		goto L132
+L126  :		t58 = "n should be less than 40\n\n"
+L127  :		param t58
+L128  :		t59 = call printStr, 1
+L129  :		t60 = 0
+L130  :		return t60
+L131  :		goto L147
+L132  :		t61 = "\nfib("
+L133  :		param t61
+L134  :		t62 = call printStr, 1
+L135  :		param n
+L136  :		t63 = call printInt, 1
+L137  :		t64 = ") = "
+L138  :		param t64
+L139  :		t65 = call printStr, 1
+L140  :		param n
+L141  :		t66 = call fibNum, 1
+L142  :		param t66
+L143  :		t67 = call printInt, 1
+L144  :		t68 = "\n\n"
+L145  :		param t68
+L146  :		t69 = call printStr, 1
+L147  :		t70 = 0
+L148  :		return t70
+L149  :	Function end: main
