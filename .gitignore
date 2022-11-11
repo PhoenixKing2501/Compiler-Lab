@@ -11,3 +11,5 @@ out.txt
 in.txt
 **/*.tab.*
 **/*.output
+**/*.a
+**/*.s

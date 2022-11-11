@@ -1,0 +1,385 @@
+********************************************************************************************************************************************************************************************************
+Table Name: `global`		 Parent Name: `None`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`charG1`            `char`                                  `global`            `'b'`                                                       `1`                 `0`                 `NULL`              
+`charG2`            `char`                                  `global`                                                                        `1`                 `1`                 `NULL`              
+`main`              `int`                                   `function`                                                                      `4`                 `2`                 `main`              
+`numG1`             `int`                                   `global`            `20`                                                        `4`                 `6`                 `NULL`              
+`numG2`             `int`                                   `global`                                                                        `4`                 `10`                `NULL`              
+`printInt`          `int`                                   `function`                                                                      `4`                 `14`                `printInt`          
+`printStr`          `int`                                   `function`                                                                      `4`                 `18`                `printStr`          
+`ptrG1`             `ptr(int)`                              `global`                                                                        `8`                 `22`                `NULL`              
+`ptrG2`             `ptr(int)`                              `global`                                                                        `8`                 `30`                `NULL`              
+`readInt`           `int`                                   `function`                                                                      `4`                 `38`                `readInt`           
+`strG1`             `ptr(char)`                             `global`            `"Hello World, I am a global string."`                      `8`                 `42`                `NULL`              
+`strG2`             `ptr(char)`                             `global`                                                                        `8`                 `50`                `NULL`              
+`t0`                `int`                                   `temp`              `20`                                                        `4`                 `58`                `NULL`              
+`t1`                `char`                                  `temp`              `'b'`                                                       `1`                 `62`                `NULL`              
+`t2`                `ptr(char)`                             `temp`              `"Hello World, I am a global string."`                      `8`                 `63`                `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `main`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`charL1`            `char`                                  `local`             `'a'`                                                       `1`                 `0`                 `NULL`              
+`charL2`            `char`                                  `local`                                                                         `1`                 `1`                 `NULL`              
+`numL1`             `int`                                   `local`             `5`                                                         `4`                 `2`                 `NULL`              
+`numL2`             `int`                                   `local`                                                                         `4`                 `6`                 `NULL`              
+`ptrL1`             `ptr(int)`                              `local`                                                                         `8`                 `10`                `NULL`              
+`ptrL2`             `ptr(int)`                              `local`                                                                         `8`                 `18`                `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `26`                `NULL`              
+`strL1`             `ptr(char)`                             `local`             `"Hello World, I am a local string."`                       `8`                 `30`                `NULL`              
+`strL2`             `ptr(char)`                             `local`                                                                         `8`                 `38`                `NULL`              
+`t10`               `int`                                   `temp`                                                                          `4`                 `46`                `NULL`              
+`t100`              `int`                                   `temp`              `0`                                                         `4`                 `50`                `NULL`              
+`t11`               `ptr(char)`                             `temp`              `"\nnumL1 = "`                                              `8`                 `54`                `NULL`              
+`t12`               `int`                                   `temp`                                                                          `4`                 `62`                `NULL`              
+`t13`               `int`                                   `temp`                                                                          `4`                 `66`                `NULL`              
+`t14`               `ptr(char)`                             `temp`              `", charL1 (ascii value) = "`                               `8`                 `70`                `NULL`              
+`t15`               `int`                                   `temp`                                                                          `4`                 `78`                `NULL`              
+`t16`               `int`                                   `temp`                                                                          `4`                 `82`                `NULL`              
+`t17`               `ptr(char)`                             `temp`              `", ptrL1 (adress, truncated to first 32 bits only) = "`    `8`                 `86`                `NULL`              
+`t18`               `int`                                   `temp`                                                                          `4`                 `94`                `NULL`              
+`t19`               `int`                                   `temp`                                                                          `4`                 `98`                `NULL`              
+`t20`               `ptr(char)`                             `temp`              `", strL1 = "`                                              `8`                 `102`               `NULL`              
+`t21`               `int`                                   `temp`                                                                          `4`                 `110`               `NULL`              
+`t22`               `int`                                   `temp`                                                                          `4`                 `114`               `NULL`              
+`t23`               `ptr(int)`                              `temp`                                                                          `8`                 `118`               `NULL`              
+`t24`               `ptr(char)`                             `temp`              `"\nGlobal variables: "`                                    `8`                 `126`               `NULL`              
+`t25`               `int`                                   `temp`                                                                          `4`                 `134`               `NULL`              
+`t26`               `ptr(char)`                             `temp`              `"\nnumG1 = "`                                              `8`                 `138`               `NULL`              
+`t27`               `int`                                   `temp`                                                                          `4`                 `146`               `NULL`              
+`t28`               `int`                                   `temp`                                                                          `4`                 `150`               `NULL`              
+`t29`               `ptr(char)`                             `temp`              `", charG1 (ascii value) = "`                               `8`                 `154`               `NULL`              
+`t3`                `ptr(char)`                             `temp`              `"\n#### TEST 4 (Global variables, pointers and addresses) ####"``8`                 `162`               `NULL`              
+`t30`               `int`                                   `temp`                                                                          `4`                 `170`               `NULL`              
+`t31`               `int`                                   `temp`                                                                          `4`                 `174`               `NULL`              
+`t32`               `ptr(char)`                             `temp`              `", ptrG1 (adress, truncated to first 32 bits only) = "`    `8`                 `178`               `NULL`              
+`t33`               `int`                                   `temp`                                                                          `4`                 `186`               `NULL`              
+`t34`               `int`                                   `temp`                                                                          `4`                 `190`               `NULL`              
+`t35`               `ptr(char)`                             `temp`              `", strG1 = "`                                              `8`                 `194`               `NULL`              
+`t36`               `int`                                   `temp`                                                                          `4`                 `202`               `NULL`              
+`t37`               `int`                                   `temp`                                                                          `4`                 `206`               `NULL`              
+`t38`               `ptr(char)`                             `temp`              `"\n"`                                                      `8`                 `210`               `NULL`              
+`t39`               `int`                                   `temp`                                                                          `4`                 `218`               `NULL`              
+`t4`                `int`                                   `temp`                                                                          `4`                 `222`               `NULL`              
+`t40`               `ptr(char)`                             `temp`              `"\nAssigning locals to globals: "`                         `8`                 `226`               `NULL`              
+`t41`               `int`                                   `temp`                                                                          `4`                 `234`               `NULL`              
+`t42`               `ptr(char)`                             `temp`              `"\nnumG2 = "`                                              `8`                 `238`               `NULL`              
+`t43`               `int`                                   `temp`                                                                          `4`                 `246`               `NULL`              
+`t44`               `int`                                   `temp`                                                                          `4`                 `250`               `NULL`              
+`t45`               `ptr(char)`                             `temp`              `", charG2 (ascii value) = "`                               `8`                 `254`               `NULL`              
+`t46`               `int`                                   `temp`                                                                          `4`                 `262`               `NULL`              
+`t47`               `int`                                   `temp`                                                                          `4`                 `266`               `NULL`              
+`t48`               `ptr(char)`                             `temp`              `", ptrG2 (adress, truncated to first 32 bits only) = "`    `8`                 `270`               `NULL`              
+`t49`               `int`                                   `temp`                                                                          `4`                 `278`               `NULL`              
+`t5`                `int`                                   `temp`              `5`                                                         `4`                 `282`               `NULL`              
+`t50`               `int`                                   `temp`                                                                          `4`                 `286`               `NULL`              
+`t51`               `ptr(char)`                             `temp`              `", strG2 = "`                                              `8`                 `290`               `NULL`              
+`t52`               `int`                                   `temp`                                                                          `4`                 `298`               `NULL`              
+`t53`               `int`                                   `temp`                                                                          `4`                 `302`               `NULL`              
+`t54`               `ptr(char)`                             `temp`              `"\nSUCCESS: Local variables assigned to global variables."``8`                 `306`               `NULL`              
+`t55`               `int`                                   `temp`                                                                          `4`                 `314`               `NULL`              
+`t56`               `ptr(char)`                             `temp`              `"\nFAILURE: Local variables not assigned to global variables."``8`                 `318`               `NULL`              
+`t57`               `int`                                   `temp`                                                                          `4`                 `326`               `NULL`              
+`t58`               `ptr(char)`                             `temp`              `"\n"`                                                      `8`                 `330`               `NULL`              
+`t59`               `int`                                   `temp`                                                                          `4`                 `338`               `NULL`              
+`t6`                `char`                                  `temp`              `'a'`                                                       `1`                 `342`               `NULL`              
+`t60`               `ptr(char)`                             `temp`              `"\nAssigning globals to locals: "`                         `8`                 `343`               `NULL`              
+`t61`               `int`                                   `temp`                                                                          `4`                 `351`               `NULL`              
+`t62`               `ptr(char)`                             `temp`              `"\nnumL2 = "`                                              `8`                 `355`               `NULL`              
+`t63`               `int`                                   `temp`                                                                          `4`                 `363`               `NULL`              
+`t64`               `int`                                   `temp`                                                                          `4`                 `367`               `NULL`              
+`t65`               `ptr(char)`                             `temp`              `", charL2 (ascii value) = "`                               `8`                 `371`               `NULL`              
+`t66`               `int`                                   `temp`                                                                          `4`                 `379`               `NULL`              
+`t67`               `int`                                   `temp`                                                                          `4`                 `383`               `NULL`              
+`t68`               `ptr(char)`                             `temp`              `", ptrL2 (adress, truncated to first 32 bits only) = "`    `8`                 `387`               `NULL`              
+`t69`               `int`                                   `temp`                                                                          `4`                 `395`               `NULL`              
+`t7`                `ptr(int)`                              `temp`                                                                          `8`                 `399`               `NULL`              
+`t70`               `int`                                   `temp`                                                                          `4`                 `407`               `NULL`              
+`t71`               `ptr(char)`                             `temp`              `", strL2 = "`                                              `8`                 `411`               `NULL`              
+`t72`               `int`                                   `temp`                                                                          `4`                 `419`               `NULL`              
+`t73`               `int`                                   `temp`                                                                          `4`                 `423`               `NULL`              
+`t74`               `ptr(char)`                             `temp`              `"\nSUCCESS: Global variables assigned to local variables."``8`                 `427`               `NULL`              
+`t75`               `int`                                   `temp`                                                                          `4`                 `435`               `NULL`              
+`t76`               `ptr(char)`                             `temp`              `"\nFAILURE: Global variables not assigned to local variables."``8`                 `439`               `NULL`              
+`t77`               `int`                                   `temp`                                                                          `4`                 `447`               `NULL`              
+`t78`               `ptr(char)`                             `temp`              `"\n"`                                                      `8`                 `451`               `NULL`              
+`t79`               `int`                                   `temp`                                                                          `4`                 `459`               `NULL`              
+`t8`                `ptr(char)`                             `temp`              `"Hello World, I am a local string."`                       `8`                 `463`               `NULL`              
+`t80`               `ptr(char)`                             `temp`              `"\nAssigning globals to globals: "`                        `8`                 `471`               `NULL`              
+`t81`               `int`                                   `temp`                                                                          `4`                 `479`               `NULL`              
+`t82`               `ptr(char)`                             `temp`              `"\nnumG2 = "`                                              `8`                 `483`               `NULL`              
+`t83`               `int`                                   `temp`                                                                          `4`                 `491`               `NULL`              
+`t84`               `int`                                   `temp`                                                                          `4`                 `495`               `NULL`              
+`t85`               `ptr(char)`                             `temp`              `", charG2 (ascii value) = "`                               `8`                 `499`               `NULL`              
+`t86`               `int`                                   `temp`                                                                          `4`                 `507`               `NULL`              
+`t87`               `int`                                   `temp`                                                                          `4`                 `511`               `NULL`              
+`t88`               `ptr(char)`                             `temp`              `", ptrG2 (adress, truncated to first 32 bits only) = "`    `8`                 `515`               `NULL`              
+`t89`               `int`                                   `temp`                                                                          `4`                 `523`               `NULL`              
+`t9`                `ptr(char)`                             `temp`              `"\nLocal variables: "`                                     `8`                 `527`               `NULL`              
+`t90`               `int`                                   `temp`                                                                          `4`                 `535`               `NULL`              
+`t91`               `ptr(char)`                             `temp`              `", strG2 = "`                                              `8`                 `539`               `NULL`              
+`t92`               `int`                                   `temp`                                                                          `4`                 `547`               `NULL`              
+`t93`               `int`                                   `temp`                                                                          `4`                 `551`               `NULL`              
+`t94`               `ptr(char)`                             `temp`              `"\nSUCCESS: Global variables assigned to global variables."``8`                 `555`               `NULL`              
+`t95`               `int`                                   `temp`                                                                          `4`                 `563`               `NULL`              
+`t96`               `ptr(char)`                             `temp`              `"\nFAILURE: Global variables not assigned to global variables."``8`                 `567`               `NULL`              
+`t97`               `int`                                   `temp`                                                                          `4`                 `575`               `NULL`              
+`t98`               `ptr(char)`                             `temp`              `"\n\n"`                                                    `8`                 `579`               `NULL`              
+`t99`               `int`                                   `temp`                                                                          `4`                 `587`               `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`n`                 `int`                                   `param`                                                                         `4`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printStr`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`return`            `int`                                   `local`                                                                         `4`                 `0`                 `NULL`              
+`s`                 `ptr(char)`                             `param`                                                                         `8`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `readInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`eP`                `ptr(int)`                              `param`                                                                         `8`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `8`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+L1    :		t0 = 20
+L2    :		numG1 = t0
+L3    :		t1 = 'b'
+L4    :		charG1 = t1
+L5    :		t2 = "Hello World, I am a global string."
+L6    :		strG1 = t2
+L7    :	Function start: main
+L8    :		t3 = "\n#### TEST 4 (Global variables, pointers and addresses) ####"
+L9    :		param t3
+L10   :		t4 = call printStr, 1
+L11   :		t5 = 5
+L12   :		numL1 = t5
+L13   :		t6 = 'a'
+L14   :		charL1 = t6
+L15   :		t7 = &numL1
+L16   :		ptrL1 = t7
+L17   :		t8 = "Hello World, I am a local string."
+L18   :		strL1 = t8
+L19   :		t9 = "\nLocal variables: "
+L20   :		param t9
+L21   :		t10 = call printStr, 1
+L22   :		t11 = "\nnumL1 = "
+L23   :		param t11
+L24   :		t12 = call printStr, 1
+L25   :		param numL1
+L26   :		t13 = call printInt, 1
+L27   :		t14 = ", charL1 (ascii value) = "
+L28   :		param t14
+L29   :		t15 = call printStr, 1
+L30   :		param charL1
+L31   :		t16 = call printInt, 1
+L32   :		t17 = ", ptrL1 (adress, truncated to first 32 bits only) = "
+L33   :		param t17
+L34   :		t18 = call printStr, 1
+L35   :		param ptrL1
+L36   :		t19 = call printInt, 1
+L37   :		t20 = ", strL1 = "
+L38   :		param t20
+L39   :		t21 = call printStr, 1
+L40   :		param strL1
+L41   :		t22 = call printStr, 1
+L42   :		t23 = &numG1
+L43   :		ptrG1 = t23
+L44   :		t24 = "\nGlobal variables: "
+L45   :		param t24
+L46   :		t25 = call printStr, 1
+L47   :		t26 = "\nnumG1 = "
+L48   :		param t26
+L49   :		t27 = call printStr, 1
+L50   :		param numG1
+L51   :		t28 = call printInt, 1
+L52   :		t29 = ", charG1 (ascii value) = "
+L53   :		param t29
+L54   :		t30 = call printStr, 1
+L55   :		param charG1
+L56   :		t31 = call printInt, 1
+L57   :		t32 = ", ptrG1 (adress, truncated to first 32 bits only) = "
+L58   :		param t32
+L59   :		t33 = call printStr, 1
+L60   :		param ptrG1
+L61   :		t34 = call printInt, 1
+L62   :		t35 = ", strG1 = "
+L63   :		param t35
+L64   :		t36 = call printStr, 1
+L65   :		param strG1
+L66   :		t37 = call printStr, 1
+L67   :		t38 = "\n"
+L68   :		param t38
+L69   :		t39 = call printStr, 1
+L70   :		t40 = "\nAssigning locals to globals: "
+L71   :		param t40
+L72   :		t41 = call printStr, 1
+L73   :		numG2 = numL1
+L74   :		charG2 = charL1
+L75   :		ptrG2 = ptrL1
+L76   :		strG2 = strL1
+L77   :		t42 = "\nnumG2 = "
+L78   :		param t42
+L79   :		t43 = call printStr, 1
+L80   :		param numG2
+L81   :		t44 = call printInt, 1
+L82   :		t45 = ", charG2 (ascii value) = "
+L83   :		param t45
+L84   :		t46 = call printStr, 1
+L85   :		param charG2
+L86   :		t47 = call printInt, 1
+L87   :		t48 = ", ptrG2 (adress, truncated to first 32 bits only) = "
+L88   :		param t48
+L89   :		t49 = call printStr, 1
+L90   :		param ptrG2
+L91   :		t50 = call printInt, 1
+L92   :		t51 = ", strG2 = "
+L93   :		param t51
+L94   :		t52 = call printStr, 1
+L95   :		param strG2
+L96   :		t53 = call printStr, 1
+L97   :		if numG2 == numL1 goto L99
+L98   :		goto L109
+L99   :		if charG2 == charL1 goto L101
+L100  :		goto L109
+L101  :		if ptrG2 == ptrL1 goto L103
+L102  :		goto L109
+L103  :		if strG2 == strL1 goto L105
+L104  :		goto L109
+L105  :		t54 = "\nSUCCESS: Local variables assigned to global variables."
+L106  :		param t54
+L107  :		t55 = call printStr, 1
+L108  :		goto L112
+L109  :		t56 = "\nFAILURE: Local variables not assigned to global variables."
+L110  :		param t56
+L111  :		t57 = call printStr, 1
+L112  :		t58 = "\n"
+L113  :		param t58
+L114  :		t59 = call printStr, 1
+L115  :		t60 = "\nAssigning globals to locals: "
+L116  :		param t60
+L117  :		t61 = call printStr, 1
+L118  :		numL2 = numG1
+L119  :		charL2 = charG1
+L120  :		ptrL2 = ptrG1
+L121  :		strL2 = strG1
+L122  :		t62 = "\nnumL2 = "
+L123  :		param t62
+L124  :		t63 = call printStr, 1
+L125  :		param numL2
+L126  :		t64 = call printInt, 1
+L127  :		t65 = ", charL2 (ascii value) = "
+L128  :		param t65
+L129  :		t66 = call printStr, 1
+L130  :		param charL2
+L131  :		t67 = call printInt, 1
+L132  :		t68 = ", ptrL2 (adress, truncated to first 32 bits only) = "
+L133  :		param t68
+L134  :		t69 = call printStr, 1
+L135  :		param ptrL2
+L136  :		t70 = call printInt, 1
+L137  :		t71 = ", strL2 = "
+L138  :		param t71
+L139  :		t72 = call printStr, 1
+L140  :		param strL2
+L141  :		t73 = call printStr, 1
+L142  :		if numL2 == numG1 goto L144
+L143  :		goto L154
+L144  :		if charL2 == charG1 goto L146
+L145  :		goto L154
+L146  :		if ptrL2 == ptrG1 goto L148
+L147  :		goto L154
+L148  :		if strL2 == strG1 goto L150
+L149  :		goto L154
+L150  :		t74 = "\nSUCCESS: Global variables assigned to local variables."
+L151  :		param t74
+L152  :		t75 = call printStr, 1
+L153  :		goto L157
+L154  :		t76 = "\nFAILURE: Global variables not assigned to local variables."
+L155  :		param t76
+L156  :		t77 = call printStr, 1
+L157  :		t78 = "\n"
+L158  :		param t78
+L159  :		t79 = call printStr, 1
+L160  :		t80 = "\nAssigning globals to globals: "
+L161  :		param t80
+L162  :		t81 = call printStr, 1
+L163  :		numG2 = numG1
+L164  :		charG2 = charG1
+L165  :		ptrG2 = ptrG1
+L166  :		strG2 = strG1
+L167  :		t82 = "\nnumG2 = "
+L168  :		param t82
+L169  :		t83 = call printStr, 1
+L170  :		param numG2
+L171  :		t84 = call printInt, 1
+L172  :		t85 = ", charG2 (ascii value) = "
+L173  :		param t85
+L174  :		t86 = call printStr, 1
+L175  :		param charG2
+L176  :		t87 = call printInt, 1
+L177  :		t88 = ", ptrG2 (adress, truncated to first 32 bits only) = "
+L178  :		param t88
+L179  :		t89 = call printStr, 1
+L180  :		param ptrG2
+L181  :		t90 = call printInt, 1
+L182  :		t91 = ", strG2 = "
+L183  :		param t91
+L184  :		t92 = call printStr, 1
+L185  :		param strG2
+L186  :		t93 = call printStr, 1
+L187  :		if numG2 == numG1 goto L189
+L188  :		goto L199
+L189  :		if charG2 == charG1 goto L191
+L190  :		goto L199
+L191  :		if ptrG2 == ptrG1 goto L193
+L192  :		goto L199
+L193  :		if strG2 == strG1 goto L195
+L194  :		goto L199
+L195  :		t94 = "\nSUCCESS: Global variables assigned to global variables."
+L196  :		param t94
+L197  :		t95 = call printStr, 1
+L198  :		goto L202
+L199  :		t96 = "\nFAILURE: Global variables not assigned to global variables."
+L200  :		param t96
+L201  :		t97 = call printStr, 1
+L202  :		t98 = "\n\n"
+L203  :		param t98
+L204  :		t99 = call printStr, 1
+L205  :		t100 = 0
+L206  :		return t100
+L207  :	Function end: main
