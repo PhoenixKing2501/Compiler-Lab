@@ -1,0 +1,327 @@
+********************************************************************************************************************************************************************************************************
+Table Name: `global`		 Parent Name: `None`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`main`              `int`                                   `function`                                                                      `4`                 `0`                 `main`              
+`printInt`          `int`                                   `function`                                                                      `4`                 `4`                 `printInt`          
+`printStr`          `int`                                   `function`                                                                      `4`                 `8`                 `printStr`          
+`readInt`           `int`                                   `function`                                                                      `4`                 `12`                `readInt`           
+`testChar`          `char`                                  `function`                                                                      `1`                 `16`                `testChar`          
+`testCharPtr`       `ptr(char)`                             `function`                                                                      `8`                 `17`                `testCharPtr`       
+`testInt`           `int`                                   `function`                                                                      `4`                 `25`                `testInt`           
+`testIntPtr`        `ptr(int)`                              `function`                                                                      `8`                 `29`                `testIntPtr`        
+`testVoid`          `void`                                  `function`                                                                      `0`                 `37`                `testVoid`          
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `main`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`c`                 `char`                                  `local`             `'m'`                                                       `1`                 `0`                 `NULL`              
+`cPtr`              `ptr(char)`                             `local`                                                                         `8`                 `1`                 `NULL`              
+`n`                 `int`                                   `local`             `10`                                                        `4`                 `9`                 `NULL`              
+`nPtr`              `ptr(int)`                              `local`                                                                         `8`                 `13`                `NULL`              
+`retChar`           `char`                                  `local`                                                                         `1`                 `21`                `NULL`              
+`retCharPtr`        `ptr(char)`                             `local`                                                                         `8`                 `22`                `NULL`              
+`retInt`            `int`                                   `local`                                                                         `4`                 `30`                `NULL`              
+`retIntPtr`         `ptr(int)`                              `local`                                                                         `8`                 `34`                `NULL`              
+`retStr`            `ptr(char)`                             `local`                                                                         `8`                 `42`                `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `50`                `NULL`              
+`str`               `ptr(char)`                             `local`             `"Hello World, I am a string."`                             `8`                 `54`                `NULL`              
+`t10`               `int`                                   `temp`                                                                          `4`                 `62`                `NULL`              
+`t11`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `66`                `NULL`              
+`t12`               `int`                                   `temp`                                                                          `4`                 `74`                `NULL`              
+`t13`               `ptr(char)`                             `temp`              `"\nTesting integer pointer return: "`                      `8`                 `78`                `NULL`              
+`t14`               `int`                                   `temp`                                                                          `4`                 `86`                `NULL`              
+`t15`               `ptr(int)`                              `temp`                                                                          `8`                 `90`                `NULL`              
+`t16`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `98`                `NULL`              
+`t17`               `int`                                   `temp`                                                                          `4`                 `106`               `NULL`              
+`t18`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `110`               `NULL`              
+`t19`               `int`                                   `temp`                                                                          `4`                 `118`               `NULL`              
+`t2`                `ptr(char)`                             `temp`              `"\n#### TEST 3 (Function calls and returns) ####"`         `8`                 `122`               `NULL`              
+`t20`               `char`                                  `temp`              `'m'`                                                       `1`                 `130`               `NULL`              
+`t21`               `ptr(char)`                             `temp`                                                                          `8`                 `131`               `NULL`              
+`t22`               `ptr(char)`                             `temp`              `"\nTesting character value return: "`                      `8`                 `139`               `NULL`              
+`t23`               `int`                                   `temp`                                                                          `4`                 `147`               `NULL`              
+`t24`               `char`                                  `temp`                                                                          `1`                 `151`               `NULL`              
+`t25`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `152`               `NULL`              
+`t26`               `int`                                   `temp`                                                                          `4`                 `160`               `NULL`              
+`t27`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `164`               `NULL`              
+`t28`               `int`                                   `temp`                                                                          `4`                 `172`               `NULL`              
+`t29`               `ptr(char)`                             `temp`              `"\nTesting character pointer return: "`                    `8`                 `176`               `NULL`              
+`t3`                `int`                                   `temp`                                                                          `4`                 `184`               `NULL`              
+`t30`               `int`                                   `temp`                                                                          `4`                 `188`               `NULL`              
+`t31`               `ptr(char)`                             `temp`                                                                          `8`                 `192`               `NULL`              
+`t32`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `200`               `NULL`              
+`t33`               `int`                                   `temp`                                                                          `4`                 `208`               `NULL`              
+`t34`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `212`               `NULL`              
+`t35`               `int`                                   `temp`                                                                          `4`                 `220`               `NULL`              
+`t36`               `ptr(char)`                             `temp`              `"Hello World, I am a string."`                             `8`                 `224`               `NULL`              
+`t37`               `ptr(char)`                             `temp`              `"\nTesting string return: "`                               `8`                 `232`               `NULL`              
+`t38`               `int`                                   `temp`                                                                          `4`                 `240`               `NULL`              
+`t39`               `ptr(char)`                             `temp`                                                                          `8`                 `244`               `NULL`              
+`t4`                `int`                                   `temp`              `10`                                                        `4`                 `252`               `NULL`              
+`t40`               `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `256`               `NULL`              
+`t41`               `int`                                   `temp`                                                                          `4`                 `264`               `NULL`              
+`t42`               `ptr(char)`                             `temp`              `"Failed"`                                                  `8`                 `268`               `NULL`              
+`t43`               `int`                                   `temp`                                                                          `4`                 `276`               `NULL`              
+`t44`               `ptr(char)`                             `temp`              `" [ Passed string: "`                                      `8`                 `280`               `NULL`              
+`t45`               `int`                                   `temp`                                                                          `4`                 `288`               `NULL`              
+`t46`               `int`                                   `temp`                                                                          `4`                 `292`               `NULL`              
+`t47`               `ptr(char)`                             `temp`              `" ], "`                                                    `8`                 `296`               `NULL`              
+`t48`               `int`                                   `temp`                                                                          `4`                 `304`               `NULL`              
+`t49`               `ptr(char)`                             `temp`              `"[ Returned string: "`                                     `8`                 `308`               `NULL`              
+`t5`                `ptr(int)`                              `temp`                                                                          `8`                 `316`               `NULL`              
+`t50`               `int`                                   `temp`                                                                          `4`                 `324`               `NULL`              
+`t51`               `int`                                   `temp`                                                                          `4`                 `328`               `NULL`              
+`t52`               `ptr(char)`                             `temp`              `" ]"`                                                      `8`                 `332`               `NULL`              
+`t53`               `int`                                   `temp`                                                                          `4`                 `340`               `NULL`              
+`t54`               `ptr(char)`                             `temp`              `"\nTesting void return: "`                                 `8`                 `344`               `NULL`              
+`t55`               `int`                                   `temp`                                                                          `4`                 `352`               `NULL`              
+`t56`               `void`                                  `temp`                                                                          `0`                 `356`               `NULL`              
+`t57`               `ptr(char)`                             `temp`              `"\n\n"`                                                    `8`                 `356`               `NULL`              
+`t58`               `int`                                   `temp`                                                                          `4`                 `364`               `NULL`              
+`t59`               `int`                                   `temp`              `0`                                                         `4`                 `368`               `NULL`              
+`t6`                `ptr(char)`                             `temp`              `"\nTesting integer value return: "`                        `8`                 `372`               `NULL`              
+`t7`                `int`                                   `temp`                                                                          `4`                 `380`               `NULL`              
+`t8`                `int`                                   `temp`                                                                          `4`                 `384`               `NULL`              
+`t9`                `ptr(char)`                             `temp`              `"Passed"`                                                  `8`                 `388`               `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`n`                 `int`                                   `param`                                                                         `4`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printStr`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`return`            `int`                                   `local`                                                                         `4`                 `0`                 `NULL`              
+`s`                 `ptr(char)`                             `param`                                                                         `8`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `readInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`eP`                `ptr(int)`                              `param`                                                                         `8`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `8`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `testChar`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`c`                 `char`                                  `param`                                                                         `1`                 `0`                 `NULL`              
+`return`            `char`                                  `local`                                                                         `1`                 `1`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `testCharPtr`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`cPtr`              `ptr(char)`                             `param`                                                                         `8`                 `0`                 `NULL`              
+`return`            `ptr(char)`                             `local`                                                                         `8`                 `8`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `testInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`num`               `int`                                   `param`                                                                         `4`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `testIntPtr`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`numPtr`            `ptr(int)`                              `param`                                                                         `8`                 `0`                 `NULL`              
+`return`            `ptr(int)`                              `local`                                                                         `8`                 `8`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `testVoid`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`t0`                `ptr(char)`                             `temp`              `"\nHello World, I am a void function. I don't return anything."``8`                 `0`                 `NULL`              
+`t1`                `int`                                   `temp`                                                                          `4`                 `8`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+L1    :	Function start: testInt
+L2    :		return num
+L3    :	Function end: testInt
+L4    :	Function start: testIntPtr
+L5    :		return numPtr
+L6    :	Function end: testIntPtr
+L7    :	Function start: testChar
+L8    :		return c
+L9    :	Function end: testChar
+L10   :	Function start: testCharPtr
+L11   :		return cPtr
+L12   :	Function end: testCharPtr
+L13   :	Function start: testVoid
+L14   :		t0 = "\nHello World, I am a void function. I don't return anything."
+L15   :		param t0
+L16   :		t1 = call printStr, 1
+L17   :		return 
+L18   :	Function end: testVoid
+L19   :	Function start: main
+L20   :		t2 = "\n#### TEST 3 (Function calls and returns) ####"
+L21   :		param t2
+L22   :		t3 = call printStr, 1
+L23   :		t4 = 10
+L24   :		n = t4
+L25   :		t5 = &n
+L26   :		nPtr = t5
+L27   :		t6 = "\nTesting integer value return: "
+L28   :		param t6
+L29   :		t7 = call printStr, 1
+L30   :		param n
+L31   :		t8 = call testInt, 1
+L32   :		retInt = t8
+L33   :		if retInt == n goto L35
+L34   :		goto L39
+L35   :		t9 = "Passed"
+L36   :		param t9
+L37   :		t10 = call printStr, 1
+L38   :		goto L42
+L39   :		t11 = "Failed"
+L40   :		param t11
+L41   :		t12 = call printStr, 1
+L42   :		t13 = "\nTesting integer pointer return: "
+L43   :		param t13
+L44   :		t14 = call printStr, 1
+L45   :		param nPtr
+L46   :		t15 = call testIntPtr, 1
+L47   :		retIntPtr = t15
+L48   :		if retIntPtr == nPtr goto L50
+L49   :		goto L54
+L50   :		t16 = "Passed"
+L51   :		param t16
+L52   :		t17 = call printStr, 1
+L53   :		goto L57
+L54   :		t18 = "Failed"
+L55   :		param t18
+L56   :		t19 = call printStr, 1
+L57   :		t20 = 'm'
+L58   :		c = t20
+L59   :		t21 = &c
+L60   :		cPtr = t21
+L61   :		t22 = "\nTesting character value return: "
+L62   :		param t22
+L63   :		t23 = call printStr, 1
+L64   :		param c
+L65   :		t24 = call testChar, 1
+L66   :		retChar = t24
+L67   :		if retChar == c goto L69
+L68   :		goto L73
+L69   :		t25 = "Passed"
+L70   :		param t25
+L71   :		t26 = call printStr, 1
+L72   :		goto L76
+L73   :		t27 = "Failed"
+L74   :		param t27
+L75   :		t28 = call printStr, 1
+L76   :		t29 = "\nTesting character pointer return: "
+L77   :		param t29
+L78   :		t30 = call printStr, 1
+L79   :		param cPtr
+L80   :		t31 = call testCharPtr, 1
+L81   :		retCharPtr = t31
+L82   :		if retCharPtr == cPtr goto L84
+L83   :		goto L88
+L84   :		t32 = "Passed"
+L85   :		param t32
+L86   :		t33 = call printStr, 1
+L87   :		goto L91
+L88   :		t34 = "Failed"
+L89   :		param t34
+L90   :		t35 = call printStr, 1
+L91   :		t36 = "Hello World, I am a string."
+L92   :		str = t36
+L93   :		t37 = "\nTesting string return: "
+L94   :		param t37
+L95   :		t38 = call printStr, 1
+L96   :		param str
+L97   :		t39 = call testCharPtr, 1
+L98   :		retStr = t39
+L99   :		if retStr == str goto L101
+L100  :		goto L105
+L101  :		t40 = "Passed"
+L102  :		param t40
+L103  :		t41 = call printStr, 1
+L104  :		goto L108
+L105  :		t42 = "Failed"
+L106  :		param t42
+L107  :		t43 = call printStr, 1
+L108  :		t44 = " [ Passed string: "
+L109  :		param t44
+L110  :		t45 = call printStr, 1
+L111  :		param str
+L112  :		t46 = call printStr, 1
+L113  :		t47 = " ], "
+L114  :		param t47
+L115  :		t48 = call printStr, 1
+L116  :		t49 = "[ Returned string: "
+L117  :		param t49
+L118  :		t50 = call printStr, 1
+L119  :		param retStr
+L120  :		t51 = call printStr, 1
+L121  :		t52 = " ]"
+L122  :		param t52
+L123  :		t53 = call printStr, 1
+L124  :		t54 = "\nTesting void return: "
+L125  :		param t54
+L126  :		t55 = call printStr, 1
+L127  :		t56 = call testVoid, 0
+L128  :		t57 = "\n\n"
+L129  :		param t57
+L130  :		t58 = call printStr, 1
+L131  :		t59 = 0
+L132  :		return t59
+L133  :	Function end: main

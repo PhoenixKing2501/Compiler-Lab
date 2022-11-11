@@ -34,8 +34,8 @@ struct SymbolType;
 
 struct ActivationRecord
 {
-	map<string, int> displacement{};
 	int total_displacement{};
+	map<string, int> displacement{};
 
 	ActivationRecord();
 };

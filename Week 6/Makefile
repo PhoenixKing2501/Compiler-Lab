@@ -26,7 +26,37 @@ ass2_20CS30057.o: ass2_20CS30057.c myl.h
 	g++ -c -Wall -I. ass2_20CS30057.c
 
 clean:
-	rm parser ass6_20CS10063_20CS30057_*.o ass6_20CS10063_20CS30057.yy.* ass6_20CS10063_20CS30057.tab.* ass6_20CS10063_20CS30057.output *.a
+	-rm parser *.o ass6_20CS10063_20CS30057.yy.* ass6_20CS10063_20CS30057.tab.* ass6_20CS10063_20CS30057.output *.a tinyC_out/*
 
 test: parser libiolib.a
-	@echo "hello"
+	@echo "Generating assembly files"
+	./parser ass6_20CS10063_20CS30057_test1 > quads/ass6_20CS10063_20CS30057_quads1.txt
+	./parser ass6_20CS10063_20CS30057_test2 > quads/ass6_20CS10063_20CS30057_quads2.txt
+	./parser ass6_20CS10063_20CS30057_test3 > quads/ass6_20CS10063_20CS30057_quads3.txt
+	./parser ass6_20CS10063_20CS30057_test4 > quads/ass6_20CS10063_20CS30057_quads4.txt
+	./parser ass6_20CS10063_20CS30057_test5 > quads/ass6_20CS10063_20CS30057_quads5.txt
+	./parser ass6_20CS10063_20CS30057_test6 > quads/ass6_20CS10063_20CS30057_quads6.txt
+	./parser ass6_20CS10063_20CS30057_test7 > quads/ass6_20CS10063_20CS30057_quads7.txt
+	@echo "Compiling assembly files"
+	gcc -Wall asms/ass6_20CS10063_20CS30057_test1.s -L. -lass2_19CS30031 -no-pie -o tinyC_out/test1
+	gcc -Wall asms/ass6_20CS10063_20CS30057_test2.s -L. -lass2_19CS30031 -no-pie -o tinyC_out/test2
+	gcc -Wall asms/ass6_20CS10063_20CS30057_test3.s -L. -lass2_19CS30031 -no-pie -o tinyC_out/test3
+	gcc -Wall asms/ass6_20CS10063_20CS30057_test4.s -L. -lass2_19CS30031 -no-pie -o tinyC_out/test4
+	gcc -Wall asms/ass6_20CS10063_20CS30057_test5.s -L. -lass2_19CS30031 -no-pie -o tinyC_out/test5
+	gcc -Wall asms/ass6_20CS10063_20CS30057_test6.s -L. -lass2_19CS30031 -no-pie -o tinyC_out/test6
+	gcc -Wall asms/ass6_20CS10063_20CS30057_test7.s -L. -lass2_19CS30031 -no-pie -o tinyC_out/test7
+	@echo "Binaries generated. Run using ./test<num>"
+	@echo "Running test1:"
+	@./tinyC_out/test1
+	@echo "Running test2:"
+	@./tinyC_out/test2
+	@echo "Running test3:"
+	@./tinyC_out/test3
+	@echo "Running test4:"
+	@./tinyC_out/test4
+	@echo "Running test5:"
+	@./tinyC_out/test5
+	@echo "Running test6:"
+	@./tinyC_out/test6
+	@echo "Running test7:"
+	@./tinyC_out/test7

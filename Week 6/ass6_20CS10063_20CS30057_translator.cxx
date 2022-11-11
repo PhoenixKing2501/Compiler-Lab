@@ -172,14 +172,15 @@ void SymbolTable::update()
 
 void SymbolTable::print()
 {
-	cout << string(180, '*') << '\n';
+	string &&line = string(200, '*');
+	cout << line << '\n';
 	cout << "Table Name: `" << this->name << "`\t\t Parent Name: `" << (this->parent ? this->parent->name : "None") << "`\n";
-	cout << string(180, '*') << '\n';
+	cout << line << '\n';
 
 	cout << setw(20) << "Name"
 		 << setw(40) << "Type"
 		 << setw(20) << "Category"
-		 << setw(40) << "Initial Value"
+		 << setw(60) << "Initial Value"
 		 << setw(20) << "Size"
 		 << setw(20) << "Offset"
 		 << setw(20) << "Child"
@@ -188,7 +189,7 @@ void SymbolTable::print()
 	cout << setw(20) << "----"
 		 << setw(40) << "----"
 		 << setw(20) << "--------"
-		 << setw(40) << "-------------"
+		 << setw(60) << "-------------"
 		 << setw(20) << "------"
 		 << setw(20) << "----"
 		 << setw(20) << "-----"
@@ -213,17 +214,17 @@ void SymbolTable::print()
 			cout << setw(20) << quoted("function", '`');
 			break;
 		case Symbol::SymbolCategory::PARAM:
-			cout << setw(20) << quoted("parameter", '`');
+			cout << setw(20) << quoted("param", '`');
 			break;
 		case Symbol::SymbolCategory::TEMP:
-			cout << setw(20) << quoted("temporary", '`');
+			cout << setw(20) << quoted("temp", '`');
 			break;
 
 		default:
 			break;
 		}
 
-		cout << setw(40) << (map_entry.second.initial_value == "" or map_entry.second.initial_value.empty() ? "" : '`' + map_entry.second.initial_value + '`')
+		cout << setw(60) << (map_entry.second.initial_value == "" or map_entry.second.initial_value.empty() ? "" : '`' + map_entry.second.initial_value + '`')
 			 << setw(20) << quoted(to_string(map_entry.second.size), '`')
 			 << setw(20) << quoted(to_string(map_entry.second.offset), '`')
 			 << setw(20) << quoted(map_entry.second.nested_table ? map_entry.second.nested_table->name : "NULL", '`')
@@ -235,7 +236,7 @@ void SymbolTable::print()
 		}
 	}
 
-	cout << string(180, '*') << string(4, '\n');
+	cout << line << string(4, '\n');
 
 	for (auto &&table : tovisit)
 	{

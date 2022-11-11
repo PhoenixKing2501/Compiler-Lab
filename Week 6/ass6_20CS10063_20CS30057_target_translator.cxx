@@ -736,8 +736,8 @@ void translate()
 
 int main(int argc, char const *argv[])
 {
-	input_name = string(argv[1]) + ".c";
-	assembly_name = string(argv[1]) + ".s";
+	input_name = "./test/" + string(argv[1]) + ".c";
+	assembly_name = "./asms/" + string(argv[1]) + ".s";
 
 	table_count = 0;
 	temp_count = 0;

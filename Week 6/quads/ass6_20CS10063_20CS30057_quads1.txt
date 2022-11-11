@@ -1,0 +1,384 @@
+********************************************************************************************************************************************************************************************************
+Table Name: `global`		 Parent Name: `None`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`main`              `int`                                   `function`                                                                      `4`                 `0`                 `main`              
+`printInt`          `int`                                   `function`                                                                      `4`                 `4`                 `printInt`          
+`printStr`          `int`                                   `function`                                                                      `4`                 `8`                 `printStr`          
+`readInt`           `int`                                   `function`                                                                      `4`                 `12`                `readInt`           
+`testIncDec`        `void`                                  `function`                                                                      `0`                 `16`                `testIncDec`        
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `main`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`n1`                `int`                                   `local`                                                                         `4`                 `0`                 `NULL`              
+`n10`               `int`                                   `local`                                                                         `4`                 `4`                 `NULL`              
+`n11`               `int`                                   `local`                                                                         `4`                 `8`                 `NULL`              
+`n12`               `int`                                   `local`                                                                         `4`                 `12`                `NULL`              
+`n13`               `int`                                   `local`                                                                         `4`                 `16`                `NULL`              
+`n2`                `int`                                   `local`                                                                         `4`                 `20`                `NULL`              
+`n3`                `int`                                   `local`                                                                         `4`                 `24`                `NULL`              
+`n4`                `int`                                   `local`                                                                         `4`                 `28`                `NULL`              
+`n5`                `int`                                   `local`                                                                         `4`                 `32`                `NULL`              
+`n6`                `int`                                   `local`                                                                         `4`                 `36`                `NULL`              
+`n7`                `int`                                   `local`                                                                         `4`                 `40`                `NULL`              
+`n8`                `int`                                   `local`                                                                         `4`                 `44`                `NULL`              
+`n9`                `int`                                   `local`                                                                         `4`                 `48`                `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `52`                `NULL`              
+`t10`               `ptr(char)`                             `temp`              `"\nn1 = "`                                                 `8`                 `56`                `NULL`              
+`t100`              `ptr(char)`                             `temp`              `", Value after call = "`                                   `8`                 `64`                `NULL`              
+`t101`              `int`                                   `temp`                                                                          `4`                 `72`                `NULL`              
+`t102`              `int`                                   `temp`                                                                          `4`                 `76`                `NULL`              
+`t103`              `ptr(char)`                             `temp`              `"\nTest post decrement: "`                                 `8`                 `80`                `NULL`              
+`t104`              `int`                                   `temp`                                                                          `4`                 `88`                `NULL`              
+`t105`              `int`                                   `temp`                                                                          `4`                 `92`                `NULL`              
+`t106`              `void`                                  `temp`                                                                          `0`                 `96`                `NULL`              
+`t107`              `ptr(char)`                             `temp`              `", Value after call = "`                                   `8`                 `96`                `NULL`              
+`t108`              `int`                                   `temp`                                                                          `4`                 `104`               `NULL`              
+`t109`              `int`                                   `temp`                                                                          `4`                 `108`               `NULL`              
+`t11`               `int`                                   `temp`                                                                          `4`                 `112`               `NULL`              
+`t110`              `ptr(char)`                             `temp`              `"\n\n"`                                                    `8`                 `116`               `NULL`              
+`t111`              `int`                                   `temp`                                                                          `4`                 `124`               `NULL`              
+`t112`              `int`                                   `temp`              `0`                                                         `4`                 `128`               `NULL`              
+`t12`               `int`                                   `temp`                                                                          `4`                 `132`               `NULL`              
+`t13`               `ptr(char)`                             `temp`              `"\nn2 = "`                                                 `8`                 `136`               `NULL`              
+`t14`               `int`                                   `temp`                                                                          `4`                 `144`               `NULL`              
+`t15`               `int`                                   `temp`                                                                          `4`                 `148`               `NULL`              
+`t16`               `ptr(char)`                             `temp`              `"\nn3 = "`                                                 `8`                 `152`               `NULL`              
+`t17`               `int`                                   `temp`                                                                          `4`                 `160`               `NULL`              
+`t18`               `int`                                   `temp`                                                                          `4`                 `164`               `NULL`              
+`t19`               `ptr(char)`                             `temp`              `"\nn4 = "`                                                 `8`                 `168`               `NULL`              
+`t20`               `int`                                   `temp`                                                                          `4`                 `176`               `NULL`              
+`t21`               `int`                                   `temp`                                                                          `4`                 `180`               `NULL`              
+`t22`               `int`                                   `temp`                                                                          `4`                 `184`               `NULL`              
+`t23`               `int`                                   `temp`                                                                          `4`                 `188`               `NULL`              
+`t24`               `int`                                   `temp`                                                                          `4`                 `192`               `NULL`              
+`t25`               `int`                                   `temp`                                                                          `4`                 `196`               `NULL`              
+`t26`               `int`                                   `temp`                                                                          `4`                 `200`               `NULL`              
+`t27`               `ptr(char)`                             `temp`              `"\nn1 + n2 = "`                                            `8`                 `204`               `NULL`              
+`t28`               `int`                                   `temp`                                                                          `4`                 `212`               `NULL`              
+`t29`               `int`                                   `temp`                                                                          `4`                 `216`               `NULL`              
+`t3`                `ptr(char)`                             `temp`              `"\n#### TEST 1 (Arithmetic operators) ####"`               `8`                 `220`               `NULL`              
+`t30`               `ptr(char)`                             `temp`              `"\nn1 - n2 = "`                                            `8`                 `228`               `NULL`              
+`t31`               `int`                                   `temp`                                                                          `4`                 `236`               `NULL`              
+`t32`               `int`                                   `temp`                                                                          `4`                 `240`               `NULL`              
+`t33`               `ptr(char)`                             `temp`              `"\nn1 * n2 = "`                                            `8`                 `244`               `NULL`              
+`t34`               `int`                                   `temp`                                                                          `4`                 `252`               `NULL`              
+`t35`               `int`                                   `temp`                                                                          `4`                 `256`               `NULL`              
+`t36`               `ptr(char)`                             `temp`              `"\nn1 / n2 = "`                                            `8`                 `260`               `NULL`              
+`t37`               `int`                                   `temp`                                                                          `4`                 `268`               `NULL`              
+`t38`               `int`                                   `temp`                                                                          `4`                 `272`               `NULL`              
+`t39`               `ptr(char)`                             `temp`              `"\nn1 % n2 = "`                                            `8`                 `276`               `NULL`              
+`t4`                `int`                                   `temp`                                                                          `4`                 `284`               `NULL`              
+`t40`               `int`                                   `temp`                                                                          `4`                 `288`               `NULL`              
+`t41`               `int`                                   `temp`                                                                          `4`                 `292`               `NULL`              
+`t42`               `int`                                   `temp`                                                                          `4`                 `296`               `NULL`              
+`t43`               `int`                                   `temp`                                                                          `4`                 `300`               `NULL`              
+`t44`               `int`                                   `temp`                                                                          `4`                 `304`               `NULL`              
+`t45`               `int`                                   `temp`                                                                          `4`                 `308`               `NULL`              
+`t46`               `int`                                   `temp`              `10`                                                        `4`                 `312`               `NULL`              
+`t47`               `int`                                   `temp`                                                                          `4`                 `316`               `NULL`              
+`t48`               `int`                                   `temp`                                                                          `4`                 `320`               `NULL`              
+`t49`               `int`                                   `temp`                                                                          `4`                 `324`               `NULL`              
+`t5`                `int`                                   `temp`              `30`                                                        `4`                 `328`               `NULL`              
+`t50`               `int`                                   `temp`                                                                          `4`                 `332`               `NULL`              
+`t51`               `int`                                   `temp`              `10`                                                        `4`                 `336`               `NULL`              
+`t52`               `int`                                   `temp`                                                                          `4`                 `340`               `NULL`              
+`t53`               `int`                                   `temp`                                                                          `4`                 `344`               `NULL`              
+`t54`               `int`                                   `temp`                                                                          `4`                 `348`               `NULL`              
+`t55`               `int`                                   `temp`                                                                          `4`                 `352`               `NULL`              
+`t56`               `int`                                   `temp`              `0`                                                         `4`                 `356`               `NULL`              
+`t57`               `int`                                   `temp`                                                                          `4`                 `360`               `NULL`              
+`t58`               `int`                                   `temp`                                                                          `4`                 `364`               `NULL`              
+`t59`               `int`                                   `temp`                                                                          `4`                 `368`               `NULL`              
+`t6`                `int`                                   `temp`              `16`                                                        `4`                 `372`               `NULL`              
+`t60`               `int`                                   `temp`                                                                          `4`                 `376`               `NULL`              
+`t61`               `int`                                   `temp`                                                                          `4`                 `380`               `NULL`              
+`t62`               `int`                                   `temp`              `15`                                                        `4`                 `384`               `NULL`              
+`t63`               `int`                                   `temp`                                                                          `4`                 `388`               `NULL`              
+`t64`               `ptr(char)`                             `temp`              `"\n-n1 + n2 - n3 + n4 + 10 = "`                            `8`                 `392`               `NULL`              
+`t65`               `int`                                   `temp`                                                                          `4`                 `400`               `NULL`              
+`t66`               `int`                                   `temp`                                                                          `4`                 `404`               `NULL`              
+`t67`               `ptr(char)`                             `temp`              `"\nn1 * n2 / n3 + n4 - 10 = "`                             `8`                 `408`               `NULL`              
+`t68`               `int`                                   `temp`                                                                          `4`                 `416`               `NULL`              
+`t69`               `int`                                   `temp`                                                                          `4`                 `420`               `NULL`              
+`t7`                `int`                                   `temp`              `7`                                                         `4`                 `424`               `NULL`              
+`t70`               `ptr(char)`                             `temp`              `"\nn1 + n2 * n3 / n4 - 0 = "`                              `8`                 `428`               `NULL`              
+`t71`               `int`                                   `temp`                                                                          `4`                 `436`               `NULL`              
+`t72`               `int`                                   `temp`                                                                          `4`                 `440`               `NULL`              
+`t73`               `ptr(char)`                             `temp`              `"\n(n1 + n2) * (n3 / n4) - 15 = "`                         `8`                 `444`               `NULL`              
+`t74`               `int`                                   `temp`                                                                          `4`                 `452`               `NULL`              
+`t75`               `int`                                   `temp`                                                                          `4`                 `456`               `NULL`              
+`t76`               `ptr(char)`                             `temp`              `"\n-n3 = "`                                                `8`                 `460`               `NULL`              
+`t77`               `int`                                   `temp`                                                                          `4`                 `468`               `NULL`              
+`t78`               `int`                                   `temp`                                                                          `4`                 `472`               `NULL`              
+`t79`               `int`                                   `temp`                                                                          `4`                 `476`               `NULL`              
+`t8`                `int`                                   `temp`              `22`                                                        `4`                 `480`               `NULL`              
+`t80`               `ptr(char)`                             `temp`              `"\n-n4 = "`                                                `8`                 `484`               `NULL`              
+`t81`               `int`                                   `temp`                                                                          `4`                 `492`               `NULL`              
+`t82`               `int`                                   `temp`                                                                          `4`                 `496`               `NULL`              
+`t83`               `int`                                   `temp`                                                                          `4`                 `500`               `NULL`              
+`t84`               `ptr(char)`                             `temp`              `"\nTest pre increment: "`                                  `8`                 `504`               `NULL`              
+`t85`               `int`                                   `temp`                                                                          `4`                 `512`               `NULL`              
+`t86`               `void`                                  `temp`                                                                          `0`                 `516`               `NULL`              
+`t87`               `ptr(char)`                             `temp`              `", Value after call = "`                                   `8`                 `516`               `NULL`              
+`t88`               `int`                                   `temp`                                                                          `4`                 `524`               `NULL`              
+`t89`               `int`                                   `temp`                                                                          `4`                 `528`               `NULL`              
+`t9`                `int`                                   `temp`                                                                          `4`                 `532`               `NULL`              
+`t90`               `ptr(char)`                             `temp`              `"\nTest post increment: "`                                 `8`                 `536`               `NULL`              
+`t91`               `int`                                   `temp`                                                                          `4`                 `544`               `NULL`              
+`t92`               `int`                                   `temp`                                                                          `4`                 `548`               `NULL`              
+`t93`               `void`                                  `temp`                                                                          `0`                 `552`               `NULL`              
+`t94`               `ptr(char)`                             `temp`              `", Value after call = "`                                   `8`                 `552`               `NULL`              
+`t95`               `int`                                   `temp`                                                                          `4`                 `560`               `NULL`              
+`t96`               `int`                                   `temp`                                                                          `4`                 `564`               `NULL`              
+`t97`               `ptr(char)`                             `temp`              `"\nTest pre decrement: "`                                  `8`                 `568`               `NULL`              
+`t98`               `int`                                   `temp`                                                                          `4`                 `576`               `NULL`              
+`t99`               `void`                                  `temp`                                                                          `0`                 `580`               `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`n`                 `int`                                   `param`                                                                         `4`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `printStr`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`return`            `int`                                   `local`                                                                         `4`                 `0`                 `NULL`              
+`s`                 `ptr(char)`                             `param`                                                                         `8`                 `4`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `readInt`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`eP`                `ptr(int)`                              `param`                                                                         `8`                 `0`                 `NULL`              
+`return`            `int`                                   `local`                                                                         `4`                 `8`                 `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+********************************************************************************************************************************************************************************************************
+Table Name: `testIncDec`		 Parent Name: `global`
+********************************************************************************************************************************************************************************************************
+Name                Type                                    Category            Initial Value                                               Size                Offset              Child               
+----                ----                                    --------            -------------                                               ------              ----                -----               
+
+`n`                 `int`                                   `param`                                                                         `4`                 `0`                 `NULL`              
+`t0`                `ptr(char)`                             `temp`              `"Value passed to function = "`                             `8`                 `4`                 `NULL`              
+`t1`                `int`                                   `temp`                                                                          `4`                 `12`                `NULL`              
+`t2`                `int`                                   `temp`                                                                          `4`                 `16`                `NULL`              
+********************************************************************************************************************************************************************************************************
+
+
+
+L1    :	Function start: testIncDec
+L2    :		t0 = "Value passed to function = "
+L3    :		param t0
+L4    :		t1 = call printStr, 1
+L5    :		param n
+L6    :		t2 = call printInt, 1
+L7    :	Function end: testIncDec
+L8    :	Function start: main
+L9    :		t3 = "\n#### TEST 1 (Arithmetic operators) ####"
+L10   :		param t3
+L11   :		t4 = call printStr, 1
+L12   :		t5 = 30
+L13   :		n1 = t5
+L14   :		t6 = 16
+L15   :		n2 = t6
+L16   :		t7 = 7
+L17   :		n3 = t7
+L18   :		t8 = 22
+L19   :		t9 = minus t8
+L20   :		n4 = t9
+L21   :		t10 = "\nn1 = "
+L22   :		param t10
+L23   :		t11 = call printStr, 1
+L24   :		param n1
+L25   :		t12 = call printInt, 1
+L26   :		t13 = "\nn2 = "
+L27   :		param t13
+L28   :		t14 = call printStr, 1
+L29   :		param n2
+L30   :		t15 = call printInt, 1
+L31   :		t16 = "\nn3 = "
+L32   :		param t16
+L33   :		t17 = call printStr, 1
+L34   :		param n3
+L35   :		t18 = call printInt, 1
+L36   :		t19 = "\nn4 = "
+L37   :		param t19
+L38   :		t20 = call printStr, 1
+L39   :		param n4
+L40   :		t21 = call printInt, 1
+L41   :		t22 = n1 + n2
+L42   :		n5 = t22
+L43   :		t23 = n1 - n2
+L44   :		n6 = t23
+L45   :		t24 = n1 * n2
+L46   :		n7 = t24
+L47   :		t25 = n1 / n2
+L48   :		n8 = t25
+L49   :		t26 = n1 % n2
+L50   :		n9 = t26
+L51   :		t27 = "\nn1 + n2 = "
+L52   :		param t27
+L53   :		t28 = call printStr, 1
+L54   :		param n5
+L55   :		t29 = call printInt, 1
+L56   :		t30 = "\nn1 - n2 = "
+L57   :		param t30
+L58   :		t31 = call printStr, 1
+L59   :		param n6
+L60   :		t32 = call printInt, 1
+L61   :		t33 = "\nn1 * n2 = "
+L62   :		param t33
+L63   :		t34 = call printStr, 1
+L64   :		param n7
+L65   :		t35 = call printInt, 1
+L66   :		t36 = "\nn1 / n2 = "
+L67   :		param t36
+L68   :		t37 = call printStr, 1
+L69   :		param n8
+L70   :		t38 = call printInt, 1
+L71   :		t39 = "\nn1 % n2 = "
+L72   :		param t39
+L73   :		t40 = call printStr, 1
+L74   :		param n9
+L75   :		t41 = call printInt, 1
+L76   :		t42 = minus n1
+L77   :		t43 = t42 + n2
+L78   :		t44 = t43 - n3
+L79   :		t45 = t44 + n4
+L80   :		t46 = 10
+L81   :		t47 = t45 + t46
+L82   :		n10 = t47
+L83   :		t48 = n1 * n2
+L84   :		t49 = t48 / n3
+L85   :		t50 = t49 + n4
+L86   :		t51 = 10
+L87   :		t52 = t50 - t51
+L88   :		n11 = t52
+L89   :		t53 = n2 * n3
+L90   :		t54 = t53 / n4
+L91   :		t55 = n1 + t54
+L92   :		t56 = 0
+L93   :		t57 = t55 - t56
+L94   :		n12 = t57
+L95   :		t58 = n1 + n2
+L96   :		t59 = minus n3
+L97   :		t60 = t59 / n4
+L98   :		t61 = t58 * t60
+L99   :		t62 = 15
+L100  :		t63 = t61 - t62
+L101  :		n13 = t63
+L102  :		t64 = "\n-n1 + n2 - n3 + n4 + 10 = "
+L103  :		param t64
+L104  :		t65 = call printStr, 1
+L105  :		param n10
+L106  :		t66 = call printInt, 1
+L107  :		t67 = "\nn1 * n2 / n3 + n4 - 10 = "
+L108  :		param t67
+L109  :		t68 = call printStr, 1
+L110  :		param n11
+L111  :		t69 = call printInt, 1
+L112  :		t70 = "\nn1 + n2 * n3 / n4 - 0 = "
+L113  :		param t70
+L114  :		t71 = call printStr, 1
+L115  :		param n12
+L116  :		t72 = call printInt, 1
+L117  :		t73 = "\n(n1 + n2) * (n3 / n4) - 15 = "
+L118  :		param t73
+L119  :		t74 = call printStr, 1
+L120  :		param n13
+L121  :		t75 = call printInt, 1
+L122  :		t76 = "\n-n3 = "
+L123  :		param t76
+L124  :		t77 = call printStr, 1
+L125  :		t78 = minus n3
+L126  :		param t78
+L127  :		t79 = call printInt, 1
+L128  :		t80 = "\n-n4 = "
+L129  :		param t80
+L130  :		t81 = call printStr, 1
+L131  :		t82 = minus n4
+L132  :		param t82
+L133  :		t83 = call printInt, 1
+L134  :		t84 = "\nTest pre increment: "
+L135  :		param t84
+L136  :		t85 = call printStr, 1
+L137  :		n1 = n1 + 1
+L138  :		param n1
+L139  :		t86 = call testIncDec, 1
+L140  :		t87 = ", Value after call = "
+L141  :		param t87
+L142  :		t88 = call printStr, 1
+L143  :		param n1
+L144  :		t89 = call printInt, 1
+L145  :		t90 = "\nTest post increment: "
+L146  :		param t90
+L147  :		t91 = call printStr, 1
+L148  :		t92 = n1
+L149  :		n1 = n1 + 1
+L150  :		param t92
+L151  :		t93 = call testIncDec, 1
+L152  :		t94 = ", Value after call = "
+L153  :		param t94
+L154  :		t95 = call printStr, 1
+L155  :		param n1
+L156  :		t96 = call printInt, 1
+L157  :		t97 = "\nTest pre decrement: "
+L158  :		param t97
+L159  :		t98 = call printStr, 1
+L160  :		n1 = n1 - 1
+L161  :		param n1
+L162  :		t99 = call testIncDec, 1
+L163  :		t100 = ", Value after call = "
+L164  :		param t100
+L165  :		t101 = call printStr, 1
+L166  :		param n1
+L167  :		t102 = call printInt, 1
+L168  :		t103 = "\nTest post decrement: "
+L169  :		param t103
+L170  :		t104 = call printStr, 1
+L171  :		t105 = n1
+L172  :		n1 = n1 - 1
+L173  :		param t105
+L174  :		t106 = call testIncDec, 1
+L175  :		t107 = ", Value after call = "
+L176  :		param t107
+L177  :		t108 = call printStr, 1
+L178  :		param n1
+L179  :		t109 = call printInt, 1
+L180  :		t110 = "\n\n"
+L181  :		param t110
+L182  :		t111 = call printStr, 1
+L183  :		t112 = 0
+L184  :		return t112
+L185  :	Function end: main
