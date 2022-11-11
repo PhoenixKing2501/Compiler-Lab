@@ -266,12 +266,12 @@ L107  :		goto L125
 L108  :		t56 = "\nEntered do-while loop. Enter number of times you wish to run the loop after this: "
 L109  :		param t56
 L110  :		t57 = call printStr, 1
-L111  :		t58 = &ep
+L111  :		t58 = &iters
 L112  :		param t58
 L113  :		t59 = call readInt, 1
-L114  :		iters = t59
+L114  :		ep = t59
 L115  :		t60 = 0
-L116  :		if ep != t60 goto L118
+L116  :		if ep == t60 goto L118
 L117  :		goto L133
 L118  :		t61 = "\nInvalid input. Exiting...\n\n"
 L119  :		param t61

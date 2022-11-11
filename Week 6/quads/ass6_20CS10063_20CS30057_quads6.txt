@@ -213,12 +213,12 @@ L50   :		t20 = call printStr, 1
 L51   :		t21 = "\nEnter start: "
 L52   :		param t21
 L53   :		t22 = call printStr, 1
-L54   :		t23 = &ep
+L54   :		t23 = &start
 L55   :		param t23
 L56   :		t24 = call readInt, 1
-L57   :		start = t24
+L57   :		ep = t24
 L58   :		t25 = 0
-L59   :		if ep != t25 goto L61
+L59   :		if ep == t25 goto L61
 L60   :		goto L67
 L61   :		t26 = "Invalid start\n"
 L62   :		param t26
@@ -229,12 +229,12 @@ L66   :		goto L67
 L67   :		t29 = "Enter end: "
 L68   :		param t29
 L69   :		t30 = call printStr, 1
-L70   :		t31 = &ep
+L70   :		t31 = &end
 L71   :		param t31
 L72   :		t32 = call readInt, 1
-L73   :		end = t32
+L73   :		ep = t32
 L74   :		t33 = 0
-L75   :		if ep != t33 goto L77
+L75   :		if ep == t33 goto L77
 L76   :		goto L83
 L77   :		t34 = "Invalid end\n"
 L78   :		param t34
@@ -269,12 +269,12 @@ L106  :		t48 = call printNums, 2
 L107  :		t49 = "\n\nEnter value of n (<40) to find the nth fibonacci number: "
 L108  :		param t49
 L109  :		t50 = call printStr, 1
-L110  :		t51 = &ep
+L110  :		t51 = &n
 L111  :		param t51
 L112  :		t52 = call readInt, 1
-L113  :		n = t52
+L113  :		ep = t52
 L114  :		t53 = 0
-L115  :		if ep != t53 goto L117
+L115  :		if ep == t53 goto L117
 L116  :		goto L123
 L117  :		t54 = "Invalid n\n\n"
 L118  :		param t54
