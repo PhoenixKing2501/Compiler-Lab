@@ -6,7 +6,6 @@
 **/*.out
 **/*.yy.c
 **/*.o
-test/
 out.txt
 in.txt
 **/*.tab.*
